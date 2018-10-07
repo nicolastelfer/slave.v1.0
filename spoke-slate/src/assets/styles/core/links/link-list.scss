@@ -1,0 +1,109 @@
+˙.link-list {
+  display: inline-block;
+  margin-top: 11px;
+  position: relative;
+
+  &__trigger {
+    @extend %label-title;
+    background-color: $color-palette-3-tertiary;
+    border: 1px solid $color-palette-3-primary;
+    box-sizing: border-box;
+    color: $color-palette-1-primary;
+    height: $button-height-regular;
+    outline: none;
+    min-width: 200px;
+    padding-left: 15px;
+    padding-right: 42px;
+    position: relative;
+    text-align: left;
+
+    .svg {
+      display: block;
+      margin-top: -4px;
+      position: absolute;
+      right: 15px;
+      top: 50%;
+
+      path {
+        stroke: $color-palette-1-primary;
+      }
+    }
+
+    &:hover,
+    &:focus {
+      border-color: $color-palette-1-primary;
+    }
+  }
+
+  &__list {
+    @extend %list-no-style;
+    background-color: $color-palette-3-tertiary;
+    border: 1px solid $color-palette-3-primary;
+    display: flex;
+    flex-direction: column;
+    left: 0;
+    margin-top: 3px;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    z-index: 1;
+  }
+
+  &__item {
+    &:first-child {
+      .link-list__link {
+        background-position: 22px 20px;
+        padding-top: 27px;
+      }
+    }
+
+    &:last-child {
+      .link-list__link {
+        padding-bottom: 20px;
+      }
+    }
+  }
+
+  &__link {
+    @extend %label-title;
+    background-position: 22px 10px;
+    background-repeat: no-repeat;
+    background-size: 33px 33px;
+    color: $color-palette-1-primary-lighter;
+    display: block;
+    outline: none;
+    padding: 17px 22px 10px 62px;
+
+    &:hover,
+    &:focus {
+      color: $color-palette-1-primary-light;
+      text-decoration: none;
+    }
+
+    &--google-maps {
+      background-image: url('{{ "google-maps-logo.png" | asset_url }}');
+      background-size: 32px 32px;
+    }
+
+    &--apple-maps {
+      background-image: url('{{ "apple-maps-logo.png" | asset_url }}');
+    }
+
+    &--citymapper {
+      background-image: url('{{ "citymapper-logo.png" | asset_url }}');
+    }
+  }
+
+  &[data-open] {
+    .svg--arrow-down {
+      display: none;
+    }
+  }
+
+  &:not([data-open]) {
+    .link-list__list,
+    .svg--arrow-up {
+      display: none;
+    }
+  }
+}

@@ -1,0 +1,58 @@
+{% assign active_account_nav = 'referrals' %}
+
+{% include 'layout.account-nav' %}
+
+<section
+  class="
+    grid
+    grid--column
+    grid--gutter
+    grid--grey
+    grid--padding-bottom
+    grid--horizontal-center
+    grid--grow
+    js-referral-dashboard
+  "
+>
+  <div class="grid__container">
+
+    <div
+        class="
+            address
+            grid__item
+            grid__item--100-mobile-down
+            grid__item--100-tablet-up
+            grid__item--padding-top
+            grid__item--nogrow
+          "
+        data-analytics-load="Referral Dashboard Viewed"
+        data-analytics-props='{"category": "Referrals"}'
+    >
+      <div class="card grid grid--nowrap grid--full-height">
+
+          <div
+              class="
+                  card__section
+                  card__section--column
+                  card__section--no-border
+                  grid__item
+                  grid
+                  grid--column
+                  grid--nogrow
+                "
+          >
+            <!-- Begin Mention Me dashboard placeholder div -->
+            <div id="mmWrapper"></div>
+            <!-- End Mention Me dashboard placeholder div -->
+          </div>
+
+      </div>
+    </div>
+
+    <!-- Begin Mention Me dashboard integration -->
+    <script type="text/javascript" src="https://tag.mention-me.com/api/v2/dashboard/mm0eb67e41/{{ customer.email }}?implementation=embed&situation=dashboard&firstname={{ customer.first_name }}&surname={{ customer.last_name }}"></script>
+    <!-- End Mention Me dashboard integration -->
+
+  </div>
+</section>
+

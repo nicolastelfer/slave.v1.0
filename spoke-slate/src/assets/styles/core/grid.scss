@@ -1,0 +1,732 @@
+.grid {
+  display: flex;
+  justify-content: center;
+  -ms-flex: 0 0 auto;
+
+  &__container {
+    display: flex;
+    flex-grow: 1;
+    flex-wrap: wrap;
+    max-width: $max-width;
+    width: 100%;
+
+    &--center {
+      justify-content: center;
+    }
+  }
+
+  &__item {
+    box-sizing: border-box;
+    flex-wrap: nowrap;
+
+    &:not(.grid__item--nogrow) {
+      flex-grow: 1;
+    }
+
+    &.grid__item--nogrow-tablet-up {
+      @include tablet-large-up {
+        flex-grow: 0;
+      }
+    }
+
+    &.grid__item--nogrow-desktop-up {
+      @include desktop-up {
+        flex-grow: 0;
+      }
+    }
+
+    &--noshrink {
+      flex-shrink: 0;
+    }
+
+    &--horizontal-end {
+      justify-content: flex-end;
+    }
+
+    &--padding-left {
+      padding-left: 16px;
+
+      &-tablet-up {
+        @include tablet-up {
+          padding-left: 16px;
+        }
+      }
+
+      &-small {
+        padding-left: 5px;
+      }
+    }
+
+    &--padding-right {
+      padding-right: 16px;
+
+      &-tablet-up {
+        @include tablet-up {
+          padding-right: 16px;
+        }
+      }
+
+      &-small {
+        padding-right: 5px;
+      }
+    }
+
+    &--padding-top {
+      padding-top: 16px;
+
+      @include tablet-up {
+        padding-top: 30px;
+      }
+
+      &-small {
+        padding-top: 16px;
+
+        @include tablet-up {
+          padding-top: 20px;
+        }
+      }
+
+      &-large {
+        padding-top: 60px;
+      }
+    }
+
+    &--separator {
+
+      @include desktop-up {
+        position: relative;
+        width: 4%;
+
+        &:after {
+          background-color: $color-palette-3-primary;
+          content: '';
+          height: 50px;
+          left: 31%;
+          position: absolute;
+          transform: translate3d(-50%, -50%, 0);
+          top: 77px;
+          width: 1px;
+        }
+      }
+
+    }
+
+    &--10 {
+      width: 10%;
+
+      &-desktop-up {
+        @include desktop-up {
+          width: 10%;
+        }
+      }
+    }
+
+    &--20 {
+      width: 20%;
+
+      &-desktop-up {
+        @include desktop-up {
+          width: 20%;
+        }
+      }
+    }
+
+    &--25 {
+      width: 25%;
+
+      &-desktop-up {
+        @include desktop-up {
+          width: 25%;
+        }
+      }
+    }
+
+    &--33 {
+      width: 33.3333%;
+
+      &-desktop-up {
+        @include desktop-up {
+          width: 33.3333%;
+        }
+      }
+    }
+
+    &--40 {
+      width: 40%;
+
+      &-desktop-up {
+        @include desktop-up {
+          width: 40%;
+        }
+      }
+    }
+
+    &--45 {
+      width: 45%;
+
+      &-tablet-up {
+        @include tablet-large-up {
+          width: 45%;
+        }
+      }
+
+      &-desktop-up {
+        @include desktop-up {
+          width: 45%;
+        }
+      }
+    }
+
+    &--48 {
+      width: 48%;
+
+      &-tablet-up {
+        @include tablet-large-up {
+          width: 48%;
+        }
+      }
+
+      &-desktop-up {
+        @include desktop-up {
+          width: 48%;
+        }
+      }
+    }
+
+    &--50 {
+      width: 50%;
+
+      &-tablet-up {
+        @include tablet-up {
+          width: 50%;
+        }
+      }
+
+      &-desktop-up {
+        @include desktop-up {
+          width: 50%;
+        }
+      }
+    }
+
+    &--75 {
+      width: 75%;
+
+      &-tablet-up {
+        @include tablet-up {
+          width: 75%;
+        }
+      }
+
+      &-desktop-up {
+        @include desktop-up {
+          width: 75%;
+        }
+      }
+    }
+
+    &--80 {
+      width: 80%;
+    }
+
+    &--100 {
+      width: 100%;
+
+      &-mobile-down {
+        @include mobile-down {
+          width: 100%;
+        }
+      }
+
+      &-tablet-down {
+        @include tablet-down {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  &__spacer {
+    flex-basis: 5%;
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 5%;
+
+    @media (min-width: 700px) {
+      flex-basis: 14px;
+      flex-grow: 1;
+      min-width: 14px;
+    }
+
+    @include desktop-up {
+      flex-basis: 35px;
+      min-width: 35px;
+    }
+
+    &:first-child,
+    &:last-child {
+      @media (min-width: 700px) {
+        display: none;
+      }
+    }
+  }
+
+  &--column {
+    &.grid--full-height {
+      > .grid__container {
+        height: 100%;
+      }
+    }
+
+    & > .grid__container {
+      align-items: stretch;
+      flex-direction: column;
+    }
+
+    &-mobile-down {
+      & > .grid__container {
+        @include mobile-down {
+          align-items: stretch;
+          flex-direction: column;
+        }
+      }
+    }
+
+    &-tablet-down {
+      & > .grid__container {
+        @include tablet-down {
+          align-items: stretch;
+          flex-direction: column;
+        }
+      }
+    }
+  }
+
+  &.grid--full-height {
+    height: 100%;
+
+    > .grid__container {
+      height: 100%;
+    }
+  }
+
+  &--gutter {
+    & > .grid__container {
+      box-sizing: border-box;
+      max-width: $max-width + 28px;
+      padding-left: 14px;
+      padding-right: 14px;
+
+      @include tablet-up {
+        max-width: $max-width + 80px;
+        padding-left: 40px;
+        padding-right: 40px;
+      }
+    }
+
+    &-desktop-up {
+      @include desktop-up {
+        max-width: $max-width + 80px;
+        padding-left: 40px;
+        padding-right: 40px;
+      }
+    }
+
+    .styleguide {
+      padding-top: 45px;
+      padding-bottom: 0;
+    }
+  }
+
+  &--horizontal-space-between {
+    &:not(.grid--column) > .grid__container {
+      justify-content: space-between;
+    }
+
+    &.grid--column {
+      & > .grid__container {
+        align-items: space-between;
+      }
+    }
+
+    &-tablet-up {
+      &:not(.grid--column) > .grid__container {
+        @include tablet-large-up {
+          justify-content: space-between;
+        }
+      }
+
+      &.grid--column {
+        & > .grid__container {
+          @include tablet-up {
+            align-items: space-between;
+          }
+        }
+      }
+    }
+
+    &-desktop-up {
+      &:not(.grid--column) > .grid__container {
+        @include desktop-up {
+          justify-content: space-between;
+          flex: 0 0 auto;
+        }
+      }
+
+      &.grid--column {
+        & > .grid__container {
+          @include desktop-up {
+            align-items: space-between;
+          }
+        }
+      }
+    }
+  }
+
+  &--horizontal-space-around {
+    &:not(.grid--column) > .grid__container {
+      justify-content: space-around;
+    }
+
+    &.grid--column {
+      & > .grid__container {
+        align-items: space-around;
+      }
+    }
+  }
+
+  &--horizontal-start {
+    &:not(.grid--column) > .grid__container {
+      justify-content: flex-start;
+    }
+
+    &-tablet-up {
+      &:not(.grid--column) > .grid__container {
+        @include tablet-up {
+          justify-content: flex-start;
+        }
+      }
+
+      &.grid--column {
+        & > .grid__container {
+          @include tablet-up {
+            align-items: flex-start;
+          }
+        }
+      }
+    }
+
+    &.grid--column {
+      & > .grid__container {
+        align-items: flex-start;
+      }
+    }
+
+    &.grid--column-tablet-down {
+      & > .grid__container {
+        @include tablet-down {
+          align-items: flex-start;
+        }
+      }
+    }
+  }
+
+  &--horizontal-center {
+    &:not(.grid--column) > .grid__container {
+      justify-content: center;
+    }
+
+    &.grid--column, &.grid--column--mobile-down {
+      & > .grid__container {
+        align-items: center;
+      }
+    }
+
+    &-mobile-down {
+      &.grid--column {
+        & > .grid__container {
+          @include mobile-down {
+            align-items: center;
+          }
+        }
+      }
+    }
+  }
+
+  &--horizontal-end {
+    &:not(.grid--column) > .grid__container {
+      justify-content: flex-end;
+    }
+
+    &.grid--column {
+      & > .grid__container {
+        align-items: flex-end;
+      }
+    }
+
+    &-tablet-down {
+      &:not(.grid--column) > .grid__container {
+        @include tablet-down {
+          justify-content: flex-end;
+        }
+      }
+
+      &.grid--column {
+        & > .grid__container {
+          @include tablet-down {
+            align-items: flex-end;
+          }
+        }
+      }
+    }
+
+    &-desktop-up {
+      &:not(.grid--column) > .grid__container {
+        @include desktop-up {
+          justify-content: flex-end;
+        }
+      }
+
+      &.grid--column {
+        & > .grid__container {
+          @include desktop-up {
+            align-items: flex-end;
+          }
+        }
+      }
+    }
+  }
+
+  &--horizontal-start-mobile-down {
+    @include mobile-down {
+      &:not(.grid--column) > .grid__container {
+        justify-content: flex-start;
+      }
+
+      &.grid--column {
+        & > .grid__container {
+          align-items: flex-start;
+        }
+      }
+    }
+  }
+
+  &--horizontal-center-mobile-down {
+    @include mobile-down {
+      &:not(.grid--column) > .grid__container {
+        justify-content: center;
+      }
+
+      &.grid--column {
+        & > .grid__container {
+          align-items: center;
+        }
+      }
+    }
+  }
+
+  &--vertical-center {
+    &:not(.grid--column) > .grid__container {
+      align-items: center;
+    }
+
+    &.grid--column {
+      & > .grid__container {
+        justify-content: center;
+      }
+    }
+  }
+
+  &--vertical-center-desktop-up {
+    @include tablet-up {
+      &:not(.grid--column) > .grid__container {
+        align-items: center;
+      }
+
+      &.grid--column {
+        & > .grid__container {
+          justify-content: center;
+        }
+      }
+    }
+  }
+
+  &--vertical-start {
+    &:not(.grid--column) > .grid__container {
+      align-items: flex-start;
+    }
+
+    &.grid--column {
+      & > .grid__container {
+        justify-content: flex-start;
+      }
+    }
+  }
+
+  &--vertical-end {
+    &:not(.grid--column) > .grid__container {
+      align-items: flex-end;
+    }
+
+    &.grid--column {
+      & > .grid__container {
+        justify-content: flex-end;
+      }
+    }
+
+    &-mobile-down {
+      &:not(.grid--column) > .grid__container {
+        @include mobile-down {
+          align-items: flex-end;
+        }
+      }
+
+      &.grid--column {
+        & > .grid__container {
+          @include mobile-down {
+            justify-content: flex-end;
+          }
+        }
+      }
+    }
+  }
+
+  &--vertical-space-between {
+    &:not(.grid--column) > .grid__container {
+      align-items: space-between;
+    }
+
+    &.grid--column {
+      & > .grid__container {
+        justify-content: space-between;
+      }
+    }
+  }
+
+  &--nowrap {
+    & > .grid__container {
+      flex-wrap: nowrap;
+    }
+
+    &-mobile-down {
+      & > .grid__container {
+        @include mobile-down {
+          flex-wrap: nowrap !important;
+        }
+      }
+    }
+
+    &-tablet-up {
+      & > .grid__container {
+        @include tablet-up {
+          flex-wrap: nowrap !important;
+        }
+      }
+    }
+
+    &-desktop-up {
+      & > .grid__container {
+        @include desktop-up {
+          flex-wrap: nowrap;
+        }
+
+        @include tablet-only-portrait {
+          flex-wrap: wrap;
+        }
+      }
+    }
+  }
+
+  &--nogrow {
+    & > .grid__container {
+      & > .grid__item {
+        flex-grow: 0;
+      }
+    }
+
+    &-desktop-up {
+      & > .grid__container {
+        & > .grid__item {
+          flex-grow: 0;
+        }
+      }
+    }
+  }
+
+  &--noshrink {
+    & > .grid__container {
+      & > .grid__item {
+        flex-shrink: 0;
+      }
+    }
+  }
+
+  &--full-width {
+    > .grid__container {
+      max-width: 100%;
+    }
+  }
+
+  &--hide-overflow {
+    & > .grid__container {
+      overflow: hidden;
+    }
+  }
+
+  &--white {
+    background-color: white;
+  }
+
+  &--grey { // @todo not sure why we have various shades of gray for mobile or desktop
+    background-color: $color-palette-3-tertiary;
+
+    @include tablet-up {
+      background-color: $color-palette-3-secondary;
+    }
+
+    &-desktop-up {
+      @include desktop-up {
+        background-color: $color-palette-3-secondary;
+      }
+    }
+
+    &-mobile-up {
+      background-color: $color-palette-3-secondary;
+    }
+  }
+
+  &--grey-light {
+    background-color: $color-palette-1-primary-lighter-max;
+  }
+
+  &--grey-reverse {
+    background-color: $color-palette-3-secondary;
+
+    @include tablet-up {
+      background-color: $color-palette-3-tertiary;
+    }
+  }
+
+  &--border-top {
+    border-top: 1px solid $color-palette-3-primary;
+  }
+
+  &--padding-bottom {
+    padding-bottom: 60px;
+
+    &-small {
+      padding-bottom: 20px;
+    }
+  }
+
+  &--mobile-down {
+    @include tablet-up {
+      display: none;
+    }
+  }
+
+  &--relative {
+    position: relative;
+  }
+
+}

@@ -1,0 +1,253 @@
+<div class="size-chart">
+  <div class="size-chart__container">
+    <div class="size-chart__wrapper">
+      <header class="size-chart__header">
+        <h2 class="size-chart__title">
+          Size &amp; fit
+          <span>for</span>
+        </h2>
+
+        <div class="size-chart__dropdown">
+          <button class="size-chart__trigger">
+            Trousers
+          </button>
+          {% include 'size-chart-menu' with selected: 'trousers' %}
+        </div>
+      </header>
+
+      <h3 class="size-chart__subtitle">
+        Men's trouser size chart
+      </h3>
+
+      <div
+        class="size-chart__toggle toggle"
+        data-toggle="unit"
+        data-toggle0="inches"
+        data-toggle1="cm"
+        data-toggle-value="1"
+      >
+        <p class="toggle__label">Inches</p>
+        <button class="toggle__button" type="button"></button>
+        <p class="toggle__label">CM</p>
+      </div>
+
+      <section class="size-chart__section">
+        <nav class="size-chart__tabs">
+          <button
+            class="size-chart__tab"
+            type="button"
+            data-selected
+            data-sizes='{"columns":[28,30,31,32,33,34,35,36,37,38,40],"rows":[[39.2, 41.7,43,44.2,45.4,46.7,48,49.2,50.4,51.7,54.2],[21.0,21.9,22.3,22.8,23.2,23.7,24.1,24.6,25.0,25.5,26.4],[27.6,29.1,29.9,30.6,31.4,32.1,32.9,33.6,34.3,35.1,36.6],[20.2,20.8,21.1,21.4,21.7,22,22.3,22.6,22.9,23.2,23.8],[16.6,17.0,17.2,17.4,17.6,17.8,18.0,18.2,18.4,18.6,19.0]]}'
+          >
+            <span class="button__content">
+              Build A
+            </span>
+          </button>
+          <button
+            class="size-chart__tab"
+            type="button"
+            data-sizes='{"columns":[28,30,31,32,33,34,35,36,37,38,40],"rows":[[39.2, 41.7,43,44.2,45.4,46.7,48,49.2,50.4,51.7,54.2],[21.9,22.8,23.2,23.7,24.2,24.6,25.0,25.5,25.9,26.4,27.3],[28.8,30.3,31,31.8,32.6,33.3,34,34.8,35.5,36.3,37.8],[20.8,21.4,21.7,22,22.3,22.6,22.9,23.2,23.5,23.8,24.4],[17.5,17.9,18.1,18.3,18.5,18.7,18.9,19.1,19.3,19.5,19.9]]}'
+          >
+            <span class="button__content">
+              Build B
+            </span>
+          </button>
+          <button
+            class="size-chart__tab"
+            type="button"
+            data-sizes='{"columns":[28,30,31,32,33,34,35,36,37,38,40],"rows":[[39.2, 41.7,43,44.2,45.4,46.7,48,49.2,50.4,51.7,54.2],[23.6,24.3,24.8,25.2,25.6,26.1,26.6,27,27.6,27.9,29.0],[29.1,31.7,32.4,33.2,34,34.7,35.4,36.2,37.7,37.7,37.7],[21.2,21.8,22.1,22.4,22.7,23,23.3,23.6,23.9,24.2,24.8],[18.0,18.4,18.6,18.8,19,19.2,19.4,19.6,19.8,20,20.4]]}'
+          >
+            <span class="button__content">
+              Build C
+            </span>
+          </button>
+        </nav>
+
+        <table class="size-chart__table">
+          <tr class="size-chart__row">
+            <th class="size-chart__cell" scope="row">
+              Waist
+            </th>
+            <th class="size-chart__cell" scope="col"></th>
+            <th class="size-chart__cell" scope="col"></th>
+            <th class="size-chart__cell" scope="col"></th>
+            <th class="size-chart__cell" scope="col"></th>
+            <th class="size-chart__cell" scope="col"></th>
+            <th class="size-chart__cell" scope="col"></th>
+            <th class="size-chart__cell" scope="col"></th>
+            <th class="size-chart__cell" scope="col"></th>
+            <th class="size-chart__cell" scope="col"></th>
+            <th class="size-chart__cell" scope="col"></th>
+            <th class="size-chart__cell" scope="col"></th>
+          </tr>
+
+          <tr class="size-chart__row">
+            <th class="size-chart__cell" scope="row">
+              Actual waist
+            </th>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+          </tr>
+
+          <tr class="size-chart__row">
+            <th class="size-chart__cell" scope="row">
+              Front rise
+            </th>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+          </tr>
+
+          <tr class="size-chart__row">
+            <th class="size-chart__cell" scope="row">
+              Thigh
+            </th>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+          </tr>
+
+          <tr class="size-chart__row">
+            <th class="size-chart__cell" scope="row">
+              Knee
+            </th>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+          </tr>
+
+          <tr class="size-chart__row">
+            <th class="size-chart__cell" scope="row">
+              Leg opening
+            </th>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+            <td class="size-chart__cell"></td>
+          </tr>
+        </table>
+
+        <div class="size-chart__mobile">
+          <h3 class="size-chart__mobile-title">
+            Choose waist size
+          </h3>
+
+          <ul class="size-chart__options options">
+            <li class="options__item">
+              <button class="options__button" type="button" data-status="selected"></button>
+            </li>
+            <li class="options__item">
+              <button class="options__button" type="button"></button>
+            </li>
+            <li class="options__item">
+              <button class="options__button" type="button"></button>
+            </li>
+            <li class="options__item">
+              <button class="options__button" type="button"></button>
+            </li>
+            <li class="options__item">
+              <button class="options__button" type="button"></button>
+            </li>
+            <li class="options__item">
+              <button class="options__button" type="button"></button>
+            </li>
+            <li class="options__item">
+              <button class="options__button" type="button"></button>
+            </li>
+            <li class="options__item">
+              <button class="options__button" type="button"></button>
+            </li>
+          </ul>
+
+          <ul class="size-chart__lines">
+            <li class="size-chart__line">
+              Actual waist
+              <span class="size-chart__detail"></span>
+            </li>
+
+            <li class="size-chart__line">
+              Front rise
+              <span class="size-chart__detail"></span>
+            </li>
+
+            <li class="size-chart__line">
+              Thigh
+              <span class="size-chart__detail"></span>
+            </li>
+
+            <li class="size-chart__line">
+              Knee
+              <span class="size-chart__detail"></span>
+            </li>
+
+            <li class="size-chart__line">
+              Leg opening
+              <span class="size-chart__detail"></span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <p class="size-chart__note">
+        All measurements describe one side of the product, laid flat.
+      </p> 
+
+      <a
+        class="
+          size-chart__close
+          button--icon
+          button--icon-only
+          js-last-page
+        "
+        href="/"
+      >
+        <span class="button__icon">
+           {% include 'snippet.svg.icon', type:'icon', class:'close' %}
+        </span>
+        <span class="button__content"></span> 
+      </a>
+    </div>
+  </div>
+</div>
+
+{% include 'how-sizing-works' %}

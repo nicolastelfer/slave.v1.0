@@ -1,0 +1,509 @@
+{% assign colors = '' %}
+{% assign waists = '' %}
+{% assign builds = '' %}
+
+{% assign collecton_key = product.type | handleize %}
+
+{% assign description = collections[ collecton_key ].description %}
+{% assign collection_byline = '' %}
+{% assign collection_description = '' %}
+
+{% unless description == blank %}
+{% assign description_parts = description | split: '|' %}
+
+{% assign collection_custom_hero = false %}
+
+  {% if description contains 'hero1' %}
+    {% assign collection_custom_hero = 1 %}
+    {% elsif description contains 'hero2' %}
+    {% assign collection_custom_hero = 2 %}
+    {% elsif description contains 'hero3' %}
+    {% assign collection_custom_hero = 3 %}
+    {% elsif description contains 'hero4' %}
+    {% assign collection_custom_hero = 4 %}
+  {% endif %}
+
+  {% if collection_custom_hero %}
+    {% assign collection_byline = description_parts[ 1 ] %}
+    {% assign collection_description = description_parts[ 2 ] %}
+  {% else %}
+    {% assign collection_byline = description_parts[ 0 ] %}
+    {% assign collection_description = description_parts[ 1 ] %}
+  {% endif %}
+{% endunless %}
+
+{% for p in collections.article-50-specials.products %}
+  {% if p.type == product.type %}
+    {% assign t = p.title | split: '//' %}
+    {% capture color_name %}{{ t[ 0 ] | strip }}{% endcapture %}
+
+    {% assign color_fabric = blank %}
+
+    {% for tag in p.tags %}
+      {% if tag contains 'fabric' %}
+        {% assign color_fabric = tag | remove: 'fabric:' | strip %}
+        {% break %}
+      {% endif %}
+
+      {% if forloop.last and p.tags contains 'limited-edition' %}
+        {% assign color_fabric = 'Limited edition' %}
+      {% endif %}
+    {% endfor %}
+
+    {% capture color_title %}{{ color_name }}{% unless color_fabric == blank %} – {{ color_fabric }}{% endunless %}{% endcapture %}
+    {% capture color %}{{ color_name }}|{{ color_title }}|{{ p.url }}{% endcapture %}
+
+    {% if p.url == product.url %}
+      {% assign current_color = color %}
+    {% endif %}
+
+    {% capture colors %}{% if colors != '' %}{{ colors }},{% endif %}{{ color }}{% endcapture %}
+  {% endif %}
+{% endfor %}
+
+{% include 'variant_data' %}
+
+{% assign current_color = current_color | split: '|' %}
+{% assign current_color_name = current_color[ 0 ] %}
+{% assign current_color_title = current_color[ 1 ] %}
+{% assign colors = colors | split: ',' | sort %}
+{% assign waists = waists | split: ',' | sort %}
+{% assign builds = builds | split: ',' | sort %}
+
+{% assign item_count = 0 %}
+
+{% for img in product.images limit: 8 %}
+  {% assign item_count = item_count | plus: 1 %}
+{% endfor %}
+
+{% assign item_indexes = item_count | minus: 1 %}
+
+{% assign trousers = settings.trouser_collections | split: ',' %}
+
+{% assign l = trousers | size | minus: 1 %}
+
+{% assign other_styles_index = l | minus: 1 %}
+
+{% assign bought_before = '' %}
+
+{% if customer %}
+  {% for order in customer.orders %}
+    {% if bought_before == empty %}
+      {% for item in order.line_items %}
+        {% if item.product_id == product.id %}
+          {% assign bought_before = order.created_at %}
+          {% assign bought_before_waist = item.properties.Waist %}
+          {% assign bought_before_build = item.properties.Build %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% if bought_before != empty %}
+  <section
+    class="
+      flash
+      flash--secondary
+      grid
+      grid--nowrap
+      grid--gutter
+      grid--horizontal-space-between
+      js-toggle-attr
+    "
+    data-key="product-{{ product.id }}"
+    data-toggle-attr="data-hide"
+    data-hide
+  >
+    <div class="grid__container">
+      <p class="flash__msg flash__msg--center">
+        Last time your bought this in size
+        W: {{ bought_before_waist }}
+        Build: {{ bought_before_build }}
+      </p>
+      <button class="flash__button js-toggle-attr__button" type="button">
+        {% include 'snippet.svg.icon', type:'icon', class:'close' %}
+      </button>
+    </div>
+  </section>
+{% endif %}
+
+<section
+  class="grid grid--gutter grid--white grid--vertical-start js-fixed"
+  data-analytics-load="April Fools Product Viewed"
+  data-analytics-props='{"category": "{{ product.type }}", "color": "{{ current_color_name }}", "images_url":["https:{{ product.images[ 0 ] | img_url: 'master' }}","https:{{ product.images[ 1 ] | img_url: 'master' }}","https:{{ product.images[ 2 ] | img_url: 'master' }}", "https:{{ product.images[ 4 ] | img_url: 'master' }}"], "label": "{{ current_color_name }}", "name": "{{ product.type }}", "price": {{ product.price | money_without_currency | plus: 0 }}, "product_id": {{ product.id }}, "product_url": "http://{{ shop.permanent_domain }}/products/{{ product.handle }}", "sku": "{{ product.type }}"}'
+  style="padding-bottom: 50px;"
+>
+  <div class="grid__container">
+    <div
+      class="
+        product-images
+        grid__item
+        grid__item--100-mobile-down
+        grid__item--50-tablet-up
+        grid
+        grid--nowrap
+        grid--vertical-start
+      "
+    >
+      <div class="product-images__container grid__container">
+        <ul class="product-images__nav js-fixed__sticky">
+          {% for img in product.images %}
+            <li class="product-images__nav-item">
+              <a
+                class="product-images__nav-link js-tinyscroll"
+                href="#image-{{ img.id }}"
+              >
+                <img
+                  class="product-images__nav-image"
+                  src="{{ img | img_url: '79x' }}"
+                  srcset="
+                    {{ img | img_url: '79x' }} 1x,
+                    {{ img | img_url: '158x' }} 2x
+                  "
+                  width="79"
+                  height="119"
+                />
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+
+        <div
+          class="product-images__content js-fixed__stationary"
+          data-items="{{ item_count }}"
+          data-index="0"
+          data-touch="true"
+        >
+          <ul class="product-images__list">
+            {% for img in product.images limit: 8 %}
+              <li class="product-images__item" id="image-{{ img.id }}">
+                <img
+                  class="product-images__image"
+                  src="{{ img | img_url: '398x' }}"
+                  srcset="
+                    {{ img | img_url: '398x' }} 1x,
+                    {{ img | img_url: '796x' }} 2x
+                  "
+                  width="398"
+                  height="597"
+                />
+              </li>
+            {% endfor %}
+          </ul>
+
+          <ul class="product-images__pagination pagination">
+            {% for i in (0..item_indexes) %}
+              <li class="pagination__item">
+                <button
+                  class="pagination__button"
+                  data-index="{{ i }}"
+                  type="button"
+                >
+                  {{ i }}
+                </button>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <form
+      class="
+        js-option-form
+        product-form
+        grid__item
+        grid__item--100-mobile-down
+        grid__item--50-tablet-up
+        js-fixed__sticky
+      "
+      method="post"
+      data-props='{"props":["build","waist"]}'
+      data-variants='{"variants":[{{ variants }}]}'
+    >
+      <header
+        class="
+          product-form__header
+          grid
+          grid--horizontal-space-between
+          grid--vertical-center
+        "
+      >
+        <div class="grid__container">
+          <h1 class="product-form__title">
+            {{ product.type }}
+          </h1>
+
+          {% for tag in product.tags %}
+            {% if tag contains 'fabric' %}
+              <h2 class="product-form__tag">
+                {{ tag | remove: 'fabric:' | strip }}
+              </h2>
+              {% break %}
+            {% endif %}
+
+            {% if forloop.last and product.tags contains 'limited-edition' %}
+              <h2 class="product-form__tag">
+                Limited edition
+              </h2>
+            {% endif %}
+          {% endfor %}
+
+          {% for tag in product.tags %}
+            {% if tag contains 'pre-order' %}
+              <p class="product-form__pre-order">
+                Pre-order: Ships
+                {{ tag | remove: 'pre-order:' | strip }}
+              </p>
+              {% break %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      </header>
+
+      <div class="product-form__description">
+        {{ collection_description }}
+      </div>
+
+      <div class="product-form__prices">
+        {% if product.price < product.compare_at_price_max %}
+          <p class="product-form__full-price">
+            {{ product.compare_at_price_max | money }}
+          </p>
+        {% endif %}
+
+        <p class="product-form__price">
+          {{ product.price | money }}
+        </p>
+      </div>
+
+      <div class="grid grid--horizontal-space-between grid--nowrap-desktop-up">
+        <div class="grid__container">
+          <div class="grid__item grid__item--100-tablet-down">
+            <h2 class="product-form__subtitle product-form__subtitle--color">
+              Colour: {{ current_color_name }}
+            </h2>
+
+            <ul class="product-form__colors colors">
+              {% for color in colors %}
+                {% assign c = color | split: '|' %}
+
+                {% assign color_name = c[ 0 ] %}
+                {% assign color_title = c[ 1 ] %}
+                {% assign color_url = c[ 2 ] %}
+
+                {% capture color_key %}color_{{ color_name | handleize }}{% endcapture %}
+
+                <li
+                  class="
+                    colors__item
+                    {% if color_title == current_color_title %}
+                      colors__item--selected
+                    {% endif %}
+                  "
+                  {% if settings[color_key] %}
+                    style="background: {{ settings[color_key] }}"
+                  {% endif %}
+                >
+                  {% unless color_title == current_color_title %}
+                  <a
+                    class="colors__link"
+                    href="{{ color_url }}"
+                    title="{{ color_title }}"
+                  >
+                    {% endunless %}
+                    {% unless color_title == current_color_title %}
+                  </a>
+                  {% endunless %}
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+
+          <a
+            class="
+              product-form__fit-finder-button
+              super-link--mobile-down
+              super-link--secondary-mobile-down
+              super-link--reset-mobile-down
+              super-link--underline-mobile-down
+              button
+              button--shadow
+              button--secondary
+              button--small-font
+              grid__item
+              grid__item--noshrink
+              grid__item--nogrow
+            "
+            href="/pages/april-fools-2017"
+          >
+            <span class="button__content">
+              What is my size?
+            </span>
+          </a>
+        </div>
+      </div>
+
+      <div class="product-form__section js-option-form__waist">
+        <h2 class="product-form__subtitle">
+          Waist
+        </h2>
+
+        <ul class="product-form__options options">
+          {% for waist in waists %}
+            <li class="options__item">
+              <button
+                class="options__button options__button--unavailable"
+                data-option-key="waist"
+                data-option-value="{{ waist }}"
+                data-status="unavailable"
+                type="button"
+                disabled
+              >
+                {{ waist }}
+              </button>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="product-form__section js-option-form__build">
+        <h2 class="product-form__subtitle">
+          Build
+        </h2>
+
+        <ul class="product-form__options options options--stacked">
+          {% for build in builds %}
+            <li class="options__item">
+              <button
+                class="options__button"
+                data-option-key="build"
+                data-option-value="{{ build }}"
+                data-status="unavailable"
+                type="button"
+                disabled
+              >
+                {{ build }}
+                {% capture build_description_key %}trouser_build_{{ build | downcase }}_description{% endcapture %}
+              </button>
+              <p class="options__description">
+                {{ settings[ build_description_key ] }}
+              </p>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <input
+        name="id"
+        type="hidden"
+      />
+
+      <input
+        name="properties[Waist]"
+        type="hidden"
+      />
+
+      <input
+        name="properties[Build]"
+        type="hidden"
+      />
+
+      <a
+        href="/pages/april-fools-2017"
+        class="product-form__button button button--large-padding button--secondary js-option-form__submit"
+        data-analytics-click="April Fools Product Added"
+        data-analytics-props='{"category": "{{ product.type }}", "color": "{{ current_color_name }}", "images_url":["https:{{ product.images[ 0 ] | img_url: 'master' }}","https:{{ product.images[ 1 ] | img_url: 'master' }}","https:{{ product.images[ 2 ] | img_url: 'master' }}", "https:{{ product.images[ 4 ] | img_url: 'master' }}"],"https:{{ product.images[ 1 ] | img_url: 'master' }}","https:{{ product.images[ 2 ] | img_url: 'master' }}", "https:{{ product.images[ 4 ] | img_url: 'master' }}"], "label": "{{ current_color_name }}", "name": "{{ product.type }}", "price": {{ product.price | money_without_currency | plus: 0 }}, "product_id": {{ product.id }}, "product_url": "http://{{ shop.permanent_domain }}/products/{{ product.handle }}", "quantity": 1, "sku": "{{ product.type }}", "value": {{ product.price | money_without_currency | plus: 0 }}}'
+        data-analytics-dynamic-props='{"build": "properties[Build]", "variant_id": "id", "waist": "properties[Waist]"}'
+        disabled
+      >
+        <span class="button__content">
+          {% assign preorder = false %}
+
+          {% for tag in product.tags %}
+            {% if tag contains 'pre-order' %}
+              {% assign preorder = true %}
+            {% endif %}
+          {% endfor %}
+
+          {% if preorder %}
+            Pre-order
+          {% else %}
+            Add to basket
+          {% endif %}
+        </span>
+      </a>
+
+      {% for tag in product.tags %}
+        {% if tag contains 'pre-order' %}
+          <p class="product-form__button-info">
+            Ships
+            {{ tag | remove: 'pre-order:' | strip }}
+          </p>
+          {% break %}
+        {% endif %}
+      {% endfor %}
+
+      <section class="accordion js-accordion">
+        {% if product.description %}
+          <section class="accordion__section js-accordion__section">
+            <button
+              class="accordion__button js-accordion__button"
+              type="button"
+            >
+              Product details
+              <span class="accordion__plus">+</span>
+              <span class="accordion__minus">-</span>
+            </button>
+            <div class="accordion__container js-accordion__container">
+              <div class="accordion__content js-accordion__content">
+                {{ product.description }}
+              </div>
+            </div>
+          </section>
+        {% endif %}
+
+        <section class="accordion__section js-accordion__section">
+          <button class="accordion__button js-accordion__button" type="button">
+            Size not in stock?
+            <span class="accordion__plus">+</span>
+            <span class="accordion__minus">-</span>
+          </button>
+          <div class="accordion__container js-accordion__container">
+            <div class="accordion__content js-accordion__content">
+              <p>
+                We may be able to work something out.
+                <a href="/pages/contact-us">Get in touch</a>.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="accordion__section js-accordion__section">
+          <button class="accordion__button js-accordion__button" type="button">
+            Size chart
+            <span class="accordion__plus">+</span>
+            <span class="accordion__minus">-</span>
+          </button>
+          <div class="accordion__container js-accordion__container">
+            <div class="accordion__content js-accordion__content">
+              <p>
+                If you wish to compare sizes to our size
+                chart you can view it here.
+              </p>
+              <p>
+                <a
+                  class="super-link super-link--secondary super-link--underline"
+                  href="/pages/size-chart"
+                >
+                  View size chart
+                </a>
+              </p>
+            </div>
+          </div>
+        </section>
+      </section>
+    </form>
+  </div>
+</section>

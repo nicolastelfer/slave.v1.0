@@ -1,0 +1,50 @@
+/**
+ * Headlines
+ * Mobile to Desktop
+ */
+
+@mixin headline($s-m, $l-h-m, $l-s, $s-d, $l-h-d) {
+  @include font-family-1;
+  @include font-style($s-m, $l-s, $l-h-m);
+  text-transform: uppercase;
+
+  @include desktop-up {
+    @include font-style($s-d, $l-s, $l-h-d);
+  }
+}
+
+h1 {
+  @include headline(48,52,0.2,84,84);
+}
+
+h2 {
+  @include headline(38,46,0.2,52,60);
+}
+
+h3 {
+  @include headline(32,38,0.2,32,38);
+}
+
+h4 {
+  @include headline(28,32,0.2,24,28);
+}
+
+h5 {
+  @include headline(24,28,0.2,22,26);
+}
+
+//** Headline styles **/
+// @todo adding a different font-family might alter the font-size and line-height, pending until more designs are finalised.
+// Example: h2.title { @extend %headline--secondary; }
+%headline {
+  text-transform: uppercase;
+
+  &--secondary {
+    @include font-family-4; // Sentinel Font
+    font-style: italic;
+  }
+
+  &--tertiary {
+    @include font-family-3; // TheinHardt Font
+  }
+}

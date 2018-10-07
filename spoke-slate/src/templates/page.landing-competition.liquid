@@ -1,0 +1,164 @@
+{% assign content = page.content | split: '|' %}
+
+{% capture bg %}landing_page_image_{{ content[ 0 ] }}{% endcapture %}
+{% capture bg_mobile %}landing_page_image_small_{{ content[ 0 ] }}{% endcapture %}
+
+<div class="landing landing--responsive js-bg-img">
+
+  <picture class="landing__image js-bg-img__src" width="1440" height="700">
+    <source
+      media="(max-width: 599px)"
+      srcset="
+                    {{ settings[bg_mobile] | img_url: '300x' }} 300w,
+                    {{ settings[bg_mobile] | img_url: '600x' }} 600w,
+                    {{ settings[bg_mobile] | img_url: '1200x' }} 1200w
+                  "
+    >
+    <source
+      media="(min-width: 600px)"
+      srcset="
+                    {{ settings[bg] | img_url: '600x' }} 600w,
+                    {{ settings[bg] | img_url: '750x' }} 750w,
+                    {{ settings[bg] | img_url: '1000x' }} 1000w,
+                    {{ settings[bg] | img_url: '1440x' }} 1440w,
+                    {{ settings[bg] | img_url: 'master' }} 2880w
+                  "
+    >
+    <img src="{{ settings[bg] | img_url: '300x' }}" />
+  </picture>
+
+  <div class="landing__cover grid grid--horizontal-end">
+    <div class="landing__container grid__container">
+      <div class="landing__content landing__content--full-width landing__content--small landing__content--plain grid__item">
+        {{ content[ 1 ] }}
+        <!--<form method="post" class="fscriptsm js-wufoo-competition" novalidate>
+
+
+          <div class="form__container">
+
+            <div class="competition-content">
+              {{ content[ 1 ] }}
+            </div>
+
+            <div class="form__select">
+              <select id="title" name="Field6" tabindex="1">
+                <option>
+                  Title
+                </option>
+                <option value="Mr">
+                  Mr
+                </option>
+                <option value="Mrs">
+                  Mrs
+                </option>
+                <option value="Miss">
+                  Miss
+                </option>
+                <option value="Ms">
+                  Ms
+                </option>
+                <option value="Dr">
+                  Dr
+                </option>
+              </select>
+            </div>
+            <input id="first_name" name="Field3" type="text" class="form__input" placeholder="First Name *" required />
+
+            <input id="first_name" name="Field8" type="text" class="form__input" placeholder="Last Name *" required />
+
+            <input id="email" name="Field4" type="email" class="form__input" placeholder="Email *" required />
+
+            <button
+              type="submit"
+              data-state="ready"
+              data-loading-inspiration="http://codepen.io/designcouch/pen/vXrdjk"
+              class="form__button button button--secondary"
+            >
+              <span class="button__content">Submit</span>
+              {% include 'button-loading-junk' %}
+            </button>
+            <div class="competition-content">
+              <p>Read our <a href="https://spoke-london.com/pages/life-is-easy-terms" class="link--inline" target="_blank">terms and conditions</a>.</p>
+            </div>
+          </div>
+        </form>-->
+        {% if page.metafields.terms.terms_url %}
+          <p class="content__terms">Read the <a href="{{ page.metafields.terms.terms_url }}" class="link link--inline" target="_blank">terms and conditions</a></p>
+        {%  endif %}
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="landing-below-fold">
+  <div class="below-fold__container">
+    <h2>The dazzling prizes:</h2>
+
+    <div class="grid grid--column-mobile-down">
+
+      <div class="grid__container grid__container--center">
+
+        <div class="grid__item--33">
+          <div class="prizes">
+            <div class="prize-count"><img src='{{ "gift.png" | asset_url }}' alt="Spoke Gift"></div>
+            <div class="prize-description">
+              A <a href="https://spoke-london.com/products/gift-card" target="_blank">Spoke Gift Card</a> is the gateway to the best-fitting pair of trousers you’ll ever have owned. Fact.
+            </div>
+          </div>
+        </div>
+
+        <div class="grid__item--33">
+          <div class="prizes">
+            <div class="prize-count"><img src='{{ "mindful-cheff.png" | asset_url }}' alt="MindFul CHef"></div>
+            <div class="prize-description">
+              <a href="https://www.mindfulchef.com/?utm_source=Partner&utm_medium=Email&utm_campaign=Nov_competition&utm_content=homepage" target="_blank">Mindful Chef</a> — the UK’s favourite recipe box — will send you ingredients for six delicious healthy meals for two, plus recipe instructions.
+            </div>
+          </div>
+        </div>
+
+        <div class="grid__item--33">
+          <div class="prizes">
+            <div class="prize-count"><img src='{{ "shaving.png" | asset_url }}' alt="Cornerstone"></div>
+            <div class="prize-description">
+              A cut above the rest, the shaving-subscription service <a href="https://www.cornerstone.co.uk" target="_blank">Cornerstone</a> are offering a shaving gift set and smart leather wash bag.
+
+            </div>
+          </div>
+        </div>
+
+        <div class="grid__item--33">
+          <div class="prizes">
+            <div class="prize-count"><img src='{{ "socks.png" | asset_url }}' alt="Quiet Rebellion - Socks"></div>
+            <div class="prize-description">
+              Who says smart equals reactionary? A dozen pairs of colourful cotton socks from <a href="https://www.quietrebellion.com" target="_blank">Quiet Rebellion</a> will revolutionise your office ensemble.
+
+            </div>
+          </div>
+        </div>
+
+        <div class="grid__item--33">
+          <div class="prizes">
+            <div class="prize-count"><img src='{{ "card-wallet.png" | asset_url }}' alt="Not Another Bill"></div>
+            <div class="prize-description">
+              <a href="https://notanotherbill.com/" target="_blank">Not Another Bill</a> — the experts in tailor-made gifting — will create a personalised monogrammed leather card-wallet, just for you.
+
+            </div>
+          </div>
+        </div>
+
+        <div class="grid__item--33">
+          <div class="prizes">
+            <div class="prize-count"><img src='{{ "fitty.png" | asset_url }}' alt="Fitty"></div>
+            <div class="prize-description">
+              For three months, <a href="https://fittyldn.com/" target="_blank">Fitty LDN</a> will deliver a health & fitness box, containing the hottest nutritional foods and workout products, direct to your door.
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+

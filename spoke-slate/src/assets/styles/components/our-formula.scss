@@ -1,0 +1,128 @@
+.our-formula {
+  overflow: hidden;
+  padding-bottom: 75px;
+  padding-top: 60px;
+
+  @include tablet-up {
+    padding: 65px 0;
+  }
+
+  &__header,
+  &__content {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: $max-width;
+  }
+
+  &__content {
+    @include mobile-down {
+      margin-top: 20px;
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+
+  &__list {
+    @extend %list-no-style;
+    counter-reset: formula;
+    margin-top: 16px;
+
+    @include tablet-up {
+      margin-top: 30px;
+      width: 100%;
+    }
+  }
+
+  &__item {
+    box-sizing: border-box;
+    position: relative;
+    flex-shrink: 1;
+    flex-grow: 1;
+    flex-basis: 100%;
+    max-width: 394px;
+    min-width: 0;
+    transition: transform 0.3s $ease-in-out;
+
+    @include mobile-down {
+      min-width: 90%;
+      text-align: center;
+    }
+
+    p {
+      @extend %copy;
+      margin-top: 15px;
+    }
+  }
+
+  &__image {
+    display: block;
+    height: auto;
+    width: 100%;
+  }
+
+  &__title,
+  &__byline {
+    @include mobile-down {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 220px;
+      text-align: center;
+    }
+  }
+
+  &__title {
+    color: $color-palette-1-primary;
+    margin-top: 19px;
+    position: relative;
+
+    @include tablet-up {
+      margin-top: 30px;
+    }
+
+    &::before {
+      color: $color-palette-1-secondary;
+      content: "1";
+      counter-increment: formula;
+      content: "0" counter(formula);
+    }
+  }
+
+  &__button {
+    margin-top: 40px;
+
+    @include tablet-up {
+      margin-top: 75px;
+    }
+  }
+
+  &__pagination {
+    margin-top: 40px;
+    width: 100%;
+
+    @include tablet-up {
+      display: none;
+    }
+  }
+
+  &[data-index="1"] {
+    .our-formula__item {
+      @include mobile-down {
+        transform: translateX(-105.55556%); // 95% / 0.9
+      }
+      .grid__spacer {
+        transform: translateX(-19000%); // 95% / 0.005
+      }
+    }
+  }
+
+  &[data-index="2"] {
+    .our-formula__item {
+      @include mobile-down {
+        transform: translateX(-211.11111%); // 190% / 0.9
+      }
+      .grid__spacer {
+        transform: translateX(-38000%); // 190% / 0.005
+      }
+    }
+  }
+}

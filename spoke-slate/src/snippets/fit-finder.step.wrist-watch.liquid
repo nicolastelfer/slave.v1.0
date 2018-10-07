@@ -1,0 +1,140 @@
+<section
+  class="
+    fit-finder__item
+    grid__item
+    grid__item--100
+    grid
+    grid--gutter
+    grid--column
+    grid--horizontal-center
+    grid--vertical-space-between
+    js-enable-buttons
+  "
+>
+  <div class="grid__container">
+    <div class="fit-finder__header">
+      <h3 class="fit-finder__title-italic">
+        How do you fasten your <span class="title--secondary">wristwatch</span>?
+      </h3>
+
+      <div
+        class="
+          fit-finder__radios
+          fit-finder__radios--extra-narrow
+          grid
+          grid--nowrap
+          grid--vertical-center
+        "
+      >
+        <div class="grid__container">
+          <div class="fit-finder__watch">
+            {% include 'svg.illustration.watch' %}
+          </div>
+
+          <div class="grid">
+            <div class="grid__container">
+              <label
+                class="
+                  radio
+                  radio--transparent
+                  grid__item
+                  grid__item--100
+                "
+              >
+                <input
+                  class="radio__input"
+                  type="radio"
+                  name="watch"
+                  value="tight"
+                  {% if customer.metafields.fitfinder.watch == 'tight' %}
+                    checked
+                  {% endif %}
+                  required
+                />
+                <span class="radio__box">
+                  Good and tight - I have narrow wrists
+                </span>
+              </label>
+
+              <label
+                class="
+                  radio
+                  radio--transparent
+                  grid__item
+                  grid__item--100
+                "
+              >
+                <input
+                  class="radio__input"
+                  type="radio"
+                  name="watch"
+                  value="middle"
+                  {% if customer.metafields.fitfinder.watch == 'middle' %}
+                    checked
+                  {% endif %}
+                  required
+                />
+                <span class="radio__box">
+                  Somewhere in the middle
+                </span>
+              </label>
+
+              <label
+                class="
+                  radio
+                  radio--transparent
+                  grid__item
+                  grid__item--100
+                "
+              >
+                <input
+                  class="radio__input"
+                  type="radio"
+                  name="watch"
+                  value="loose"
+                  {% if customer.metafields.fitfinder.watch == 'loose' %}
+                    checked
+                  {% endif %}
+                  required
+                />
+                <span class="radio__box">
+                  Pretty loose - I have big wrists
+                </span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fit-finder__buttons">
+      <button
+        class="
+          fit-finder__next
+          button
+          button--secondary
+          button--large-padding
+          button--full-width
+        "
+        type="button"
+        disabled
+        data-analytics-click="Fit Finder Step Completed: Watch"
+        data-analytics-props='{"category": "Fit Finder", "label": "watch", "step": "watch"}'
+        data-analytics-dynamic-props='{"answer": "watch"}'
+      >
+        <span class="button__content">
+          Next question
+        </span>
+      </button>
+
+      <button
+        class="fit-finder__previous"
+        type="button"
+        data-ignore="true"
+      >
+        {% include 'snippet.svg.icon', type:'icon', class:'arrow-previous' %}
+        Back
+      </button>
+    </div>
+  </div>
+</section>

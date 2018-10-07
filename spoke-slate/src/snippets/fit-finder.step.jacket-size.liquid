@@ -1,0 +1,105 @@
+<section
+  class="
+    fit-finder__item
+    grid__item
+    grid__item--100
+    grid
+    grid--gutter
+    grid--column
+    grid--horizontal-center
+    grid--vertical-space-between
+    js-enable-buttons
+  "
+>
+  <div class="grid__container">
+    <div class="fit-finder__header">
+      <h3 class="fit-finder__title-italic">
+        Which <span class="title--secondary">jacket size</span> fits you best today?
+      </h3>
+
+      <p class="fit-finder__copy">
+        To get the fit right on your <span class="title--secondary">chest</span> and your  <span class="title--secondary">shoulders</span> alone.
+        <span class="js-uk-only">In British sizes.</span>
+      </p>
+
+      <div class="fit-finder__radios grid grid--horizontal-center">
+        <div class="grid__container">
+          {% assign jacket_sizes = settings.jacket_sizes | split: ',' %}
+          {% for jacket_size in jacket_sizes %}
+            <label class="fit-finder__radio fit-finder__radio--inline radio radio--circle">
+              <input
+                class="radio__input"
+                name="jacket_size"
+                type="radio"
+                value="{{ jacket_size }}"
+                {% if customer.metafields.fitfinder.jacket_size == jacket_size %}
+                  checked
+                {% endif %}
+                required
+              />
+              <span class="radio__box">
+                {{ jacket_size }}
+              </span>
+            </label>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="fit-finder__radios fit-finder__radios--block-radio">
+        <label class="fit-finder__radio fit-finder__radio--block radio radio--regular radio--plain grid__item grid__item--100">
+          <input
+            class="radio__input"
+            name="jacket_size"
+            type="radio"
+            value="No"
+            {% if customer.metafields.fitfinder.jacket_size == "No" %}
+              checked
+            {% endif %}
+            required
+          />
+          <span class="radio__box radio__box-empty">
+                No idea
+              </span>
+        </label>
+      </div>
+    </div>
+
+    <div class="fit-finder__buttons">
+      <button
+        class="
+          {% unless customer %}
+            fit-finder__next
+          {% endunless %}
+          button
+          button--secondary
+          button--large-padding
+          button--full-width
+        "
+        type="{% if customer %}submit{% else %}button{% endif %}"
+        data-state="ready"
+        data-loading-inspiration="http://codepen.io/designcouch/pen/vXrdjk"
+        data-analytics-click="Fit Finder Step Completed: Jacket Size"
+        data-analytics-props='{"category": "Fit Finder", "label": "jacket size", "step": "jacket size"}'
+        data-analytics-dynamic-props='{"answer": "jacket_size"}'
+        disabled
+      >
+        <span class="button__content">
+          {% if customer %}
+            Get my size
+          {% else %}
+            Next question
+          {% endif %}
+        </span>
+        {% include 'button-loading-junk' %}
+      </button>
+
+      <button
+        class="fit-finder__previous"
+        type="button"
+        data-ignore="true"
+      >
+        {% include 'snippet.svg.icon', type:'icon', class:'arrow-previous' %}
+        Back
+      </button>
+    </div>
+  </div>
+</section>

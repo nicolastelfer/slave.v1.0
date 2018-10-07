@@ -1,0 +1,516 @@
+.header {
+  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+  z-index: 5;
+
+  &__wrapper {
+    background-color: white;
+    height: $header-height-regular;
+    left: 0;
+    position: fixed;
+    top: 0;
+    transition: background-color 0.3s $ease-in-out;
+    width: 100%;
+
+    @include header-large {
+      height: $header-height-large;
+    }
+  }
+
+  &__container {
+    position: relative;
+
+    @include header-small {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+  }
+
+  &__nav {
+    align-items: center;
+    display: flex;
+
+    &--right {
+      justify-content: flex-end;
+    }
+
+    &--large {
+      @include header-small {
+        display: none;
+      }
+    }
+
+    &--small {
+      @include header-large {
+        display: none;
+      }
+    }
+  }
+
+  &__link,
+  &__logo,
+  &__cancel {
+    outline: none;
+  }
+
+  &__link {
+    @include font-family-3-m;
+    @include font-style(12, 2.2, 16);
+    color: $color-palette-1-primary;
+    transition: color 0.3s $ease-in-out;
+    text-transform: uppercase;
+
+    &:not(:first-child) {
+      @include tablet-up {
+        margin-left: 9%;
+      }
+
+      @include desktop-large-up {
+        margin-left: 45px;
+      }
+    }
+
+    &:hover,
+    &:focus {
+      color: $color-palette-1-secondary;
+      text-decoration: none;
+    }
+
+    &--menu,
+    &--cart {
+      @include header-small {
+        height: 50px;
+        position: relative;
+      }
+    }
+
+    &--menu {
+      cursor: pointer;
+
+      @include header-small {
+        width: 55px;
+      }
+
+      .svg--menu {
+        path {
+          stroke: $color-palette-1-primary;
+          transition: stroke 0.3s $ease-in-out;
+        }
+      }
+
+      &:hover,
+      &:focus {
+        .svg--menu {
+          path {
+            stroke: $color-palette-1-secondary;
+          }
+        }
+      }
+    }
+
+    &--cart {
+      @include header-small {
+        cursor: pointer;
+        width: 45px;
+
+        svg {
+          pointer-events: none;
+        }
+      }
+
+      &:hover,
+      &:focus {
+        .svg--cart {
+          path {
+            fill: $color-palette-1-secondary;
+          }
+        }
+      }
+
+      &-has-items {
+        position: relative;
+
+        &::after {
+          background: $color-palette-1-secondary;
+          border: 2px solid $color-palette-3-tertiary;
+          border-radius: 50%;
+          box-sizing: border-box;
+          content: "";
+          height: 9px;
+          margin-left: 5px;
+          margin-top: -11px;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          width: 9px;
+
+          @include header-large {
+            border-color: white;
+          }
+        }
+
+        &:hover,
+        &:focus {
+          &::after {
+            @include header-small {
+              border-color: $color-palette-3-secondary;
+            }
+          }
+        }
+      }
+    }
+
+    .svg--menu,
+    .svg--cart {
+      cursor: pointer;
+      display: block;
+      pointer-events: none;
+
+      @include header-small {
+        left: 50%;
+        position: absolute;
+        top: 50%;
+      }
+    }
+
+    .svg--menu {
+      height: 16px;
+      width: 27px;
+
+      @include header-small {
+        margin-left: -13px;
+        margin-top: -8px;
+      }
+
+      path {
+        stroke: $color-palette-1-primary;
+        transition: stroke 0.3s $ease-in-out;
+      }
+    }
+
+    .svg--cart {
+      height: 22px;
+      padding-bottom: 3px;
+      width: 18px;
+
+      @include header-small {
+        margin-left: -9px;
+        margin-top: -13px;
+      }
+
+      path {
+        fill: $color-palette-1-primary;
+        transition: fill 0.3s $ease-in-out;
+      }
+    }
+  }
+
+  &__badge {
+    color: $color-palette-1-secondary;
+    display: inline-block;
+    @extend %label-title;
+    @include font-family-3-m;
+    margin-left: 0;
+    position: relative;
+    text-align: center;
+  }
+
+  &__dropdown {
+    position: relative;
+
+    &:not([data-open]) {
+      .svg--arrow-up {
+        display: none;
+      }
+
+      .header__dropdown-list {
+        opacity: 0;
+        transform: scale(0);
+      }
+    }
+
+    &[data-open] {
+      .svg--arrow-down {
+        display: none;
+      }
+    }
+  }
+
+  &__dropdown-button {
+    cursor: pointer;
+    margin-bottom: 9px;
+    padding-right: 18px;
+    position: relative;
+
+    .svg--arrow-up,
+    .svg--arrow-down {
+      display: block;
+      height: 7px;
+      margin-top: -4px;
+      pointer-events: none;
+      position: absolute;
+      right: 0;
+      top: 50%;
+      width: 12px;
+
+      path {
+        stroke: $color-palette-1-primary;
+        transition: stroke 0.3s $ease-in-out;
+      }
+    }
+
+    &:hover,
+    &:focus {
+      .svg--arrow-up,
+      .svg--arrow-down {
+        path {
+          stroke: $color-palette-1-secondary;
+        }
+      }
+    }
+  }
+
+  &__dropdown-list {
+    background: white;
+    left: -30px;
+    margin-top: 30px;
+    padding: 11px 81px 12px 30px;
+    position: absolute;
+    top: 100%;
+    transform-origin: top;
+    transition: all 0.3s $ease-in-out;
+    width: 100%;
+    z-index: 2;
+
+    .header__link {
+      color: $color-palette-1-primary !important;
+      line-height: 50px;
+      margin-left: 0 !important;
+      white-space: nowrap;
+
+      &:hover,
+      &:focus {
+        color: $color-palette-1-secondary !important;
+      }
+    }
+  }
+
+  &__logo {
+    flex-grow: 0;
+
+    .svg--logo {
+      display: block;
+      height: 30px;
+      width: 51.6px;
+
+      @include header-large {
+        height: 50px;
+        width: 87px;
+      }
+
+      path {
+        fill: $color-palette-1-primary;
+        transition: fill 0.3s $ease-in-out;
+      }
+    }
+
+    &:hover,
+    &:focus {
+      .svg--logo {
+        path {
+          fill: $color-palette-1-secondary;
+        }
+      }
+    }
+  }
+
+  &__logo,
+  &__cancel {
+    position: relative;
+    z-index: 1;
+  }
+
+  &__cancel {
+    font-style: italic;
+    text-align: right;
+    text-decoration: underline;
+
+    @include header-small {
+      margin-right: 14px;
+    }
+  }
+
+  &__cancel-link {
+    color: $color-palette-1-primary;
+
+    &:hover,
+    &:focus {
+      color: $color-palette-1-secondary;
+    }
+  }
+
+  &__log-in {
+    @include font-family-3-m;
+    @include font-style(12,2.2, null);
+    margin-left: 45px;
+  }
+
+  &--overlay {
+    position: absolute;
+
+    .header__link {
+      &--cart {
+        &-has-items {
+          &::after {
+            border: none;
+            height: 5px;
+            margin-left: 7px;
+            margin-top: -9px;
+            width: 5px;
+          }
+        }
+      }
+    }
+
+    &.header--static {
+      @include header-large {
+        .header__wrapper {
+          background-color: transparent;
+        }
+
+        .header__link {
+          color: white;
+
+          .svg--cart {
+            path {
+              fill: white;
+            }
+          }
+
+          &:hover,
+          &:focus {
+            color: $color-palette-1-secondary;
+
+            .svg--cart {
+              path {
+                fill: $color-palette-1-secondary;
+              }
+            }
+          }
+        }
+
+        .header__dropdown-button {
+          .svg--arrow-up,
+          .svg--arrow-down {
+            path {
+              stroke: white;
+            }
+          }
+
+          &:hover,
+          &:focus {
+            .svg--arrow-up,
+            .svg--arrow-down {
+              path {
+                stroke: $color-palette-1-secondary;
+              }
+            }
+          }
+        }
+
+        .header__logo {
+          .svg--logo {
+            path {
+              fill: white;
+            }
+          }
+
+          &:hover,
+          &:focus {
+            .svg--logo {
+              path {
+                fill: $color-palette-1-secondary;
+              }
+            }
+          }
+        }
+
+        &:hover {
+          .header__wrapper {
+            background-color: white;
+          }
+
+          .header__link {
+            color: $color-palette-1-primary;
+
+            .svg--cart {
+              path {
+                fill: $color-palette-1-primary;
+              }
+            }
+
+            &:hover,
+            &:focus {
+              color: $color-palette-1-secondary;
+
+              .svg--cart {
+                path {
+                  fill: $color-palette-1-secondary;
+                }
+              }
+            }
+          }
+
+          .header__dropdown-button {
+            .svg--arrow-up,
+            .svg--arrow-down {
+              path {
+                stroke: $color-palette-1-primary;
+              }
+            }
+
+            &:hover,
+            &:focus {
+              .svg--arrow-up,
+              .svg--arrow-down {
+                path {
+                  stroke: $color-palette-1-secondary;
+                }
+              }
+            }
+          }
+
+          .header__logo {
+            .svg--logo {
+              path {
+                fill: $color-palette-1-primary;
+              }
+            }
+
+            &:hover,
+            &:focus {
+              .svg--logo {
+                path {
+                  fill: $color-palette-1-secondary;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &--static {
+    .header__wrapper {
+      position: static;
+    }
+  }
+
+  &--with-border {
+    @include tablet-up {
+      border-bottom: 1px solid $color-palette-3-secondary;
+    }
+  }
+}

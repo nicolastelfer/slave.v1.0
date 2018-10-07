@@ -1,0 +1,78 @@
+<section
+  class="
+    fit-finder__item
+    grid__item
+    grid__item--100
+    grid
+    grid--gutter
+    grid--column
+    grid--horizontal-center
+    grid--vertical-space-between
+    js-enable-buttons
+  "
+>
+  <div class="grid__container">
+    <div class="fit-finder__header">
+      <h3 class="fit-finder__title-italic">
+        What is the most common <span class="title--secondary">waist size</span> <span class="copy-divider">in your wardrobe today?</span>
+      </h3>
+
+      <!--<p class="fit-finder__byline">
+        What is the most common in your wardrobe today?
+      </p>-->
+
+      <div class="fit-finder__radios grid grid--horizontal-center">
+        <div class="grid__container">
+          {% assign waists = settings.trouser_waist_sizes | split: ',' %}
+          {% for waist in waists %}
+            <label class="fit-finder__radio fit-finder__radio--inline radio radio--circle">
+              <input
+                class="radio__input"
+                name="waist"
+                type="radio"
+                value="{{ waist }}"
+                {% if customer.metafields.fitfinder.waist == waist %}
+                  checked
+                {% endif %}
+                required
+              />
+              <span class="radio__box">
+                {{ waist }}
+              </span>
+            </label>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="fit-finder__buttons">
+      <button
+        class="
+          fit-finder__next
+          button
+          button--secondary
+          button--large-padding
+          button--full-width
+        "
+        type="button"
+        disabled
+        data-analytics-click="Fit Finder Step Completed: Waist"
+        data-analytics-props='{"category": "Fit Finder", "label": "waist", "step": "waist"}'
+        data-analytics-dynamic-props='{"answer": "waist"}'
+      >
+        <span class="button__content">
+          Next question
+        </span>
+      </button>
+
+      <button
+        class="fit-finder__previous"
+        type="button"
+        data-ignore="true"
+      >
+        {% include 'snippet.svg.icon', type:'icon', class:'arrow-previous' %}
+        Back
+      </button>
+    </div>
+  </div>
+</section>

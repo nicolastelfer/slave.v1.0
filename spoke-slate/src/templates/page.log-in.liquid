@@ -1,0 +1,107 @@
+<section class="grid grid--grey grid--gutter grid--padding-bottom">
+  <div class="grid__container">
+    <div class="grid__item grid__item--100 grid__item--padding-top">
+      <div class="card grid grid--full-height grid--horizontal-space-around">
+        {% form 'customer_login', class: 'form form--center card__container grid__container js-log-in' %}
+          <div
+            class="
+              card__section
+              card__section--center
+              card__section--form-half
+              card__section--column
+              card__section--vertical-padding-large
+              grid__item
+            "
+          >
+            {% for error in form.errors %}
+              <span
+                class="flash-msg"
+                data-msg="Your password wasn't quite right."
+                data-type="error"
+              >
+              </span>
+            {% endfor %}
+
+            <h2 class="form__title">
+              Returning customer
+            </h2>
+
+            <input
+              class="form__input"
+              name="customer[email]"
+              placeholder="Email address"
+              type="email"
+            />
+
+            <input
+              class="form__input"
+              name="customer[password]"
+              placeholder="Password"
+              type="password"
+            />
+
+            <input
+              name="permanentDomain"
+              type="hidden"
+              value="{{ shop.permanent_domain }}"
+            />
+
+            <input
+              type="hidden"
+              name="checkout_url"
+              value="/cart"
+            />
+
+            <button
+              class="
+                form__button
+                button
+                button--primary
+                button--full-width
+              "
+              type="submit"
+            >
+              <span class="button__content">
+                Log in
+              </span>
+            </button>
+
+            <p class="form__link">
+              <a href="/pages/forgotten-password">
+                Forgotten your password?
+              </a>
+            </p>
+          </div>
+
+          <div
+            class="
+              card__section
+              card__section--center
+              card__section--form-half
+              card__section--column
+              card__section--vertical-padding-large
+              grid__item
+            "
+          >
+            <h2 class="form__title">
+              New customer
+            </h2>
+            <a
+              class="
+                form__button
+                button
+                button--secondary
+                button--full-width
+              "
+              href="/cart"
+            >
+              <span class="button__content">
+                Continue
+              </span>
+            </a>
+          </div>
+        {% endform %}
+      </div>
+    </div>
+  </div>
+</section>

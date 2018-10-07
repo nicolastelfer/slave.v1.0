@@ -1,0 +1,174 @@
+{% include 'fit-finder.wrapper' %}
+
+{% include 'how-sizing-works' %}
+
+<section
+  class="
+    old-fashioned
+    grid
+    grid--column
+    grid--gutter
+    grid--horizontal-center
+    grid--grey-light
+    grid--border-top
+  "
+>
+  <div class="grid__container">
+    <h2 class="old-fashioned__title">
+      The old fashioned method
+    </h2>
+
+    <p class="old-fashioned__byline">
+      If you'd like to DIY, follow these steps.
+    </p>
+
+    <div class="old-fashioned__list grid grid--nowrap">
+      <ul class="old-fashioned__list-container grid__container">
+        <li class="old-fashioned__item grid__item">
+          <div class="old-fashioned__img">
+            {% include 'svg.illustration.old-fashioned-1'%}
+          </div>
+
+          <div class="old-fashioned__icon">
+            {% include 'snippet.svg.icon', type:'icon', class:'tape' %}
+          </div>
+
+          <div class="old-fashioned__item-content">
+            <h3 class="old-fashioned__item-number">
+              Step 1
+            </h3>
+
+            <h4 class="old-fashioned__item-title">
+              Find a tape
+            </h4>
+
+            <p class="old-fashioned__item-copy">
+              If you don't have one, click here and we’ll send you one. For
+              free. No catch.
+            </p>
+
+            <button
+              class="
+                old-fashioned__item-button
+                button
+                button--border
+                button--primary
+                js-open-lightbox
+              "
+              type="button"
+              data-lightbox="order-tape"
+            >
+              <span class="button__content">
+                Order a tape
+              </span>
+            </button>
+          </div>
+        </li>
+
+        <li class="old-fashioned__item grid__item">
+          <div class="old-fashioned__img">
+            {% include 'svg.illustration.old-fashioned-2'%}
+          </div>
+
+          <div class="old-fashioned__icon">
+            {% include 'snippet.svg.icon', type:'icon', class:'measure' %}
+          </div>
+
+          <div class="old-fashioned__item-content">
+            <h3 class="old-fashioned__item-number">
+              Step 2
+            </h3>
+
+            <h4 class="old-fashioned__item-title">
+              Measure your favourite
+            </h4>
+
+            <p class="old-fashioned__item-copy">
+              Find your favourite pair of trousers or shirt, then follow these
+              instructions.
+            </p>
+
+            <button
+              class="
+                old-fashioned__item-button
+                button
+                button--border
+                button--primary
+                js-open-lightbox
+              "
+              type="button"
+              data-lightbox="how-to-measure"
+            >
+              <span class="button__content">
+                How to measure
+              </span>
+            </button>
+          </div>
+        </li>
+
+        <li class="old-fashioned__item grid__item">
+          <div class="old-fashioned__img">
+            {% include 'svg.illustration.old-fashioned-3'%}
+          </div>
+
+          <div class="old-fashioned__icon">
+            {% include 'snippet.svg.icon', type:'icon', class:'charts' %}
+          </div>
+
+          <div class="old-fashioned__item-content">
+            <h3 class="old-fashioned__item-number">
+              Step 3
+            </h3>
+
+            <h4 class="old-fashioned__item-title">
+              Check our charts
+            </h4>
+
+            <p class="old-fashioned__item-copy">
+              Compare the measurements you've taken to our products with our
+              size chart.
+            </p>
+
+            <a
+              class="
+                old-fashioned__item-button
+                button
+                button--border
+                button--primary
+              "
+              href="/pages/trouser-size-chart"
+            >
+              <span class="button__content">
+                See our numbers
+              </span>
+            </a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+<section class="
+    grid
+    grid--column
+    grid--gutter
+    grid--white
+    grid--horizontal-center
+    grid--border-top
+    reviews">
+    <div class="grid__container">
+      <h2 class="reviews__title">
+        Our Reviews
+      </h2>
+
+      <p class="reviews__byline">
+        Find out what our customers are saying about us
+      </p>
+
+      <!-- TrustBox widget - List -->
+      <div class="trustpilot-widget grid--nowrap grid--nogrow" data-locale="en-GB" data-template-id="539ad60defb9600b94d7df2c" data-businessunit-id="5801fde30000ff0005961054" data-style-height="500px" data-style-width="100%" data-theme="light" data-stars="4,5">
+        <a href="https://uk.trustpilot.com/review/spoke-london.com" target="_blank">Trustpilot</a>
+      </div>
+      <!-- End TrustBox widget -->
+    </div>
+</section>

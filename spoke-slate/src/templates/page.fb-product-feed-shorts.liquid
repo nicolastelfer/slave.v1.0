@@ -1,0 +1,31 @@
+{% layout none %}<?xml version="1.0" encoding="UTF-8" ?>
+<rss xmlns:g="http://base.google.com/ns/1.0" version="2.0">
+    <channel>
+        <title>{{shop.name | escape }} - Facebook Product Feed - Shorts</title>
+        <description>Shorts by SPOKE</description>
+        <link>{{shop.url}}</link>
+        {% paginate collections.all-products.products by 1000 %}{% for product in collections.facebook-product-feed-shorts.products %}
+            <item>
+                <id>{{product.id}}</id>
+              	<title>{{product.title}} - {{product.type}}</title>
+                <description>{{ product.description | strip_html | strip_newlines | replace: 'amp;', '#038;' | replace: "..", ". " | replace: "  ", " " | replace: "â€˜", "&#39;" | replace: "â€™", "&#39;" | replace: "&#8216;", "&#39;" | replace: "&#8217;", "&#39;" | replace: "&#8217;", "&#39;" | replace: "Ã¢â‚¬â„¢", "&#39;" | replace: "Ã¢â‚¬Å“", "&#39;" | replace: "Ã¢â‚¬Ëœ", "&#39;"  | replace: "Ã‚Â´", "&#39;" | replace: "â€œ", "&#34;" | replace: "â€", "&#34;" | replace: "&#8211;", "-" | replace: "Ã¢â‚¬â€œ", "-" | replace: "Ã¢â‚¬â€", "-" | replace: "â€“", "&mdash;" | replace: "â€”", "&mdash;" | replace: "%", "&#37;" | replace: "Ã‚Â©", "&copy;" | replace: "Ã‚Â®", "&reg;" | replace: "Ã¢â€žÂ¢", "&trade;" | replace: "Ã‚Â£", "&pound;" | replace: "Ã¯Â¿Â­", "&#42;" | replace: "Ã¢â‚¬Â¢", "&#42;" | replace: "Ã¢â‚¬Â", "&#39;" | replace: "&#233;", "e" | replace: "Ã©", "e" | replace: "Ã ", "a" | replace: "Ã³", "o" | replace: "Ãª", "e" | replace: "ÃƒËœ", "O" | replace: "&#8482;", "" | replace: "&#174;", "" }}</description>
+                <link>{{shop.url}}{{product.url}}</link>
+                <image_link>https:{{ product.images[2].src | product_img_url: "master" }}</image_link>
+                <g:image_link>https:{{ product.images[2].src | product_img_url: "master" }}</g:image_link>
+                <brand>SPOKE</brand>
+                <g:brand>SPOKE</g:brand>
+                <g:mpn>{% assign current_variant = product.selected_or_first_available_variant %}{{ current_variant.sku }}</g:mpn>
+                <condition>New</condition>
+                <g:condition>New</g:condition>	
+                <availability>{% if product.available == true %}in stock{% else %}out of stock{% endif %}</availability>
+                <g:availability>{% if product.available == true %}in stock{% else %}out of stock{% endif %}</g:availability>
+                <price>{{product.price | money_without_currency}} {{shop.currency}}</price>
+                <g:price>{{product.price | money_without_currency}} {{shop.currency}}</g:price>
+                <age_group>adult</age_group>
+                <gender>male</gender>
+                <google_product_category>Apparel &#038; Accessories > Clothing > Shorts</google_product_category>
+                <product_type>Short</product_type>
+            </item>
+        {% endfor %}{% endpaginate %}
+    </channel>
+</rss>

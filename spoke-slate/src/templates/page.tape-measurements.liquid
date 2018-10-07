@@ -1,0 +1,22 @@
+<div class="content grid grid--column-mobile-down grid--horizontal-center grid--full-width">
+  <div class="grid__container">
+    <header class="content__header">
+      <h2 class="content__title">
+        {{ page.title }}
+      </h2>
+    </header>
+
+    <div class="grid grid__item grid--gutter grid--horizontal-center grid--white">
+      <div class="grid__container">
+        <div class="content__wrapper">
+
+          <p class="lightbox__byline">
+            {{ page.content }}
+          </p>
+
+          {% include 'tape-measure', size:'small' %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,334 @@
+.checkbox {
+  @extend .radio;
+
+  &:hover {
+    .checkbox__input:not(:checked) {
+      + .checkbox__box {
+        color: $color-palette-1-secondary;
+      }
+    }
+  }
+
+  &__input {
+    left: 50%;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    z-index: -1;
+  }
+
+  &__box {
+    box-sizing: border-box;
+    display: block;
+    pointer-events: none;
+    position: relative;
+    transition: all 0.3s $ease-in-out;
+
+    &::before,
+    &::after {
+      transition: all 0.3s $ease-in-out;
+    }
+  }
+
+  &--regular,
+  &--transparent,
+  &--img {
+    .checkbox__input {
+      &:checked {
+        + .checkbox__box {
+          &::after {
+            content: "";
+            background-color: $color-palette-1-secondary;
+            border-radius: 0;
+            box-sizing: border-box;
+            height: 13px;
+            position: absolute;
+            width: 13px;
+          }
+        }
+      }
+
+      &:checked,
+      &:focus {
+        + .checkbox__box {
+          &::before {
+            border-color: $color-palette-1-secondary;
+          }
+        }
+      }
+    }
+
+    .checkbox__box {
+      &::before {
+        content: "";
+        border-radius: 0;
+        box-sizing: border-box;
+        border: 1px solid $color-palette-1-primary-light;
+        height: 25px;
+        position: absolute;
+        width: 25px;
+      }
+    }
+
+    &:hover {
+      .checkbox__box {
+        &::before {
+          border-color: $color-palette-1-secondary;
+        }
+      }
+    }
+  }
+
+  &--regular,
+  &--transparent {
+    .checkbox__input:checked {
+      + .checkbox__box {
+        &::after {
+          margin-top: -6px;
+          top: 17px;
+        }
+      }
+    }
+
+    .checkbox__box {
+      &::before {
+        margin-top: -12px;
+        top: 17px;
+      }
+    }
+  }
+
+  &--regular {
+    .checkbox__input {
+      &:checked {
+        + .checkbox__box {
+          background-color: #FFF1EE;
+          border-color: $color-palette-1-secondary;
+          color: $color-palette-1-secondary;
+
+          &::after {
+            right: 28px;
+          }
+        }
+      }
+
+      &:focus:not(:checked) {
+        + .checkbox__box {
+          border-color: $color-palette-1-secondary;
+          color: $color-palette-1-secondary;
+        }
+      }
+    }
+
+    .checkbox__box {
+      @extend %copy--large;
+      background-color: white;
+      border: 1px solid $color-palette-1-primary-lighter-max;
+      border-radius: 2px;
+      line-height: 21px;
+      padding: 10px 70px 10px 20px;
+      text-align: left;
+
+      &--no-border {
+        border: none;
+      }
+
+      &::before {
+        right: 22px;
+      }
+    }
+
+    &:hover {
+      .checkbox__box {
+        border-color: $color-palette-1-secondary;
+        color: $color-palette-1-secondary;
+      }
+    }
+  }
+
+  &--left-align {
+    .checkbox__input {
+      &:checked {
+        + .checkbox__box {
+          background-color: transparent;
+          &::after {
+            left: 6px;
+            right: inherit;
+          }
+        }
+      }
+      &:checked,
+      &:focus {
+        + .checkbox__box {
+          background-color: transparent;
+          &::after {
+            margin-top: -8px;
+          }
+        }
+      }
+    }
+
+    .checkbox__box {
+      padding: 10px 0 10px 35px;
+
+      &::before {
+        left: 0px;
+        margin-top: -14px;
+        right: inherit;
+      }
+    }
+  }
+
+  &--transparent {
+    .checkbox__input:checked {
+      + .checkbox__box {
+        &::after {
+          left: 6px;
+        }
+      }
+    }
+
+    .checkbox__box {
+      @extend %copy--regular;
+      background-color: transparent;
+      border-radius: 2px;
+      line-height: 20px;
+      padding-bottom: 5px;
+      padding-left: 38px;
+      padding-top: 5px;
+      text-align: left;
+
+      &::before {
+        left: 0;
+      }
+    }
+  }
+
+  &--spaced {
+    margin: 10px 0 0;
+  }
+
+  &--small {
+    .checkbox__box {
+      padding-left: 28px;
+      &::before {
+        height: 20px;
+        width: 20px;
+      }
+    }
+    .checkbox__input {
+      &:checked {
+        + .checkbox__box::after {
+          height: 8px;
+          width: 8px;
+        }
+      }
+    }
+  }
+
+  &--circle,
+  &--square {
+    .checkbox__input {
+      &:checked {
+        + .checkbox__box {
+          background-color: $color-palette-1-secondary;
+          border-color: $color-palette-1-secondary;
+          color: white;
+        }
+      }
+
+      &:focus:not(:checked) {
+        + .checkbox__box {
+          border-color: $color-palette-1-secondary;
+          color: $color-palette-1-secondary;
+        }
+      }
+    }
+
+    .checkbox__box {
+      @extend %copy;
+      align-items: center;
+      background-color: white;
+      border: 1px solid $color-palette-3-primary;
+      display: flex;
+      justify-content: center;
+    }
+
+    &:hover {
+      .checkbox__input:not(:checked) {
+        + .checkbox__box {
+          border-color: $color-palette-1-secondary;
+          color: $color-palette-1-secondary;
+        }
+      }
+    }
+  }
+
+  &--circle {
+    .checkbox__box {
+      border-radius: 50%;
+      height: 56px;
+      width: 56px;
+    }
+  }
+
+  &--square {
+    .checkbox__box {
+      height: 50px;
+
+      @include tablet-up {
+        height: 60px;
+      }
+    }
+  }
+
+  &--img {
+    .checkbox__input:checked {
+      + .checkbox__box {
+        background-color: white;
+        border-color: $color-palette-3-primary;
+
+        &::after {
+          bottom: 51px;
+          margin-left: -6px;
+          left: 50%;
+
+          @include tablet-up {
+            bottom: 71px;
+          }
+        }
+      }
+    }
+
+    .checkbox__box {
+      @extend %font-18;
+      background-color: white;
+      background-position: center bottom 85px;
+      background-repeat: no-repeat;
+      border: 1px solid $color-palette-3-primary;
+      padding: 240px 14px 10px 14px;
+      text-align: center;
+      width: 100%;
+
+      @include tablet-up {
+        background-color: $color-palette-3-tertiary;
+        background-position: center bottom 110px;
+        border: 1px solid $color-palette-3-tertiary;
+        padding-bottom: 30px;
+        padding-top: 270px;
+      }
+
+      &::before {
+        bottom: 45px;
+        left: 50%;
+        margin-left: -12px;
+
+        @include tablet-up {
+          bottom: 65px;
+        }
+      }
+
+    }
+
+  }
+}

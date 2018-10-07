@@ -1,0 +1,19 @@
+{% layout none %}<?xml version="1.0" encoding="utf-8" ?>
+{% paginate collections.all-products.products by 1000 %}
+<merchant>{% for product in collections.awin-product-feed-polos.products %}
+    <product weboffer="no" preorder="no" instock="yes" forsale="yes">
+        {% if product.type == 'Polo' %}<name>{{ product.metafields.global.title_tag }}</name>
+            {% elsif product.type == 'Shorts' %}<name>{{ product.metafields.global.title_tag }}</name>
+        {% else %}<name>{{ product.metafields.global.title_tag }} - {{ product.type | strip_html | strip_newlines | escape | replace: 'amp;', 'and' | replace: '&#38;', 'and' | replace: "Ã©", "e" | replace: "Ã ", "a" }}</name>{% endif %}
+      <pid>{{product.id}}</pid>
+      <desc>{{ product.description | strip_html | strip_newlines | replace: 'amp;', '#038;' | replace: "..", ". " | replace: "  ", " " | replace: "â€˜", "&#39;" | replace: "â€™", "&#39;" | replace: "&#8216;", "&#39;" | replace: "&#8217;", "&#39;" | replace: "&#8217;", "&#39;" | replace: "Ã¢â‚¬â„¢", "&#39;" | replace: "Ã¢â‚¬Å“", "&#39;" | replace: "Ã¢â‚¬Ëœ", "&#39;"  | replace: "Ã‚Â´", "&#39;" | replace: "â€œ", "&#34;" | replace: "â€", "&#34;" | replace: "&#8211;", "-" | replace: "Ã¢â‚¬â€œ", "-" | replace: "Ã¢â‚¬â€", "-" | replace: "â€“", "&mdash;" | replace: "â€”", "&mdash;" | replace: "%", "&#37;" | replace: "Ã‚Â©", "&copy;" | replace: "Ã‚Â®", "&reg;" | replace: "Ã¢â€žÂ¢", "&trade;" | replace: "Ã‚Â£", "&pound;" | replace: "Ã¯Â¿Â­", "&#42;" | replace: "Ã¢â‚¬Â¢", "&#42;" | replace: "Ã¢â‚¬Â", "&#39;" | replace: "&#233;", "e" | replace: "Ã©", "e" | replace: "Ã ", "a" | replace: "Ã³", "o" | replace: "Ãª", "e" | replace: "ÃƒËœ", "O" | replace: "&#8482;", "" | replace: "&#174;", "" }}</desc>
+      <category>Polo</category>
+      <purl>{{shop.url}}{{product.url}}</purl>
+      <imgurl>https:{{ product.images[1].src | product_img_url: "master" }}</imgurl>
+      <price>
+        <actualp>{{product.price | money_without_currency}} {{shop.currency}}</actualp>
+      </price>
+    </product>
+    {% endfor %}
+    {% endpaginate %}
+</merchant>

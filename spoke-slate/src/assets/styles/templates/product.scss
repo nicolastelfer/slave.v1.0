@@ -1,7 +1,1 @@
-.product-single__thumbnail-image {
-  border: 2px solid transparent;
-
-  .active-thumbnail & {
-    border-color: $color-border;
-  }
-}
+@import "../components/lightbox/compare-shorts";

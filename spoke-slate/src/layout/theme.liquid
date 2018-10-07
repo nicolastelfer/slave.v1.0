@@ -57,17 +57,301 @@
   {{ content_for_header }}
 </head>
 
-<body id="{{ page_title | handle }}" class="template-{{ template.name | handle }}">
+<body
+    id="{{ page_title | handle }}"
+    class="wrapper template-{{ template.name | handle }}"
+    data-customer-fit='{"customerFit":{{ customerFit }}}'
+    {% if customer %}
+    data-customer-email="{{ customer.email }}"
+    data-customer-id="{{ customer.id }}"
+    data-customer-order-count={{ customer.orders_count }}
+    {% endif %}
+    data-shop-url="{{ shop.url }}"
+    data-shop-name="{{ shop.name }}"
+    data-shop-email="{{ shop.email }}"
+    data-newsletter-delay="{{ settings.newsletter_delay }}"
+    data-newsletter-hide="{{ settings.newsletter_hide }}"
+    data-us-welcome-delay="{{ settings.us-welcome_delay }}"
+    data-us-welcome-hide="{{ settings.us-welcome_hide }}"
+
+    >
 
   <a class="in-page-link visually-hidden skip-link" href="#MainContent">{{ 'general.accessibility.skip_to_content' | t }}</a>
 
-  {% section 'header' %}
+  <div class="wrapper__header">
+    <div
+        class="
+          top
+          {% if template == 'index' %}
+            top--full-screen
+          {% endif %}
+        "
+    >
+      <div class="top__flashes">
+        {% unless settings.flash_show == false or template == 'cart' or template contains 'customers/' %}
+          <section
+              class="
+                flash
+                flash--large
+                flash--primary
+                grid
+                grid--gutter
+                grid--nowrap
+                grid--horizontal-space-between
+                js-toggle-attr
+              "
+              data-key="{{ settings.flash_message | md5 }}"
+              data-toggle-attr="data-hide"
+              data-toggle-transition="100"
+              data-hide
+          >
+            <div class="grid__container">
+              {% unless settings.flash_tag == blank %}
+                <p class="flash__tag">
+                  {{ settings.flash_tag }}
+                </p>
+              {% endunless %}
+              <p class="flash__msg">
+                {{ settings.flash_message }}
+              </p>
+              {% unless settings.flash_link_url == blank or settings.flash_link_text == blank %}
+                <p class="flash__link">
+                  <a
+                      class="super-link super-link--white super-link--underline"
+                      href="{{ settings.flash_link_url }}"
+                  >
+                    {{ settings.flash_link_text }}
+                  </a>
+                </p>
+              {% endunless %}
+              <button
+                  class="flash__button js-toggle-attr__button"
+                  type="button"
+              >
+                {% include 'snippet.svg.icon', type:'icon', class:'close' %}
+              </button>
+            </div>
+          </section>
+        {% endunless %}
+      </div>
 
-  <main role="main" id="MainContent">
+      <div class="top__header-and-content">
+
+        {% if template == 'page.fit-finder' %}
+          {% include 'fit-finder.header' %}
+        {% else %}
+          {% include 'layout.header' %}
+        {% endif %}
+
+        {% if template == 'index' %}
+          {% assign item_count = 0 %}
+
+          {% for i in (1..5) %}
+            {% assign show = 'home_page_carousel_show_' | append: i %}
+            {% if settings[show] %}
+              {% assign item_count = item_count | plus: 1 %}
+            {% endif %}
+          {% endfor %}
+
+          <section
+              class="carousel"
+              data-items="{{ item_count }}"
+              data-index="0"
+              data-autoplay="7000"
+              data-touch="true"
+          >
+            <ul class="carousel__list">
+              {% for i in (1..5) %}
+                {% assign show = 'home_page_carousel_show_' | append: i %}
+
+                {% if settings[show] %}
+                  {% assign bg = 'home_page_carousel_bg_' | append: i %}
+                  {% assign bg_mobile = 'home_page_carousel_bg_mobile_' | append: i %}
+                  {% assign align_tablet_up = 'home_page_carousel_align_' | append: i %}
+                  {% assign align_mobile_down = 'home_page_carousel_align_mobile_' | append: i %}
+                  {% assign title = 'home_page_carousel_title_' | append: i %}
+                  {% assign subtitle = 'home_page_carousel_subtitle_' | append: i %}
+                  {% assign color = 'home_page_carousel_color_' | append: i %}
+                  {% assign gradient = 'home_page_carousel_gradient_' | append: i %}
+                  {% assign button_url = 'home_page_carousel_button_url_' | append: i %}
+                  {% assign button_style = 'home_page_carousel_button_style_' | append: i %}
+                  {% assign button_text = 'home_page_carousel_button_text_' | append: i %}
+                  {% assign mobile_gradient = settings[gradient] %}
+
+                  <li
+                      class="
+                        carousel__item
+                        {% if mobile_gradient %}
+                          carousel__item--gradient
+                        {% endif %}
+                        js-bg-img
+                      "
+                  >
+                    <picture class="carousel__image js-bg-img__src" width="1440" height="780">
+                      <source
+                          media="(max-width: 599px)"
+                          srcset='
+                            {{ settings[bg_mobile] | img_url: "300x" }} 300w,
+                            {{ settings[bg_mobile] | img_url: "600x" }} 600w,
+                            {{ settings[bg_mobile] | img_url: "1200x" }} 1200w
+                          '
+                      >
+                      <source
+                          media="(min-width: 600px)"
+                          srcset="
+                            {{ settings[bg] | img_url: '800x' }} 800w,
+                            {{ settings[bg] | img_url: '1000x' }} 1000w,
+                            {{ settings[bg] | img_url: '1440x' }} 1440w,
+                            {{ settings[bg] | img_url: 'master' }} 2880w
+                          "
+                      >
+                      <img src="{{ settings[bg_mobile] | img_url: '300x' }}" />
+                    </picture>
+
+                    <div
+                        class="
+                          carousel__content
+                          test--{{ settings[align_mobile_down] }}
+                          {% if settings[align_mobile_down] == 'bottom' %}
+                            carousel__content--mobile-bottom
+                            grid--vertical-end-mobile-down
+                          {% endif %}
+                          grid
+                          grid--gutter
+                          grid--column
+                          grid--horizontal-center-mobile-down
+                          grid--vertical-center
+                          {% if settings[align_tablet_up] == 'left' %}
+                            grid--horizontal-start
+                          {% elsif settings[align_tablet_up] == 'center' %}
+                            grid--horizontal-center
+                          {% elsif settings[align_tablet_up] == 'right' %}
+                            grid--horizontal-end
+                          {% endif %}
+                        "
+                    >
+                      <div class="carousel__container grid__container">
+                        <h1
+                            class="carousel__title"
+                            {% if settings[color] %}
+                              style="color: {{ settings[color] }}"
+                            {% endif %}
+                        >
+                          {{ settings[title] }}
+                        </h1>
+
+                        <h3
+                            class="carousel__subtitle"
+                            {% if settings[color] %}
+                              style="color: {{ settings[color] }}"
+                            {% endif %}
+                        >
+                          {{ settings[subtitle] }}
+                        </h3>
+
+                        <a
+                            href="{{ settings[button_url] }}"
+                            class="
+                              carousel__button
+                              button
+                              button--large-padding
+                              button--{{ settings[button_style] }}
+                            "
+                            data-analytics-click="Click"
+                            data-analytics-props='{"category": "Carousel", "label": "{{ settings[title] }} Slide {{ i }}"}'
+                        >
+                            <span class="button__content">
+                              {{ settings[button_text] }}
+                            </span>
+                        </a>
+                      </div>
+                    </div>
+                  </li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+
+            <div
+                class="
+                  carousel__pagination
+                  grid
+                  grid--gutter
+                  grid--horizontal-start
+                "
+            >
+              <ul class="pagination pagination--white grid__container">
+                {% if item_count > 1 %}
+                  {% for i in (1..item_count) %}
+                    <li class="pagination__item">
+                      <button
+                          class="pagination__button"
+                          data-index="{{ forloop.index0 }}"
+                          type="button"
+                      >
+                        Slide {{ i }}
+                      </button>
+                    </li>
+                  {% endfor %}
+                {% endif %}
+              </ul>
+            </div>
+
+            <p class="scroll">
+              <a class="scroll__link js-tinyscroll" href="#content">
+                {% include 'snippet.svg.icon', type:'icon', class:'scroll' %}
+              </a>
+            </p>
+          </section>
+
+          {% elsif template == 'page.about' %}
+
+          <section class="banner js-bg-img">
+            <picture class="banner__image js-bg-img__src" width="1440" height="700">
+              <source
+                  media="(max-width: 599px)"
+                  srcset="
+                    {{ settings.about_page_hero_bg_mobile | img_url: '300x' }} 300w,
+                    {{ settings.about_page_hero_bg_mobile | img_url: '600x' }} 600w,
+                    {{ settings.about_page_hero_bg_mobile | img_url: '1200x' }} 1200w
+                  "
+              >
+              <source
+                  media="(min-width: 600px)"
+                  srcset="
+                    {{ settings.about_page_hero_bg | img_url: '600x' }} 600w,
+                    {{ settings.about_page_hero_bg | img_url: '750x' }} 750w,
+                    {{ settings.about_page_hero_bg | img_url: '1000x' }} 1000w,
+                    {{ settings.about_page_hero_bg | img_url: '1440x' }} 1440w,
+                    {{ settings.about_page_hero_bg | img_url: 'master' }} 2880w
+                  "
+              >
+              <img src="{{ settings.about_page_hero_bg_mobile | img_url: '300x' }}" />
+            </picture>
+
+            <div class="banner__content grid grid--gutter">
+              <div class="banner__container grid__container">
+                <h1 class="banner__title">
+                  {{ settings.about_page_hero_title }}
+                </h1>
+              </div>
+            </div>
+          </section>
+
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+
+  <div class="wrapper__content">
     {{ content_for_layout }}
-  </main>
+  </div>
 
-  {% section 'footer' %}
+  <div class="wrapper__footer">
+    {% include 'layout.footer' %}
+  </div>
+
+  {% include 'lightbox' %}
 
 </body>
 </html>

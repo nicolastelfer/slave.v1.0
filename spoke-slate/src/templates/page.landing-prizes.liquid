@@ -1,0 +1,148 @@
+{% assign content = page.content | split: '|' %}
+
+{% capture bg %}landing_page_image_{{ content[ 0 ] }}{% endcapture %}
+{% capture bg_mobile %}landing_page_image_small_{{ content[ 0 ] }}{% endcapture %}
+
+<div class="landing landing--responsive js-bg-img">
+
+  <picture class="landing__image js-bg-img__src" width="1440" height="700">
+    <source
+      media="(max-width: 599px)"
+      srcset="
+                    {{ settings[bg_mobile] | img_url: '300x' }} 300w,
+                    {{ settings[bg_mobile] | img_url: '600x' }} 600w,
+                    {{ settings[bg_mobile] | img_url: '1200x' }} 1200w
+                  "
+    >
+    <source
+      media="(min-width: 600px)"
+      srcset="
+                    {{ settings[bg] | img_url: '600x' }} 600w,
+                    {{ settings[bg] | img_url: '750x' }} 750w,
+                    {{ settings[bg] | img_url: '1000x' }} 1000w,
+                    {{ settings[bg] | img_url: '1440x' }} 1440w,
+                    {{ settings[bg] | img_url: 'master' }} 2880w
+                  "
+    >
+    <img src="{{ settings[bg] | img_url: '300x' }}" />
+  </picture>
+
+  <div class="landing__cover grid grid--horizontal-end">
+    <div class="landing__container grid__container">
+      <div class="landing__content landing__content--full-width landing__content--small landing__content--plain grid__item">
+        {{ content[ 1 ] }}
+        {% if page.metafields.terms.terms_url %}
+          <p class="content__terms">Read the <a href="{{ page.metafields.terms.terms_url }}" class="link link--inline" target="_blank">terms and conditions</a></p>
+        {%  endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="landing-below-fold">
+  <div class="below-fold__container">
+    <h2>The Gifts *</h2>
+
+    <div class="grid grid--column-mobile-down">
+
+      <div class="grid__container grid__container--center">
+
+        <div class="grid__item">
+          <div class="prizes">
+            <div class="prize-count"><img src="https://cdn.shopify.com/s/files/1/0207/9406/files/sonos.png?188987600287461517" alt="Sonos"></div>
+            <div class="prize-description">
+              A speaker that also listens, <a href="https://www.sonos.com/en-gb/shop/one.html" target="_blank">Sonos One</a> will transform your home entertainment system.
+            </div>
+          </div>
+        </div>
+
+        <div class="grid__item">
+          <div class="prizes">
+            <div class="prize-count"><img src="https://cdn.shopify.com/s/files/1/0207/9406/files/intelligence.png?856201090186324780" alt="Intelligence Squared"></div>
+            <div class="prize-description">
+              <a href="http://www.intelligencesquared.com/events/intelligence-squared-gift-cards/" target="_blank">Intelligence Squared</a> host incisive debates and panel discussions. Join the conversation with this £120 gift card.
+            </div>
+          </div>
+        </div>
+
+        <div class="grid__item">
+          <div class="prizes">
+            <div class="prize-count"><img src="https://cdn.shopify.com/s/files/1/0207/9406/files/sipsmith.png?856201090186324780" alt="Sipsmith"></div>
+            <div class="prize-description">
+              Visit the <a href="https://sipsmith.com/tours/" target="_blank">Sipsmith</a> gin distillery for a spirited tour and gin-tasting tutorial.
+            </div>
+          </div>
+        </div>
+
+        <div class="grid__item">
+          <div class="prizes">
+            <div class="prize-count"><img src="https://cdn.shopify.com/s/files/1/0207/9406/files/meantime.png?188987600287461517" alt="Meantime Brewery"></div>
+            <div class="prize-description">
+              Immerse yourself in beer with a one-day masterclass at the <a href="https://www.meantimebrewing.com/visit/masterclasses" target="_blank">Meantime Brewery</a>.
+            </div>
+          </div>
+        </div>
+
+        <div class="grid__item">
+          <div class="prizes">
+            <div class="prize-count"><img src="https://cdn.shopify.com/s/files/1/0207/9406/files/raw-coffee.png?856201090186324780" alt="Rave Coffee"></div>
+            <div class="prize-description">
+              <a href="https://ravecoffee.co.uk/" target="_blank">Rave Coffee’s</a> 12-month subscription means a year of discovery for coffee lovers.
+            </div>
+          </div>
+        </div>
+
+        <div class="grid__item">
+          <div class="prizes">
+            <div class="prize-count"><img src="https://cdn.shopify.com/s/files/1/0207/9406/files/gentleman-journal.png?188987600287461517" alt="Gentleman’s Journal"></div>
+            <div class="prize-description">
+              A one-year subscription to the wise, witty <a href="https://www.thegentlemansjournal.com/club/" target="_blank">Gentleman’s Journal</a>.
+            </div>
+          </div>
+        </div>
+
+        <div class="grid__item">
+          <div class="prizes">
+            <div class="prize-count"><img src="https://cdn.shopify.com/s/files/1/0207/9406/files/secret-escapes.png?10611357155562774323" alt="Secret Escapes"></div>
+            <div class="prize-description">
+              A £100 voucher from <a href="https://www.secretescapes.com/current-sales" target="_blank">Secret Escapes</a> is the ticket to your first great holiday of 2018.
+            </div>
+          </div>
+        </div>
+
+        <div class="grid__item">
+          <div class="prizes">
+            <div class="prize-count"><img src="https://cdn.shopify.com/s/files/1/0207/9406/files/school-of-life.png?16436807242308473393" alt="School of Life"></div>
+            <div class="prize-description">
+              This £100 gift card buys anything at <a href="https://www.theschooloflife.com/shop/gift-e-voucher-100/" target="_blank">School of Life's online shop</a>, from self-help books to courses and conferences.
+            </div>
+          </div>
+        </div>
+
+        <div class="grid__item">
+          <div class="prizes">
+            <div class="prize-count"><img src="https://cdn.shopify.com/s/files/1/0207/9406/files/comedy-central.png?8737610440748356044" alt="Comedy Store"></div>
+            <div class="prize-description">
+              Hone your heckling with this £75 voucher for the stand-up at the <a href="http://thecomedystore.co.uk/london/tickets-and-information/gift-vouchers/" target="_blank">Comedy Store</a>.
+            </div>
+          </div>
+        </div>
+
+        <div class="grid__item">
+          <div class="prizes">
+            <div class="prize-count"><img src="https://cdn.shopify.com/s/files/1/0207/9406/files/aspinal.png?856201090186324780" alt="Aspinal"></div>
+            <div class="prize-description">
+              This classic hip flask from <a href="https://www.aspinaloflondon.com/products/classic-5oz-leather-hip-flask-in-smooth-cognac" target="_blank">Aspinal of London</a> is bound in English bridle leather.
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <p class="landing__footer-note">*No endorsement by the brands represented in the list of prizes is intended or implied</p>
+
+</div>

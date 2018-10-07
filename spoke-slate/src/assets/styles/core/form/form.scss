@@ -1,0 +1,340 @@
+
+
+input,
+input[type="text"],
+input[type="email"] {
+  appearance: none !important;
+}
+
+
+.form {
+  &__title {
+    color: $color-palette-1-primary;
+
+    + .form__input,
+    + .form__button {
+      margin-top: 21px;
+    }
+
+    + .form__byline {
+      margin-top: 3px;
+    }
+  }
+
+  &__byline {
+    @extend %byline;
+    color: $color-palette-1-primary;
+    margin-bottom: 30px;
+  }
+
+  &__input,
+  &__textarea {
+    @extend %copy--regular;
+    background-color: white;
+    border-radius: 0;
+    box-sizing: border-box;
+    color: $color-palette-1-primary-medium;
+    outline: none;
+    padding: 0 18px;
+    transition: border-color 0.3s $ease-in-out;
+
+    &:focus {
+      border-color: $color-palette-1-primary;
+    }
+
+    &::placeholder {
+      color: $color-palette-1-primary-medium;
+      font-style: italic; 
+      line-height: normal;
+    }
+  }
+
+  &__input {
+    border: 1px solid $color-palette-3-primary;
+    height: $button-height-regular;
+    width: 100%;
+
+    &--with-button-right {
+      border-right: none;
+
+      &-mobile-down {
+        @include mobile-down {
+          border-right: none;
+          width: 70%;
+        }
+      }
+    }
+
+    &--large {
+      height: $button-height-large;
+
+      @include tablet-up {
+        height: $button-height-huge;
+      }
+    }
+
+    + .form__input {
+      margin-top: 10px;
+    }
+
+    &--error {
+      border-color: #DC1E32;
+
+      &::placeholder {
+        color: transparentize(#DC1E32, 0.5);
+      }
+    }
+
+    &[disabled] {
+      background-color: $color-palette-3-secondary;
+      border-color: $color-palette-3-secondary;
+      color: $color-palette-1-primary-light;
+      cursor: default;
+
+      &:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0 100px $color-palette-3-secondary inset;
+        -webkit-text-fill-color: $color-palette-1-primary-light;
+      }
+
+    }
+  }
+
+  &__textarea {
+    border: 1px solid white;
+    padding-bottom: 8px;
+    padding-top: 8px;
+  }
+
+  &__select {
+    position: relative;
+    display: inline-block;
+    width: auto;
+
+    &::after {
+      content: '';
+      border: solid $color-palette-1-primary-light;
+      border-width: 0 3px 3px 0;
+      display: inline-block;
+      padding: 3px;
+      transform: rotate(45deg);
+      -webkit-transform: rotate(45deg);
+      position: absolute;
+      top: 15px;
+      right: 15px;
+    }
+
+
+    select {
+      background-color: white;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      text-indent: 1px;
+      text-overflow: '';
+      @extend %font-17;
+      border: 1px solid $color-palette-3-primary;
+      box-sizing: border-box;
+      border-radius: 0;
+      color: $color-palette-1-primary-light;
+      height: $button-height-regular;
+      line-height: $button-height-regular;
+      padding: 0 18px;
+      min-width: 100px;
+
+    }
+  }
+
+  &__link {
+    color: $color-palette-1-primary-lighter-max;
+    margin-top: 30px;
+
+    a {
+      color: $color-palette-1-primary-lighter-max;
+    }
+
+    &--separator {
+      border-top: 1px solid $color-palette-3-primary;
+      color: $color-palette-1-primary;
+      margin-top: 30px;
+      padding-top: 30px;
+
+      a.link--inline {
+        color: $color-palette-1-secondary;
+        font-style: normal;
+      }
+    }
+  }
+
+  &__button {
+    margin-top: 10px;
+
+    &.form__button--inline-mobile-down {
+      @include mobile-down {
+        margin-top: 0;
+      }
+    }
+  }
+
+  &__label {
+    @extend %copy;
+    color: $color-palette-1-primary;
+    display: block;
+
+    &:not(:first-child) {
+      margin-top: 50px;
+    }
+
+    &--small {
+      &:not(:first-child) {
+        margin-top: 20px;
+      }
+    }
+
+    &--required {
+      &::after {
+        content: "*";
+        color: #DC1E32;
+      }
+    }
+
+    + .form__input,
+    + .form__textarea {
+      margin-top: 14px;
+    }
+
+    + .form__radios {
+      margin-top: 7px;
+    }
+  }
+
+  &__radio, &__checkbox {
+    display: flex;
+    padding-top: 19px;
+
+    &-input {
+
+      &:hover,
+      &:focus {
+        + .form__radio-label, form__checkbox-label {
+          .form__radio-box, .form__checkbox-box {
+            border-color: $color-palette-1-secondary;
+          }
+        }
+      }
+
+      &:checked {
+        + .form__radio-label, .form__checkbox-label  {
+          .form__radio-box, .form__checkbox-box {
+            border-color: $color-palette-1-secondary;
+
+            &::after {
+              background-color: $color-palette-1-secondary;
+            }
+          }
+        }
+      }
+    }
+
+    &-label {
+      @extend %label-title;
+      align-items: center;
+      color: $color-palette-1-primary;
+      cursor: pointer;
+      display: flex;
+
+      &:hover,
+      &:focus {
+        .form__radio-box {
+          border-color: $color-palette-1-secondary;
+        }
+      }
+    }
+
+    &-box {
+      border: 1px solid $color-palette-1-primary-lighter-max;
+      border-radius: 50%;
+      box-sizing: border-box;
+      display: block;
+      height: 24px;
+      margin-bottom: 2px;
+      margin-right: 5px;
+      position: relative;
+      transition: border 0.3s $ease-in-out;
+      width: 24px;
+
+      &::after {
+        background-color: transparent;
+        border-radius: 50%;
+        content: "";
+        height: 12px;
+        left: 5px;
+        position: absolute;
+        top: 5px;
+        transition: background-color 0.3s $ease-in-out;
+        width: 12px;
+      }
+    }
+
+    + .form__input {
+      margin-top: 12px;
+    }
+  }
+
+  &__error {
+    @extend %label-title;
+    color: #DC1E32;
+    margin-top: 8px;
+
+    .form__input {
+      margin-top: 10px;
+    }
+  }
+
+
+  &--feedback {
+    max-width: 830px;
+    padding-bottom: 170px;
+    padding-top: 86px;
+    width: 100%;
+
+    .form__container {
+      @extend %center;
+      max-width: 608px;
+      margin-top: 32px;
+      padding-top: 56px;
+      position: relative;
+
+      &::before {
+        content: "";
+        width: 28px;
+        height: 3px;
+        background-color: $color-palette-3-primary;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        margin-left: -14px;
+      }
+    }
+
+    .form__textarea {
+      border-color: $color-palette-3-primary;
+      height: 180px;
+      width: 100%;
+    }
+
+    .form__button {
+      @extend %center;
+      display: block;
+      margin-top: 120px;
+    }
+  }
+
+  &__error {
+    @extend %label-title;
+    color: #DC1E32;
+
+    + .form__input {
+      margin-top: 10px;
+    }
+  }
+
+}

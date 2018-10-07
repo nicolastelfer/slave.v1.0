@@ -1,0 +1,189 @@
+<section
+  class="
+    fit-finder__item
+    grid__item
+    grid__item--100
+    grid
+    grid--gutter
+    grid--column
+    grid--horizontal-center
+    grid--vertical-space-between
+    js-enable-buttons
+  "
+>
+  <div class="grid__container">
+    <div class="fit-finder__header">
+      <h2 class="fit-finder__title">
+        How does <span class="js-bind__text">this</span> t-shirt size
+        usually fit?
+      </h2>
+
+      <p class="fit-finder__byline">
+        Pick the statement that applies best.
+      </p>
+
+      <div class="fit-finder__radios fit-finder__radios--narrow grid">
+        <div class="grid__container">
+          <label
+            class="
+              fit-finder__radio
+              radio
+              radio--regular
+              grid__item
+              grid__item--100
+            "
+          >
+            <input
+              class="radio__input"
+              type="radio"
+              name="tshirt_fit"
+              value="perfect"
+              {% if customer.metafields.fitfinder.tshirt_fit == 'perfect' %}
+                checked
+              {% endif %}
+              required
+            />
+            <span class="radio__box">
+              It's usually perfect
+            </span>
+          </label>
+
+          <label
+            class="
+              fit-finder__radio
+              radio
+              radio--regular
+              grid__item
+              grid__item--100
+            "
+          >
+            <input
+              class="radio__input"
+              type="radio"
+              name="tshirt_fit"
+              value="small"
+              {% if customer.metafields.fitfinder.tshirt_fit == 'small' %}
+                checked
+              {% endif %}
+              required
+            />
+            <span class="radio__box">
+              After a wash, it's a little small
+            </span>
+          </label>
+
+          <label
+            class="
+              fit-finder__radio
+              radio
+              radio--regular
+              grid__item
+              grid__item--100
+            "
+          >
+            <input
+              class="radio__input"
+              type="radio"
+              name="tshirt_fit"
+              value="big"
+              {% if customer.metafields.fitfinder.tshirt_fit == 'long' %}
+                checked
+              {% endif %}
+              required
+            />
+            <span class="radio__box">
+              It's often a little big and boxy
+            </span>
+          </label>
+
+          <label
+            class="
+              fit-finder__radio
+              radio
+              radio--regular
+              grid__item
+              grid__item--100
+            "
+          >
+            <input
+              class="radio__input"
+              type="radio"
+              name="tshirt_fit"
+              value="short"
+              {% if customer.metafields.fitfinder.tshirt_fit == 'short' %}
+                checked
+              {% endif %}
+              required
+            />
+            <span class="radio__box">
+              It's often a little short
+            </span>
+          </label>
+
+          <label
+            class="
+              fit-finder__radio
+              radio
+              radio--regular
+              grid__item
+              grid__item--100
+            "
+          >
+            <input
+              class="radio__input"
+              type="radio"
+              name="tshirt_fit"
+              value="long"
+              {% if customer.metafields.fitfinder.tshirt_fit == 'long' %}
+                checked
+              {% endif %}
+              required
+            />
+            <span class="radio__box">
+              It's often a little long
+            </span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="fit-finder__buttons">
+      <button
+        class="
+          {% unless customer %}
+            fit-finder__next
+          {% endunless %}
+          button
+          button--secondary
+          button--large-padding
+          button--full-width
+        "
+        type="{% if customer %}submit{% else %}button{% endif %}"
+        data-state="ready"
+        data-loading-inspiration="http://codepen.io/designcouch/pen/vXrdjk"
+        data-analytics-click="Fit Finder Step Completed: Tshirt Fit"
+        data-analytics-props='{"category": "Fit Finder", "label": "tshirt fit", "step": "tshirt fit"}'
+        data-analytics-dynamic-props='{"answer": "tshirt_fit"}'
+        disabled
+      >
+        <span class="button__content">
+          {% if customer %}
+            Get my size
+          {% else %}
+            Next question
+          {% endif %}
+        </span>
+        {% include 'button-loading-junk' %}
+      </button>
+
+      <button
+        class="fit-finder__previous"
+        type="button"
+        data-ignore="true"
+      >
+        {% include 'arrow-previous' %}
+        Back
+      </button>
+    </div>
+  </div>
+</section>

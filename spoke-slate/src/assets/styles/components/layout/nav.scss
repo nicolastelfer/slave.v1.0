@@ -1,0 +1,119 @@
+.nav {
+  background-color: white;
+  box-sizing: border-box;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  width: 100%;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  -webkit-overflow-scrolling: touch;
+
+  &__container {
+    @extend %center;
+    display: flex;
+    max-width: $max-width;
+    padding-left: 14px;
+    padding-right: 14px;
+
+    @include tablet-up {
+      padding-left: 40px;
+      padding-right: 40px;
+    }
+  }
+
+  &__link {
+    @include font-family-3;
+    @include font-style(12, 2.2, 16);
+    color: $color-palette-1-primary;
+    height: 40px;
+    line-height: 44px;
+    padding-right: 20px;
+    position: relative;
+    outline: none;
+    text-transform: uppercase;
+
+    @include tablet-up {
+      height: 40px;
+    }
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+      color: $color-palette-1-secondary;
+    }
+
+    &::after {
+      bottom: 0;
+      border-radius: 1px;
+      content: "";
+      height: 2px;
+      position: absolute;
+      right: 21px;
+
+      @include tablet-up {
+        border-radius: 1.5px;
+        height: 3px;
+        right: 20px;
+      }
+    }
+
+    &:first-child {
+      &::after {
+        left: -2px;
+
+        @include tablet-up {
+          left: -3px;
+        }
+      }
+    }
+
+    &:not(:first-child) {
+      padding-left: 22px;
+
+      &::after {
+        left: 20px;
+
+        @include tablet-up {
+          left: 19px;
+        }
+      }
+    }
+
+    &--active {
+      &::after {
+        background-color: $color-palette-1-secondary;
+      }
+    }
+
+    &--right {
+      margin-left: auto;
+      padding-right: 0;
+    }
+
+    &--tablet-up {
+      @include mobile-down {
+        display: none;
+      }
+    }
+
+    // As seen in secondary menu (For new products)
+    .header__badge {
+      @extend %label-title--small;
+      @include font-family-3-m;
+    }
+  }
+
+  &--primary {
+    background-color: $color-palette-1-primary;
+    border: none;
+
+    .nav__link {
+      color: white;
+
+      &:hover,
+      &:focus {
+        color: $color-palette-1-secondary;
+      }
+    }
+  }
+}

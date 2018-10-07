@@ -1,0 +1,98 @@
+<div class="faq grid grid--full-width grid--column">
+  <div class="grid__container">
+    <header class="grid grid--column grid--horizontal-center grid--gutter">
+      <div class="grid__container">
+        <h2 class="faq__title">
+          FAQ
+        </h2>
+        <p class="faq__byline">
+          How can we help you?
+        </p>
+      </div>
+    </header>
+
+    <div class="faq__content grid grid--column-tablet-down grid--nowrap grid--vertical-start">
+      <div class="grid__container js-faq js-accordion">
+        <nav class="faq__nav">
+          <button type="button" class="faq__button js-faq__button" data-tag="general" data-open>General</button>
+          <button type="button" class="faq__button js-faq__button" data-tag="orders">Orders &amp; shipping</button>
+          <button type="button" class="faq__button js-faq__button" data-tag="returns">Returns &amp; exchanges</button>
+        </nav>
+
+        <div class="faq__sections">
+          <div class="faq__section js-faq__section" data-tag="general" data-open>
+            <h3 class="faq__section-title">General</h3>
+
+            {% for article in blogs.faq.articles %}
+              {% for tag in article.tags %}
+                {% if tag == 'general' %}
+                  <div class="faq__question js-accordion__section">
+                    <h3 class="faq__question-q">
+                      <button class="faq__question-toggle js-accordion__button" type="button">
+                        {{ article.title }}
+                      </button>
+                    </h3>
+
+                    <div class="faq__question-a js-accordion__container">
+                      <div class="faq__question-content js-accordion__content">
+                        {{ article.content }}
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            {% endfor %}
+          </div>
+
+          <div class="faq__section js-faq__section" data-tag="orders" data-closed>
+            <h3 class="faq__section-title">Orders &amp; shipping</h3>
+
+            {% for article in blogs.faq.articles %}
+              {% for tag in article.tags %}
+                {% if tag == 'orders' %}
+                  <div class="faq__question js-accordion__section">
+                    <h3 class="faq__question-q">
+                      <button class="faq__question-toggle js-accordion__button" type="button">
+                        {{ article.title }}
+                      </button>
+                    </h3>
+
+                    <div class="faq__question-a js-accordion__container">
+                      <div class="faq__question-content js-accordion__content">
+                        {{ article.content }}
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            {% endfor %}
+          </div>
+
+          <div class="faq__section js-faq__section" data-tag="returns" data-closed>
+            <h3 class="faq__section-title">Returns &amp; exchanges</h3>
+
+            {% for article in blogs.faq.articles %}
+              {% for tag in article.tags %}
+                {% if tag == 'returns' %}
+                  <div class="faq__question js-accordion__section">
+                    <h3 class="faq__question-q">
+                      <button class="faq__question-toggle js-accordion__button" type="button">
+                        {{ article.title }}
+                      </button>
+                    </h3>
+
+                    <div class="faq__question-a js-accordion__container">
+                      <div class="faq__question-content js-accordion__content">
+                        {{ article.content }}
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

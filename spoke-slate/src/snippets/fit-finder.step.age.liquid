@@ -1,0 +1,209 @@
+<section
+  class="
+    fit-finder__item
+    grid__item
+    grid__item--100
+    grid
+    grid--gutter
+    grid--column
+    grid--horizontal-center
+    grid--vertical-space-between
+    js-enable-buttons
+  "
+>
+  <div class="grid__container">
+    <div class="fit-finder__header">
+      <h3 class="fit-finder__title-italic">
+        How <span class="title--secondary">old</span> are you?
+      </h3>
+
+      <p class="fit-finder__copy">
+        We know, it has nothing to do with your fit.
+      </p>
+
+      <div class="fit-finder__radios fit-finder__radios--narrow grid">
+        <div class="grid__container">
+          <label
+            class="
+              fit-finder__radio
+              fit-finder__radio--50
+              radio
+              radio--regular
+              grid__item
+              grid__item--50
+            "
+          >
+            <input
+              class="radio__input"
+              type="radio"
+              name="age"
+              value="teens"
+              {% if customer.metafields.fitfinder.age == 'teens' %}
+                checked
+              {% endif %}
+              required
+            />
+            <span class="radio__box">
+              Teens
+            </span>
+          </label>
+
+          <label
+            class="
+              fit-finder__radio
+              fit-finder__radio--50
+              radio
+              radio--regular
+              grid__item
+              grid__item--50
+            "
+          >
+            <input
+              class="radio__input"
+              type="radio"
+              name="age"
+              value="20s"
+              {% if customer.metafields.fitfinder.age == '20s' %}
+                checked
+              {% endif %}
+              required
+            />
+            <span class="radio__box">
+              20s
+            </span>
+          </label>
+
+          <label
+            class="
+              fit-finder__radio
+              fit-finder__radio--50
+              radio
+              radio--regular
+              grid__item
+              grid__item--50
+            "
+          >
+            <input
+              class="radio__input"
+              type="radio"
+              name="age"
+              value="30s"
+              {% if customer.metafields.fitfinder.age == '30s' %}
+                checked
+              {% endif %}
+              required
+            />
+            <span class="radio__box">
+              30s
+            </span>
+          </label>
+
+          <label
+            class="
+              fit-finder__radio
+              fit-finder__radio--50
+              radio
+              radio--regular
+              grid__item
+              grid__item--50
+            "
+          >
+            <input
+              class="radio__input"
+              type="radio"
+              name="age"
+              value="40s"
+              {% if customer.metafields.fitfinder.age == '40s' %}
+                checked
+              {% endif %}
+              required
+            />
+            <span class="radio__box">
+              40s
+            </span>
+          </label>
+
+          <label
+            class="
+              fit-finder__radio
+              fit-finder__radio--50
+              radio
+              radio--regular
+              grid__item
+              grid__item--50
+            "
+          >
+            <input
+              class="radio__input"
+              type="radio"
+              name="age"
+              value="50s"
+              {% if customer.metafields.fitfinder.age == '50s' %}
+                checked
+              {% endif %}
+              required
+            />
+            <span class="radio__box">
+              50s
+            </span>
+          </label>
+
+          <label
+            class="
+              fit-finder__radio
+              fit-finder__radio--50
+              radio
+              radio--regular
+              grid__item
+              grid__item--50
+            "
+          >
+            <input
+              class="radio__input"
+              type="radio"
+              name="age"
+              value="more"
+              {% if customer.metafields.fitfinder.age == 'more' %}
+                checked
+              {% endif %}
+              required
+            />
+            <span class="radio__box">
+              More
+            </span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="fit-finder__buttons">
+      <button
+        class="
+          fit-finder__next
+          button
+          button--secondary
+          button--large-padding
+          button--full-width
+        "
+        type="button"
+        disabled
+        data-analytics-click="Fit Finder Step Completed: Age"
+        data-analytics-props='{"category": "Fit Finder", "label": "age", "step": "age"}'
+        data-analytics-dynamic-props='{"answer": "age"}'
+      >
+        <span class="button__content">
+          Next question
+        </span>
+      </button>
+
+      <button
+        class="fit-finder__previous"
+        type="button"
+        data-ignore="true"
+      >
+        {% include 'snippet.svg.icon', type:'icon', class:'arrow-previous' %}
+        Back
+      </button>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,210 @@
+<div class="contact grid grid--column grid--white grid--gutter">
+  <div class="grid__container">
+    <h2 class="contact__title">
+      Contact us
+    </h2>
+
+    <section class="contact__section grid grid--horizontal-space-between grid--vertical-center">
+      <div class="grid__container">
+        <div class="contact__content grid__item">
+          <h3>
+            Have a question?
+          </h3>
+          <p class="contact__byline">
+            We have answers.
+          </p>
+        </div>
+        <div class="contact__content grid__item grid__item--nogrow">
+          <a
+            class="button button--large-padding button--primary"
+            href="https://spoke-london.com/pages/faq"
+          >
+            <span class="button__content">
+              Check out FAQ's
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact__section grid grid--horizontal-space-between grid--vertical-center">
+      <div class="grid__container">
+        <div class="contact__content grid__item">
+          <h3>
+            Need to talk?
+          </h3>
+          <p class="contact__byline">
+            We're here for you (9-5pm).
+          </p>
+        </div>
+        <div class="contact__content grid__item grid__item--nogrow grid grid--vertical-center">
+          <div class="grid__container">
+            {% include 'snippet.svg.icon', type:'icon', class:'phone' %}
+            <a
+              class="
+                link link--block
+              "
+              href="tel:{{ shop.phone }}"
+            >
+              {{ settings.shop_friendly_phone }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact__section grid grid--horizontal-space-between grid--vertical-center">
+      <div class="grid__container">
+        <div class="contact__content grid__item">
+          <h3>
+            Send us an email
+          </h3>
+          <p class="contact__byline">
+            We'll do our best to get back within a working day.
+          </p>
+        </div>
+        <div class="contact__content grid__item grid__item--nogrow grid grid--vertical-center">
+          <div class="grid__container">
+            {% include 'snippet.svg.icon', type:'icon', class:'email' %}
+            <a
+              class="
+               link link--block
+              "
+              href="mailto:{{ shop.email }}"
+            >
+              {{ shop.email }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact__section grid grid--horizontal-space-between grid--vertical-center">
+      <div class="grid__container">
+        <div class="contact__content grid__item">
+          <h3>
+            Press enquiries
+          </h3>
+          <p class="contact__byline">
+            Thank you for your interest.
+          </p>
+        </div>
+        <div class="contact__content grid__item grid__item--nogrow grid grid--vertical-center">
+          <div class="grid__container">
+            {% include 'snippet.svg.icon', type:'icon', class:'email' %}
+            <a
+              class="
+                link link--block
+              "
+              href="mailto:press@spoke-london.com"
+            >
+              press@spoke-london.com
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="contact__section grid grid--horizontal-space-between  grid--vertical-center">
+      <div class="grid__container">
+        <div class="contact__content grid__item">
+          <h3>
+            Socialise
+          </h3>
+          <p class="contact__byline">
+            We’ll add Snapchat one day. When we understand what it is.
+          </p>
+        </div>
+        <ul class="contact__content social social--large formula__social grid__item grid__item--nogrow">
+          <li class="social__item">
+            <a
+              class="social__link"
+              href="{{ settings.social_facebook }}"
+            >
+              {% include 'snippet.svg.icon.social', type:'icon', class:'facebook' %}
+            </a>
+          </li>
+          <li class="social__item">
+            <a
+              class="social__link"
+              href="{{ settings.social_twitter }}"
+            >
+              {% include 'snippet.svg.icon.social', type:'icon', class:'twitter' %}
+            </a>
+          </li>
+          <li class="social__item">
+            <a
+              class="social__link"
+              href="{{ settings.social_instagram }}"
+            >
+              {% include 'snippet.svg.icon.social', type:'icon', class:'instagram' %}
+            </a>
+          </li>
+          <li class="social__item">
+            <a
+              class="social__link"
+              href="{{ settings.social_pinterest }}"
+            >
+              {% include 'snippet.svg.icon.social', type:'icon', class:'pinterest' %}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="contact__section grid grid--horizontal-space-between grid--vertical-center">
+      <div class="grid__container">
+        <div class="contact__content grid__item">
+          <h3>
+            Come see us
+          </h3>
+          <p class="contact__byline">
+            Our head office is in Richmond, London.
+          </p>
+        </div>
+        <div class="contact__content grid__item grid__item--nogrow">
+          <p class="contact__address">
+            Unit 8,
+            The Printworks,
+            27 Dunstable Road,
+            Richmond,
+            TW9 1RR
+          </p>
+
+          <div class="link-list js-toggle-attr" data-toggle-attr="data-open">
+            <button class="link-list__trigger js-toggle-attr__button" type="button">
+              Get directions:
+            </button>
+
+            <ul class="link-list__list">
+              <li class="link-list__item">
+                <a
+                  class="link-list__link link-list__link--google-maps link link--block"
+                  href="https://goo.gl/maps/fBRVBSqAai32"
+                >
+                  Google maps
+                </a>
+              </li>
+              <li class="link-list__item">
+                <a
+                  class="link-list__link link-list__link--apple-maps link link--block"
+                  href="https://maps.apple.com/maps?address=Richmond,%20TW9%201UH,%20England&ll=51.462185,-0.297134&q=27%20Dunstable%20Road"
+                >
+                  Apple maps
+                </a>
+              </li>
+              <li class="link-list__item">
+                <a
+                  class="link-list__link link-list__link--citymapper link link--block"
+                  href="https://citymapper.com/go/9iqfaw"
+                >
+                  Citymapper
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

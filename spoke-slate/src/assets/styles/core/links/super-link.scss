@@ -1,0 +1,221 @@
+.super-link {
+  display: inline-block;
+
+  &:not(.super-link--large) {
+    @extend %label-title;
+  }
+
+  &:hover,
+  &:focus {
+    text-decoration: none !important;
+  }
+
+  &--mobile-down {
+    @include mobile-down {
+      // @todo possible error extending %label-title
+      display: inline-block;
+    }
+
+    &:hover,
+    &:focus {
+      @include mobile-down {
+        text-decoration: none !important;
+      }
+    }
+  }
+
+  &--underline {
+    border-bottom: 2px solid $color-palette-1-primary-light;
+
+    &.super-link--primary {
+      border-color: $color-palette-1-primary;
+
+      &:hover,
+      &:focus {
+        border-color: $color-palette-1-secondary;
+      }
+    }
+
+    &.super-link--secondary {
+      border-color: $color-palette-1-secondary;
+
+      &:hover,
+      &:focus {
+        border-color: $color-palette-1-primary;
+      }
+    }
+
+    &.super-link--white {
+      border-color: white;
+    }
+
+    &.super-link--large {
+      border-bottom-width: 3px;
+    }
+
+    &-mobile-down {
+      @include mobile-down {
+        border-bottom: 2px solid $color-palette-1-secondary !important;
+      }
+
+      &.super-link--primary-mobile-down {
+        @include mobile-down {
+          border-bottom-color: $color-palette-1-primary !important;
+        }
+
+        &:hover,
+        &:focus {
+          @include mobile-down {
+            border-bottom-color: $color-palette-1-secondary !important;
+          }
+        }
+      }
+
+      &.super-link--secondary-mobile-down {
+        @include mobile-down {
+          border-bottom-color: $color-palette-1-secondary !important;
+        }
+
+        &:hover,
+        &:focus {
+          @include mobile-down {
+            border-bottom-color: $color-palette-1-primary !important;
+          }
+        }
+      }
+
+      &.super-link--white-mobile-down {
+        @include mobile-down {
+          border-bottom-color: white !important;
+        }
+
+        &:hover,
+        &:focus {
+          @include mobile-down {
+            border-bottom-color: $color-palette-1-secondary !important;
+          }
+        }
+      }
+    }
+  }
+
+  &--primary {
+    color: $color-palette-1-primary;
+
+    &:hover,
+    &:focus {
+      color: $color-palette-1-secondary;
+    }
+
+    &-mobile-down {
+      @include mobile-down {
+        color: $color-palette-1-primary;
+      }
+
+      &:hover,
+      &:focus {
+        @include mobile-down {
+          color: $color-palette-1-secondary;
+        }
+      }
+    }
+  }
+
+  &--secondary {
+    color: $color-palette-1-secondary;
+
+    &:hover,
+    &:focus {
+      color: $color-palette-1-primary;
+    }
+
+    &-mobile-down {
+      @include mobile-down {
+        color: $color-palette-1-secondary;
+      }
+
+      &:hover,
+      &:focus {
+        @include mobile-down {
+          color: $color-palette-1-primary;
+        }
+      }
+    }
+  }
+
+  &--white {
+    color: white;
+
+    &-mobile-down {
+      @include mobile-down {
+        color: white;
+      }
+    }
+  }
+
+  &--reset {
+    box-shadow: none;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0;
+
+    &-mobile-down {
+      @include mobile-down {
+        box-shadow: none;
+        height: auto;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0;
+      }
+    }
+  }
+
+  &--icon {
+    padding-left: 25px;
+    position: relative;
+
+    .svg {
+      display: inline-block;
+      left: 0;
+      position: absolute;
+      top: 50%;
+    }
+
+    .svg--arrow-previous {
+      height: 13px;
+      margin-top: -9px;
+      width: 8px;
+
+      path {
+        stroke: $color-palette-1-primary;
+        transition: stroke 0.3s $ease-in-out;
+      }
+    }
+
+    &:hover,
+    &:focus {
+      .svg--arrow-previous {
+        path {
+          stroke: $color-palette-1-secondary;
+        }
+      }
+    }
+  }
+
+  &--previous-page {
+    margin-top: 20px;
+
+    @include mobile-down {
+      display: none;
+    }
+  }
+
+  &--large {
+    @extend %label-title--large;
+
+    @include mobile-down {
+      font-size: 14px;
+    }
+  }
+}

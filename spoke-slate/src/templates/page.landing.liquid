@@ -1,0 +1,37 @@
+{% assign content = page.content | split: '|' %}
+
+{% capture bg %}landing_page_image_{{ content[ 0 ] }}{% endcapture %}
+{% capture bg_mobile %}landing_page_image_small_{{ content[ 0 ] }}{% endcapture %}
+
+<div class="landing landing--responsive js-bg-img">
+
+  <picture class="landing__image js-bg-img__src" width="1440" height="700">
+    <source
+      media="(max-width: 599px)"
+      srcset="
+        {{ settings[bg_mobile] | img_url: '300x' }} 300w,
+        {{ settings[bg_mobile] | img_url: '600x' }} 600w,
+        {{ settings[bg_mobile] | img_url: '1200x' }} 1200w
+       "
+    >
+    <source
+      media="(min-width: 600px)"
+      srcset="
+        {{ settings[bg] | img_url: '600x' }} 600w,
+        {{ settings[bg] | img_url: '750x' }} 750w,
+        {{ settings[bg] | img_url: '1000x' }} 1000w,
+        {{ settings[bg] | img_url: '1440x' }} 1440w,
+        {{ settings[bg] | img_url: 'master' }} 2880w
+      "
+    >
+    <img src="{{ settings[bg] | img_url: '300x' }}"/>
+  </picture>
+
+  <div class="landing__cover grid grid--horizontal-end">
+    <div class="landing__container grid__container">
+      <div class="landing__content landing__content--full-width landing__content--plain grid__item">
+        {{ content[ 1 ] }}
+      </div>
+    </div>
+  </div>
+</div>

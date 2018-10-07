@@ -1,0 +1,67 @@
+.fine-tune {
+  padding-bottom: 75px;
+  padding-top: 60px;
+
+  @include tablet-up {
+    padding: 65px 0;
+  }
+
+  &__content {
+    @include mobile-down {
+      margin-top: 16px;
+      order: 2;
+    }
+
+    @include tablet-up {
+      box-sizing: border-box;
+      padding-right: 20px;
+      max-width: 570px;
+      width: 100%;
+    }
+
+    .button {
+      @include margin(40px, null, 20px, null);
+
+      @include tablet-up {
+        @include margin(40px, null, null, null);
+      }
+    }
+  }
+
+  &__image {
+    @include mobile-down {
+      order: 1;
+    }
+  }
+
+  .svg--trousers-8 {
+    @extend %center;
+    display: block;
+    height: 317px;
+    width: 150px;
+
+    @include tablet-up {
+      height: 423px;
+      width: 200px;
+    }
+  }
+
+  .trustpilot-widget {
+    font-weight: normal;
+    margin-top: 30px;
+
+    @include tablet-up {
+      bottom: -80px;
+      margin-top: 0;
+    }
+
+    iframe {
+      height: 50px !important;
+
+      @include tablet-up {
+        left: -30px;
+        width: 450px !important;
+      }
+    }
+  }
+}

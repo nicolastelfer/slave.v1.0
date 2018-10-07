@@ -1,0 +1,52 @@
+@font-face {
+  font-family: 'placard';
+  src: url('{{ "PlacardMTStd-Cond.woff2" | asset_url }}') format('woff2'),
+  url('{{ "PlacardMTStd-Cond.woff" | asset_url }}') format('woff'),
+  url('{{ "PlacardMTStd-Cond.eot" | asset_url }}') format('eot'),
+  url('{{ "PlacardMTStd-Cond.ttf" | asset_url }}') format('truetype');
+}
+
+@font-face {
+  font-family: 'theinhardt-light';
+  src: url('{{ "Theinhardt-Light.eot" | asset_url }}'); /* IE9 Compat Modes */
+  src: url('{{ "Theinhardt-Light.eot?#iefix" | asset_url }}') format('embedded-opentype'), /* IE6-IE8 */
+  url('{{ "Theinhardt-Light.woff2" | asset_url }}') format('woff2'),
+  url('{{ "Theinhardt-Light.woff" | asset_url }}') format('woff'); /* Modern Browsers */
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'theinhardt-regular';
+  src: url('{{ "Theinhardt-Regular.eot" | asset_url }}'); /* IE9 Compat Modes */
+  src: url('{{ "Theinhardt-Regular.eot?#iefix" | asset_url }}') format('embedded-opentype'), /* IE6-IE8 */
+  url('{{ "Theinhardt-Regular.woff2" | asset_url }}') format('woff2'),
+  url('{{ "Theinhardt-Regular.woff" | asset_url }}') format('woff'); /* Modern Browsers */
+  font-weight: 400;
+  font-stretch: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'theinhardt-medium';
+  src: url('{{ "Theinhardt-Medium.eot" | asset_url }}'); /* IE9 Compat Modes */
+  src: url('{{ "Theinhardt-Medium.eot?#iefix" | asset_url }}') format('embedded-opentype'), /* IE6-IE8 */
+  url('{{ "Theinhardt-Medium.woff2" | asset_url }}') format('woff2'),
+  url('{{ "Theinhardt-Medium.woff" | asset_url }}') format('woff'); /* Modern Browsers */
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Sentinel SSm A", "Sentinel SSm B";
+  font-style: normal;
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "Sentinel SSm A", "Sentinel SSm B";
+  font-style: italic;
+  font-weight: 300;
+}

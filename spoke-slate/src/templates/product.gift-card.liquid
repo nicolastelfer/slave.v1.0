@@ -1,0 +1,80 @@
+<section
+  class="gift-card grid grid--gutter grid--white grid--nowrap"
+  data-analytics-load="Product Viewed"
+  data-analytics-props='{"category": "Gift Card", "image_url": "https:{{ product.images[ 0 ] | img_url: 'master' }}", "name": "Gift Card", "product_id": {{ product.id }}, "product_url": "http://{{ shop.permanent_domain }}/products/{{ product.handle }}"}'
+>
+  <div class="gift-card__container grid__container">
+
+    <div class="gift-card__image-container grid__item grid__item--nogrow">
+      <img
+        class="gift-card__image"
+        src="{{ product.images[ 0 ] | img_url: '472x' }}"
+        srcset="
+          {{ product.images[ 0 ] | img_url: '472x' }} 1x,
+          {{ product.images[ 0 ] | img_url: 'master' }} 2x
+        "
+        width="472"
+        height="467"
+      />
+    </div>
+
+    <form
+      action="/cart/add"
+      class="gift-card__form grid__item"
+      method="post"
+    >
+      <div class="gift-card__content">
+        {{ product.content }}
+
+        <div class="gift-card__options js-gift-card">
+          {% for item in product.variants %}
+            <label class="gift-card__option radio radio--square">
+              <input
+                class="radio__input radio__input--cart js-gift-card__option"
+                type="radio"
+                name="id"
+                value="{{ item.id }}"
+                data-price="{{ item.price | money_without_currency }}"
+                {% if forloop.first %}
+                  checked
+                {% endif %}
+              />
+              <span class="radio__box">
+                {{ item.price | money }}
+              </span>
+            </label>
+          {% endfor %}
+
+          <input
+            class="js-gift-card__price"
+            name="price"
+            type="hidden"
+          />
+        </div>
+
+        <div class="gift-card__submit grid grid--vertical-center">
+          <div class="grid__container">
+            <button
+              class="gift-card__button button button--large-padding button--primary js-option-form__submit"
+              type="submit"
+              data-state="ready"
+              data-loading-inspiration="http://codepen.io/designcouch/pen/vXrdjk"
+              data-analytics-click="Product Added"
+              data-analytics-props='{"category": "Gift Card", "image_url": "https:{{ product.images[ 0 ] | img_url: 'master' }}", "name": "Gift Card", "product_id": {{ product.id }}, "product_url": "http://{{ shop.permanent_domain }}/products/{{ product.handle }}", "quantity": 1}'
+              data-analytics-dynamic-props='{"price": "price", "value": "price", "variant_id": "id"}'
+            >
+              <span class="button__content">
+                Add to basket
+              </span>
+              {% include 'button-loading-junk' %}
+            </button>
+
+            <p class="gift-card__delivery">
+              Free shipping & returns
+            </p>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>

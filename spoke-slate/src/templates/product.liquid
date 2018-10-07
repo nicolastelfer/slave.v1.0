@@ -1,61 +1,685 @@
-{% section 'product' %}
+{% assign colors = '' %}
+{% assign waists = '' %}
+{% assign builds = '' %}
+{% assign legs = '' %}
+{% assign leg_sizes = settings.trouser_leg_sizes | split: ',' %}
+{% assign has_leg = true %}
+{% assign has_build = true %}
+{% assign has_waist = true %}
 
-<script type="application/ld+json">
-{
-  "@context": "http://schema.org/",
-  "@type": "Product",
-  "name": "{{ product.title | escape }}",
-  "url": "{{ shop.url }}{{ product.url }}",
-  {% if product.featured_image %}
-    {% assign image_size = product.featured_image.width | append: 'x' %}
-    "image": [
-      "https:{{ product.featured_image.src | img_url: image_size }}"
-    ],
+{% assign collecton_key = product.type | handleize %}
+
+{% assign description = collections[ collecton_key ].description %}
+{% assign collection_byline = '' %}
+{% assign collection_description = '' %}
+
+{% unless description == blank %}
+{% assign description_parts = description | split: '|' %}
+
+{% assign collection_custom_hero = false %}
+
+  {% if description contains 'hero1' %}
+    {% assign collection_custom_hero = 1 %}
+    {% elsif description contains 'hero2' %}
+    {% assign collection_custom_hero = 2 %}
+    {% elsif description contains 'hero3' %}
+    {% assign collection_custom_hero = 3 %}
+    {% elsif description contains 'hero4' %}
+    {% assign collection_custom_hero = 4 %}
   {% endif %}
-  "description": "{{ product.description | strip_html | escape }}",
-  {% if current_variant.sku != blank %}
-    "sku": "{{ current_variant.sku }}",
+
+  {% if collection_custom_hero %}
+    {% assign collection_byline = description_parts[ 1 ] %}
+    {% assign collection_description = description_parts[ 2 ] %}
+  {% else %}
+    {% assign collection_byline = description_parts[ 0 ] %}
+    {% assign collection_description = description_parts[ 1 ] %}
   {% endif %}
-  "brand": {
-    "@type": "Thing",
-    "name": "{{ product.vendor | escape }}"
-  },
-  {% if product.variants %}
-    "offers": [
-      {% for variant in product.variants %}
-        {
-          "@type" : "Offer",
-          "availability" : "http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}",
-          "price" : "{{ variant.price | divided_by: 100.00 }}",
-          "priceCurrency" : "{{ shop.currency }}",
-          "url" : "{{ shop.url }}{{ variant.url }}",
-          "itemOffered" :
-          {
-              "@type" : "Product",
-              {% if variant.image %}
-                {% assign variant_image_size = variant.image.width | append: 'x' %}
-                "image": "http:{{ variant.image.src | img_url: variant_image_size }}",
-              {% endif %}
-              {% if variant.title != blank %}
-                "name" : "{{ variant.title | escape }}",
-              {% endif %}
-              {% if variant.sku != blank %}
-                "sku": "{{ variant.sku }}",
-              {% endif %}
-              {% if variant.weight != blank %}
-                "weight": {
-                  "@type": "QuantitativeValue",
-                  {% if variant.weight_unit != blank %}
-                    "unitCode": "{{ variant.weight_unit }}",
-                  {% endif %}
-                  "value": "{{ variant.weight | weight_with_unit: variant.weight_unit }}"
-                },
-              {% endif %}
-              "url": "{{ shop.url }}{{ variant.url }}"
-          }
-        }{% unless forloop.last %},{% endunless %}
+{% endunless %}
+
+{% for p in collections.[product.type].products %}
+  {% if p.type == product.type %}
+    {% assign t = p.title | split: '//' %}
+    {% capture color_name %}{{ t[ 0 ] | strip }}{% endcapture %}
+
+    {% assign color_fabric = blank %}
+
+    {% for tag in p.tags %}
+      {% if tag contains 'fabric' %}
+        {% assign color_fabric = tag | remove: 'fabric:' | strip %}
+        {% break %}
+      {% endif %}
+
+      {% if forloop.last and p.tags contains 'limited-edition' %}
+        {% assign color_fabric = 'Limited edition' %}
+      {% endif %}
+    {% endfor %}
+
+    {% capture color_title %}{{ color_name }}{% unless color_fabric == blank %} – {{ color_fabric }}{% endunless %}{% endcapture %}
+    {% capture color %}{{ color_name }}|{{ color_title }}|{{ p.url }}{% endcapture %}
+
+    {% if p.url == product.url %}
+      {% assign current_color = color %}
+    {% endif %}
+
+    {% capture colors %}{% if colors != '' %}{{ colors }},{% endif %}{{ color }}{% endcapture %}
+  {% endif %}
+{% endfor %}
+
+{% for leg in leg_sizes %}
+  {% capture legs %}{% if legs != '' %}{{ legs }},{% endif %}{{ leg }}{% endcapture %}
+{% endfor %}
+
+{% include 'variant_data' %}
+
+{% assign current_color = current_color | split: '|' %}
+{% assign current_color_name = current_color[ 0 ] %}
+{% assign current_color_title = current_color[ 1 ] %}
+{% assign colors = colors | split: ',' | sort %}
+{% assign waists = waists | split: ',' | sort %}
+{% assign builds = builds | split: ',' | sort %}
+{% assign legs = legs | split: ',' | sort %}
+
+{% assign item_count = 0 %}
+
+{% for img in product.images limit: 8 %}
+  {% assign item_count = item_count | plus: 1 %}
+{% endfor %}
+
+{% assign item_indexes = item_count | minus: 1 %}
+
+{% assign trousers = settings.trouser_collections | split: ',' %}
+
+{% assign l = trousers | size | minus: 1 %}
+
+{% assign other_styles_index = l | minus: 1 %}
+
+{% assign bought_before = '' %}
+
+{% if customer %}
+  {% for order in customer.orders %}
+    {% if bought_before == empty %}
+      {% for item in order.line_items %}
+        {% if item.product_id == product.id %}
+          {% assign bought_before = order.created_at %}
+          {% assign bought_before_waist = item.properties.Waist %}
+          {% assign bought_before_leg = item.properties.Leg %}
+          {% assign bought_before_build = item.properties.Build %}
+        {% endif %}
       {% endfor %}
-    ]
-  {% endif %}
-}
-</script>
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% if bought_before != empty %}
+  <section
+    class="
+      flash
+      flash--secondary
+      grid
+      grid--nowrap
+      grid--gutter
+      grid--horizontal-space-between
+      js-toggle-attr
+    "
+    data-key="product-{{ product.id }}"
+    data-toggle-attr="data-hide"
+    data-hide
+  >
+
+    <div class="grid__container">
+      <p class="flash__msg flash__msg--center">
+        Last time your bought this in size
+        W: {{ bought_before_waist }}
+        L: {{ bought_before_leg }}
+        Build: {{ bought_before_build }}
+      </p>
+      <button class="flash__button js-toggle-attr__button" type="button">
+        {% include 'snippet.svg.icon', type:'icon', class:'close' %}
+      </button>
+    </div>
+  </section>
+{% endif %}
+
+<section
+  class="grid grid--gutter grid--white grid--vertical-start product-container js-fixed"
+  data-analytics-load="Product Viewed"
+  data-analytics-props='{"category": "{{ product.type }}", "color": "{{ current_color_name }}", "images_url":["https:{{ product.images[ 0 ] | img_url: 'master' }}","https:{{ product.images[ 1 ] | img_url: 'master' }}","https:{{ product.images[ 2 ] | img_url: 'master' }}", "https:{{ product.images[ 4 ] | img_url: 'master' }}"], "label": "{{ current_color_name }}", "name": "{{ product.type }}", "price": {{ product.price | money_without_currency | plus: 0 }}, "product_id": {{ product.id }}, "product_url": "http://{{ shop.permanent_domain }}/products/{{ product.handle }}", "sku": "{{ product.type }}"}'
+>
+  <div class="grid__container">
+    <div
+      class="
+        product-images
+        grid__item
+        grid__item--100-mobile-down
+        grid__item--50-tablet-up
+        grid
+        grid--nowrap
+        grid--vertical-start
+      "
+    >
+      <div class="product-images__container grid__container">
+        <ul class="product-images__nav js-fixed__sticky">
+          {% for img in product.images %}
+            <li class="product-images__nav-item">
+              <a
+                class="product-images__nav-link"
+                href="#image-{{ img.id }}"
+              >
+                <img
+                  class="product-images__nav-image"
+                  src="{{ img | img_url: '79x' }}"
+                  srcset="
+                    {{ img | img_url: '79x' }} 1x,
+                    {{ img | img_url: '158x' }} 2x
+                  "
+                  width="79"
+                  height="119"
+                />
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+
+        <div
+          class="product-images__content js-fixed__stationary"
+          data-items="{{ item_count }}"
+          data-index="0"
+          data-touch="true"
+        >
+          <ul class="product-images__list">
+            {% for img in product.images %}
+              <li class="product-images__item" id="image-{{ img.id }}">
+                <img
+                  class="product-images__image"
+                  src="{{ img | img_url: '398x' }}"
+                  srcset="
+                    {{ img | img_url: '398x' }} 1x,
+                    {{ img | img_url: '796x' }} 2x
+                  "
+                  width="398"
+                  height="597"
+                />
+              </li>
+            {% endfor %}
+          </ul>
+
+          <ul class="product-images__pagination pagination pagination--primary">
+            {% for i in (0..item_indexes) %}
+              <li class="pagination__item">
+                <button
+                  class="pagination__button"
+                  data-index="{{ i }}"
+                  type="button"
+                >
+                  {{ i }}
+                </button>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    {% form "product",
+      product,
+      class:"product-form grid__item grid__item--100-mobile-down grid__item--50-tablet-up js-fixed__sticky"
+    %}
+
+      <div
+        class="js-option-form"
+        data-props='{"props":["leg","build","waist"]}'
+        data-variants='{"variants":[{{ variants }}]}'
+      >
+        <header
+          class="
+          product-form__header
+          grid
+          grid--horizontal-space-between
+          grid--vertical-end
+        "
+        >
+          <div class="grid__container">
+            <h1 class="product-form__title">
+              {{ product.type }}
+            </h1>
+
+            {% for tag in product.tags %}
+              {% if tag contains 'fabric' %}
+                <h2 class="product-form__tag">
+                  {{ tag | remove: 'fabric:' | strip }}
+                </h2>
+                {% break %}
+              {% endif %}
+
+              {% if forloop.last and product.tags contains 'limited-edition' %}
+                <h2 class="product-form__tag">
+                  Limited edition
+                </h2>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </header>
+
+        <div class="product-form__pre-orders">
+          {% for tag in product.tags %}
+            {% if tag contains 'pre-order' %}
+              <p class="product-form__pre-order">
+                Pre-order: Ships
+                {{ tag | remove: 'pre-order:' | strip }}
+              </p>
+              {% break %}
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        <div class="product-form__prices">
+          {% if product.price < product.compare_at_price_max %}
+            <p class="product-form__full-price">
+              {{ product.compare_at_price_max | money }}
+            </p>
+          {% endif %}
+
+          <p class="product-form__price">
+            {{ product.price | money }}
+          </p>
+        </div>
+
+        <div class="product-form__description">
+          {{ collection_description }}
+        </div>
+
+        <div class="grid grid--horizontal-space-between grid--nowrap-desktop-up">
+          <div class="grid__container">
+            <div class="grid__item grid__item--100-tablet-down">
+              <h2 class="product-form__subtitle product-form__subtitle--color">
+                Colour: {{ current_color_name }}
+              </h2>
+
+              <ul class="product-form__colors colors">
+                {% for color in colors %}
+                  {% assign c = color | split: '|' %}
+
+                  {% assign color_name = c[ 0 ] %}
+                  {% assign color_title = c[ 1 ] %}
+                  {% assign color_url = c[ 2 ] %}
+
+                  {% capture color_key %}color_{{ color_name | handleize }}{% endcapture %}
+
+                  <li
+                    class="
+                    colors__item
+                    {% if color_title == current_color_title %}
+                      colors__item--selected
+                    {% endif %}
+                  "
+                    {% if settings[color_key] %}
+                      style="background: {{ settings[color_key] }}"
+                    {% endif %}
+                  >
+                    {% unless color_title == current_color_title %}
+                    <a
+                      class="colors__link"
+                      href="{{ color_url }}"
+                      title="{{ color_title }}"
+                    >
+                      {% endunless %}
+                      {% unless color_title == current_color_title %}
+                    </a>
+                    {% endunless %}
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+
+
+          </div>
+        </div>
+
+        <div class="product-form__section js-option-form__waist">
+          <h2 class="product-form__subtitle">
+            Waist <span>(inches)</span>
+          </h2>
+
+          <ul class="product-form__options options">
+            {% for waist in waists %}
+              <li class="options__item">
+                <button
+                  class="options__button options__button--unavailable"
+                  data-option-key="waist"
+                  data-option-value="{{ waist }}"
+                  data-status="unavailable"
+                  type="button"
+                  disabled
+                >
+                  {{ waist }}
+                </button>
+              </li>
+            {% endfor %}
+          </ul>
+          <div class="filters__size-helper size-helper js-filters__size-helper">
+            <div class="size-helper__description">
+              <p class="size-helper__description--copy" data-text='{"text":["For those who often fall between a Medium and a Large.","For those who often fall between a Large and an XL."]}'></p>
+              <p>Check our <a class="link--inline"
+                              href="/pages/polo-size-chart"
+                              data-analytics-click="Click"
+                              data-analytics-props='{"category": "Size Chart Link", "label": "Product {{ product.type }} - Waist Description"}'
+                >Size Chart</a>.</p>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="product-form__section js-option-form__build">
+          <h2 class="product-form__subtitle">
+            Build
+          </h2>
+
+          <ul class="product-form__options options options--stacked">
+            {% for build in builds %}
+              <li class="options__item">
+                <button
+                  class="options__button"
+                  data-option-key="build"
+                  data-option-value="{{ build }}"
+                  data-status="unavailable"
+                  type="button"
+                  disabled
+                >
+                  {{ build }}
+                  {% capture build_description_key %}trouser_build_{{ build | downcase }}_description{% endcapture %}
+                </button>
+                <p class="options__description">
+                  {{ settings[ build_description_key ] }}
+                </p>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <div class="product-form__section js-option-form__leg">
+          <h2 class="product-form__subtitle">
+            Leg <span>(inches)</span>
+          </h2>
+
+          <ul class="product-form__options options">
+            {% for leg in legs %}
+              <li class="options__item">
+                <button
+                  class="options__button"
+                  data-option-key="leg"
+                  data-option-value="{{ leg }}"
+                  data-status="unavailable"
+                  type="button"
+                  disabled
+                >
+                  {{ leg }}
+                </button>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <input
+          name="id"
+          type="hidden"
+        />
+
+        <input
+          name="properties[Waist]"
+          type="hidden"
+        />
+
+        <input
+          name="properties[Build]"
+          type="hidden"
+        />
+
+        <input
+          name="properties[Leg]"
+          type="hidden"
+        />
+
+        <div class="grid grid--horizontal-space-between product-form__quick-links">
+          <div class="grid__container">
+            <a class="link link--block link--light-grey" href="/pages/trouser-size-chart"
+               data-analytics-click="Click"
+               data-analytics-props='{"category": "Size Chart Link", "label": "Product {{ product.type }}"}'
+            >Size Chart</a>
+            <a class="link link--block link--light-grey" href="/pages/fit-finder?tab=trouser"
+               data-analytics-click="Click"
+               data-analytics-props='{"category": "Fit Finder Link", "label": "Product {{ product.type }}"}'
+            >What's my fit?</a>
+          </div>
+        </div>
+
+        <div class="grid grid--column-mobile-down grid--horizontal-space-between-tablet-up">
+          <div class="grid__container">
+            <div class="grid__item grid__item--48-tablet-up grid__item--nogrow-tablet-up">
+              <button
+                class="button button--large-padding button--primary button--full-width js-option-form__submit"
+                type="submit"
+                data-state="ready"
+                data-loading-inspiration="http://codepen.io/designcouch/pen/vXrdjk"
+                data-analytics-click="Product Added"
+                data-analytics-props='{"category": "{{ product.type }}", "color": "{{ current_color_name }}", "images_url":["https:{{ product.images[ 0 ] | img_url: 'master' }}","https:{{ product.images[ 1 ] | img_url: 'master' }}","https:{{ product.images[ 2 ] | img_url: 'master' }}", "https:{{ product.images[ 4 ] | img_url: 'master' }}"], "label": "{{ current_color_name }}", "name": "{{ product.type }}", "price": {{ product.price | money_without_currency | plus: 0 }}, "product_id": {{ product.id }}, "product_url": "http://{{ shop.permanent_domain }}/products/{{ product.handle }}", "quantity": 1, "sku": "{{ product.type }}", "value": {{ product.price | money_without_currency | plus: 0 }}}'
+                data-analytics-dynamic-props='{"build": "properties[Build]", "leg": "properties[Leg]", "variant_id": "id", "waist": "properties[Waist]"}'
+                disabled
+              >
+                <span class="button__content">
+                  {% assign preorder = false %}
+
+                  {% for tag in product.tags %}
+                    {% if tag contains 'pre-order' %}
+                      {% assign preorder = true %}
+                    {% endif %}
+                  {% endfor %}
+
+                  {% if preorder %}
+                    Pre-order
+                  {% else %}
+                    Add to basket
+                  {% endif %}
+                </span>
+                {% include 'button-loading-junk' %}
+              </button>
+
+            </div>
+
+          </div>
+        </div>
+
+        {% for tag in product.tags %}
+          {% if tag contains 'pre-order' %}
+            <p class="product-form__button-info">
+              Ships
+              {{ tag | remove: 'pre-order:' | strip }}
+            </p>
+            {% break %}
+          {% endif %}
+        {% endfor %}
+
+        <section class="accordion js-accordion">
+          {% if product.description %}
+            <section class="accordion__section js-accordion__section">
+              <button
+                class="accordion__button js-accordion__button"
+                type="button"
+              >
+                Product details
+                <span class="accordion__plus">+</span>
+                <span class="accordion__minus">-</span>
+              </button>
+              <div class="accordion__container js-accordion__container">
+                <div class="accordion__content js-accordion__content">
+                  {{ product.description }}
+                </div>
+              </div>
+            </section>
+          {% endif %}
+          <section class="accordion__section js-accordion__section">
+            <button class="accordion__button js-accordion__button" type="button">
+              Size not in stock?
+              <span class="accordion__plus">+</span>
+              <span class="accordion__minus">-</span>
+            </button>
+            <div class="accordion__container js-accordion__container">
+              <div class="accordion__content js-accordion__content">
+                <p>Please let us know if your preferred size is not available.</p>
+                <br>
+                {% assign product_type = product.type | strip_newlines %}
+                {% include 'product-oos-button', type: "trousers", name: product_type %}
+              </div>
+            </div>
+          </section>
+
+        </section>
+      </div>
+    {% endform %}
+
+  </div>
+</section>
+
+{% capture how_to_wear_it_title_1_key %}how_to_wear_it_title_{{ product.type | downcase }}_1{% endcapture %}
+{% capture how_to_wear_it_byline_1_key %}how_to_wear_it_byline_{{ product.type | downcase }}_1{% endcapture %}
+{% capture how_to_wear_it_image_1_key %}how_to_wear_it_image_{{ product.type | downcase }}_1{% endcapture %}
+{% capture how_to_wear_it_title_2_key %}how_to_wear_it_title_{{ product.type | downcase }}_2{% endcapture %}
+{% capture how_to_wear_it_byline_2_key %}how_to_wear_it_byline_{{ product.type | downcase }}_2{% endcapture %}
+{% capture how_to_wear_it_image_2_key %}how_to_wear_it_image_{{ product.type | downcase }}_2{% endcapture %}
+
+{% assign how_to_wear_it_title_1 = settings[ how_to_wear_it_title_1_key ] %}
+{% assign how_to_wear_it_title_2 = settings[ how_to_wear_it_title_2_key ] %}
+
+{% if how_to_wear_it_title_1 != blank && how_to_wear_it_title_2 != blank %}
+  <section class="how-to-wear-it grid grid--white grid--full-width">
+    <div class="grid__container">
+      <h2 class="how-to-wear-it__title">
+        How to wear it
+      </h2>
+      <div class="how-to-wear-it__byline">
+        {{ collection_description }}
+      </div>
+
+      <div class="how-to-wear-it__list grid grid--full-width">
+        <div class="grid__container">
+          <section
+            class="
+              grid__item
+              grid__item-100-mobile-down
+              grid__item--50-tablet-up
+              how-to-wear-it__item
+            "
+          >
+            <img
+              class="how-to-wear-it__image"
+              src="{{ settings[ how_to_wear_it_image_1_key ] | img_url: '300x' }}"
+              sizes="(min-width: 1000px) 50vw, 100vw"
+              srcset="
+                {{ settings[ how_to_wear_it_image_1_key ] | img_url: '300x' }} 300w,
+                {{ settings[ how_to_wear_it_image_1_key ] | img_url: '500x' }} 500w,
+                {{ settings[ how_to_wear_it_image_1_key ] | img_url: '720x' }} 720w,
+                {{ settings[ how_to_wear_it_image_1_key ] | img_url: 'master' }} 1440w
+              "
+            >
+            <div class="how-to-wear-it__content">
+              <h3 class="how-to-wear-it__item-title">
+                {{ how_to_wear_it_title_1 }}
+              </h3>
+              <p class="how-to-wear-it__item-byline">
+                {{ settings[ how_to_wear_it_byline_1_key ] }}
+              </p>
+            </div>
+          </section>
+          <section
+            class="
+              grid__item
+              grid__item--100-mobile-down
+              grid__item--50-tablet-up
+              how-to-wear-it__item
+            "
+          >
+            <img
+              class="how-to-wear-it__image"
+              src="{{ settings[ how_to_wear_it_image_2_key ] | img_url: '300x' }}"
+              sizes="(min-width: 1000px) 50vw, 100vw"
+              srcset="
+                {{ settings[ how_to_wear_it_image_2_key ] | img_url: '300x' }} 300w,
+                {{ settings[ how_to_wear_it_image_2_key ] | img_url: '500x' }} 500w,
+                {{ settings[ how_to_wear_it_image_2_key ] | img_url: '720x' }} 720w,
+                {{ settings[ how_to_wear_it_image_2_key ] | img_url: 'master' }} 1440w
+              "
+            >
+            <div class="how-to-wear-it__content">
+              <h3 class="how-to-wear-it__item-title">
+                {{ how_to_wear_it_title_2 }}
+              </h3>
+              <p class="how-to-wear-it__item-byline">
+                {{ settings[ how_to_wear_it_byline_2_key ] }}
+              </p>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+<section
+  class="
+    collection-overview-list
+    collection-overview-list--product
+    grid
+    grid--white
+    grid--column
+    grid--gutter
+    grid--hide-overflow
+  "
+  data-index="0"
+  data-items="{{ l }}"
+  data-touch="true"
+>
+  <div class="collection-overview-list__container title grid__container">
+    <h2 class="title__title title__title--center">
+      Or try a different style
+    </h2>
+    <div class="collection-overview-list__wrapper grid grid--column">
+      <div class="grid__container">
+        <div class="grid grid--nowrap">
+          <ul class="collection-overview-list__list grid__container">
+            <li class="collection-overview-list__spacer">
+            </li>
+            {% for i in (0..l) %}
+              {% assign type = trousers[ i ] %}
+              {% if type != product.type | downcase %}
+                {% for c in collections %}
+                  {% if c.title == type %}
+                    <li class="collection-overview-list__item grid__item grid">
+                        {% assign collection_type = product.type %}
+                      {% include 'collection-overview' %}
+                    </li>
+                    <li class="collection-overview-list__spacer">
+                    </li>
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+
+        <ul class="collection-overview-list__pagination pagination pagination--primary">
+          {% for i in (0..other_styles_index) %}
+            <li class="pagination__item">
+              <button
+                class="pagination__button"
+                data-index="{{ i }}"
+                type="button"
+              >
+                {{ i }}
+              </button>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

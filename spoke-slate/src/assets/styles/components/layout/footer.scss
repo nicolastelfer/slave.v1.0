@@ -1,0 +1,279 @@
+.footer {
+  background-color: $color-palette-1-primary;
+  border: 1px solid $color-palette-3-primary;
+  box-sizing: border-box;
+  color: white;
+  padding-bottom: 50px;
+  padding-top: 41px;
+  position: relative;
+
+  @include footer-medium-up {
+    padding-bottom: 63px;
+    padding-top: 80px;
+  }
+
+  &__icon {
+    height: 21px;
+    margin-right: 73px;
+    outline: none;
+    padding-top: 2px;
+    width: 37px;
+
+    @include footer-medium-down {
+      display: none;
+    }
+
+    .svg--icon {
+      display: block;
+      height: 21px;
+      width: 37px;
+
+      path {
+        fill: $color-palette-1-primary;
+        transition: fill 0.3s $ease-in-out;
+      }
+    }
+
+    &:hover,
+    &:focus {
+      .svg--icon {
+        path {
+          fill: $color-palette-1-secondary;
+        }
+      }
+    }
+  }
+
+  &__title {
+    margin-bottom: 16px;
+
+    a {
+      color: inherit;
+    }
+
+    @include footer-small-down {
+      margin-bottom: 8px;
+      text-align: center;
+
+      &--main {
+        font-size: $font-size-4;
+        margin-bottom: 18x;
+      }
+    }
+  
+  }
+
+  &__form {
+    margin-top: 11px;
+
+    @include footer-medium-up {
+      padding-right: 20px;
+    }
+  }
+
+  &__input {
+    max-width: 215px;
+    @include footer-large-up {
+      max-width: 231px;
+    }
+  }
+
+  &__base {
+    margin-top: 40px;
+
+    @include footer-medium-up {
+      margin-top: 120px;
+    }
+  }
+
+  &__smallprint {
+    @extend %label-title--smallest;
+    color: $color-palette-1-primary-lighter;
+    display: inline;
+    white-space: nowrap;
+
+    @include footer-small-down {
+      display: block;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    a {
+      color: white;
+      outline: none;
+    }
+
+    + .footer__smallprint {
+      @include footer-medium-up {
+        padding-left: 35px;
+      }
+
+    }
+
+    &--first {
+
+      @extend %label-title--small;
+
+      a {
+        color: white;
+        @extend %label-title--small;
+      }
+
+      @include footer-small-down {
+        text-align: center;
+      }
+
+      @include footer-large-up {
+        box-sizing: border-box;
+      }
+    }
+
+    &--copyright {
+    
+      @include footer-small-down {
+        display: block;
+      }
+    }
+
+    &--copyright::after {
+      content: '/';
+
+      @include footer-small-down {
+        content: '';
+        text-align: center;
+      }
+    }
+  }
+
+  &__nav {
+    @include footer-small-down {
+      align-items: center;
+      border-bottom: 1px solid $color-palette-1-primary-medium;
+      display: flex;
+      flex-basis: 100%;
+      justify-content: center;
+      padding: 20px 0 16px;
+      max-width: 100%;
+      width: 100%;
+
+      &:first-child {
+        border-top: 1px solid $color-palette-1-primary-medium;
+        margin-top: 10px;
+
+        @include tablet-up {
+          margin-top: 50px;
+        }
+      }
+    }
+
+    + .footer__nav {
+      @include footer-medium-up {
+        margin-left: 60px;
+      }
+    }
+  }
+
+  &__list {
+    @extend %list-no-style;
+    margin-top: 9px;
+  }
+
+  &__item {
+    @extend %font-24; //@todo to be corrected to s-15px lh-24
+    margin-bottom: 10px;
+  }
+
+  &__link {
+    color: white;
+    outline: none;
+    white-space: nowrap;
+
+    @include footer-small-down {
+      display: none;
+    }
+  }
+
+  &__up {
+    bottom: 30px;
+    position: absolute;
+    right: 14px;
+
+    @include tablet-up {
+      right: 40px;
+    }
+
+    @include footer-small-down {
+      display: none;
+    }
+  }
+
+  &__small {
+    &--100 {
+      @include footer-small-down {
+        flex-basis: 100% !important;
+        max-width: 100% !important;
+      }
+    }
+
+    &--center {
+      @include footer-small-down {
+        justify-content: center;
+      }
+    }
+
+    &--wrap {
+      @include footer-small-down {
+        flex-wrap: wrap !important;
+      }
+    }
+  }
+
+  &__medium {
+    &--100 {
+      @include footer-medium-up {
+        flex-basis: 100% !important;
+        max-width: 100% !important;
+      }
+    }
+  }
+
+  &__social {
+
+    @include footer-small-down {
+      text-align: center;
+      margin: 0 auto 50px;
+    }
+
+    margin: 0 0 30px;
+  }
+
+  &__social-copyright {
+    @include mobile-down {
+      order: 2;
+      margin-bottom: 20px;
+    }
+  }
+
+  &__secondary-nav {
+    text-align: right;
+    
+    @include footer-small-down {
+      order: 1;   
+      margin-top: 30px;
+    }
+    
+  }
+
+  .gdpr-fields {
+    @include mobile-down {
+      margin: 0 auto;
+    }
+
+    @include footer-small-down {
+      margin: 0 auto;
+    }
+    margin: unset;
+  }
+}
+
+//@todo to find another version to align right this?

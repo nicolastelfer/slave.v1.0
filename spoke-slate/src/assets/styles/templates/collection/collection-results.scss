@@ -1,0 +1,10 @@
+.collection {
+  &__results {
+    margin: 20px auto;
+    width: 100%;
+
+    @include tablet-up {
+      margin: 50px auto;
+    }
+  }
+}

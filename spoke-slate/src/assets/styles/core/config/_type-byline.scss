@@ -1,0 +1,37 @@
+/**
+ * Bylines
+ * Used to support headlines
+ * Mobile to Desktop
+ */
+
+@mixin byline($s-m, $l-h-m, $l-s) {
+  @include font-family-4;
+  @include font-style($s-m, $l-s, $l-h-m);
+}
+
+%byline {
+  @include byline(18, 26, null);
+  font-style: italic;
+  text-transform: none;
+
+  &--regular {
+    @extend %byline;
+    font-style: normal;
+  }
+
+  &--large {
+    @extend %byline;
+    @include byline(24, 32, null);
+  }
+
+  &--small {
+    @extend %byline;
+    @include byline(16, 24, null);
+  }
+
+  &--smallest {
+    @extend %byline;
+    @include byline(13, 18, null);
+  }
+}
+

@@ -1,0 +1,15 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  &__content {
+    background-color: $color-palette-3-tertiary;
+    flex-grow: 1;
+    -ms-flex: 0 0 auto;
+
+    @include tablet-up {
+      background-color: $color-palette-3-secondary;
+    }
+  }
+}

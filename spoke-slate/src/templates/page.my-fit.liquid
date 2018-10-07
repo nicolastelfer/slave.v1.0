@@ -1,0 +1,827 @@
+{% assign active_account_nav = 'account' %}
+
+{% include 'layout.account-nav' %}
+
+{% assign last_order_id = '' %}
+{% assign last_order_has_varying_sizes = false %}
+
+{% for order in customer.orders %}
+  {% if forloop.first %}
+    {% assign last_order_id = order.id %}
+    {% assign item_sizes = '' %}
+    {% for item in order.line_items %}
+      {% capture item_sizes %}{% unless item_sizes == '' %}{{ item_sizes }},{% endunless %}{{ item.properties.Waist }}{{ item.properties.Build }}{{ item.properties.Leg }}{{ item.properties.PoloCut }}{{ item.properties.PoloSize }}{{ item.properties.PoloLength }}{% endcapture %}
+    {% endfor %}
+    {% assign item_sizes = item_sizes | split: ',' %}
+    {% assign itemms_in_last_order = item_sizes | uniq | size %}
+    {% if itemms_in_last_order > 1 %}
+      {% assign last_order_has_varying_sizes = true %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+{% if customer %}
+  <section
+    class="
+    grid
+    grid--grey
+    grid--padding-bottom
+    grid--horizontal-center
+    grid--full-width
+  "
+  >
+    <div class="grid__container">
+      {% assign a = customer.metafields.fit.last_order_id | join: '' %}
+      {% assign b = last_order_id | join: '' %}
+
+      {% if last_order_has_varying_sizes and a != b %}
+        <div
+          class="
+          grid__item
+          grid__item--100
+          grid__item--padding-top
+          grid
+          grid--gutter-desktop-up
+          grid--column
+        "
+        >
+          <div class="card card--horizontal-start grid__item grid__container grid">
+            <header
+              class="
+              card__container
+              card__container--no-bottom-border-mobile-down
+              grid__container
+            "
+            >
+              <h1
+                class="
+                card__section
+                card__section--row
+                card__section--uppercase
+                card__section--strong
+                card__section--nogrow
+                card__section--join-mobile-down
+                grid__item
+              "
+              >
+                Please select your fit
+              </h1>
+
+              <p
+                class="
+                card__section
+                card__section--row
+                card__section--strong
+                card__section--nogrow
+                card__section--no-border
+                card__section--join-mobile-down
+                grid__item
+              "
+              >
+                Looks like last time you made an order with
+                multiple sizes.
+              </p>
+            </header>
+
+            {% for order in customer.orders %}
+              {% if forloop.first %}
+                {% for item in order.line_items %}
+                  {% assign title = item.product.title | split: '//' %}
+                  {% capture color_name %}{{ title[ 0 ] | strip }}{% endcapture %}
+
+                  <form
+                    class="
+                    card__container
+                    card__container--no-bottom-border-mobile-down
+                    card__container--horizontal-space-between
+                    grid__container
+                    js-last-order-fit
+                  "
+                    method="post"
+                  >
+                    <div class="card__section card__section--vertical-padding">
+                      <div class="product-overview">
+                        <div class="product-overview__image-container">
+                          <img
+                            class="product-overview__image"
+                            src="{{ item.product | img_url: '75x' }}"
+                            srcset="
+                            {{ item.product | img_url: '75x' }} 1x,
+                            {{ item.product | img_url: '150x' }} 2x
+                          "
+                          />
+                        </div>
+
+                        <div class="product-overview__content">
+                          <h2 class="product-overview__title">
+                            {{ item.product.type }}
+                          </h2>
+
+                          <p class="product-overview__line">
+                            Color: {{ color_name }}
+                          </p>
+
+                          {% if item.properties.Waist %}
+                            <p class="product-overview__line">
+                              W: {{ item.properties.Waist }}
+                            </p>
+                          {%  endif %}
+
+                          {% if item.properties.Leg %}
+                            <p class="product-overview__line">
+                              L: {{ item.properties.Leg }}
+                            </p>
+                          {% endif %}
+                          {% if item.properties.Build %}
+                            <p class="product-overview__line">
+                              Build: {{ item.properties.Build | remove: 'Build ' }}
+                            </p>
+                          {%  endif %}
+                          {% if item.properties.Cut %}
+                            <p class="product-overview__line">
+                              Cut: {{ item.properties.Cut }}
+                            </p>
+                          {%  endif %}
+                          {% if item.properties.Size %}
+                            <p class="product-overview__line">
+                              Size: {{ item.properties.Size }}
+                            </p>
+                          {%  endif %}
+                          {% if item.properties.Length %}
+                            <p class="product-overview__line">
+                              Length: {{ item.properties.Length }}
+                            </p>
+                          {%  endif %}
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="
+                      card__section
+                      card__section--no-border
+                      card__section--vertical-padding
+                      card__section--uppercase
+                      grid
+                      grid--full-height
+                    "
+                    >
+                      <div class="grid__container">
+                        <input
+                          name="customerId"
+                          type="hidden"
+                          value="{{ customer.id }}"
+                        />
+
+                        <input
+                          name="orderId"
+                          type="hidden"
+                          value="{{ order.id }}"
+                        />
+
+                        <input
+                          name="build"
+                          type="hidden"
+                          value="{{ item.properties.Build }}"
+                        />
+
+                        <input
+                          name="leg"
+                          type="hidden"
+                          value="{{ item.properties.Leg }}"
+                        />
+
+                        <input
+                          name="waist"
+                          type="hidden"
+                          value="{{ item.properties.Waist }}"
+                        />
+
+                        <input
+                          name="cut"
+                          type="hidden"
+                          value="{{ item.properties.Cut }}"
+                        />
+
+                        <input
+                          name="size"
+                          type="hidden"
+                          value="{{ item.properties.Size }}"
+                        />
+
+                        <input
+                          name="length"
+                          type="hidden"
+                          value="{{ item.properties.Length }}"
+                        />
+
+                        <button
+                          class="button button--primary button--small-font"
+                          type="submit"
+                        >
+                        <span class="button__content">
+                          This fit me better
+                        </span>
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                {% endfor %}
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+        {% elsif customer.metafields.trouser.waist %}
+        <div
+          class="
+          grid__item
+          grid__item--100
+          grid__item--padding-top
+          grid
+          grid--gutter-desktop-up
+          grid--column
+        "
+        >
+          <div class="card grid__item grid__container grid">
+            <header
+              class="
+              card__container
+              card__container--horizontal-space-between-tablet-up
+              grid__container
+            "
+            >
+              <h1
+                class="
+                card__section
+                card__section--uppercase
+                card__section--row
+                card__section--strong
+                grid__item
+              "
+              >
+                Your current size
+              </h1>
+
+              <div
+                class="
+                card__section
+                card__section--row
+                card__section--uppercase
+                grid__item
+              "
+              >
+                <p class="card__section card__section--no-border card__section--break-mobile-down">
+                  <span class="card__key">Last updated</span>
+                  <span class="card__value">
+                  {{ customer.metafields.fit.updated | divided_by: 1000 | date: "%d/%m/%Y" }}
+                </span>
+                </p>
+
+                <p class="card__section card__section--no-border card__section--break-mobile-down">
+                  <span class="card__key">Updated by</span>
+                  <span class="card__value">
+                  {% case customer.metafields.fit.method %}
+                  {% when 'fitfinder' %}
+                    Fit Finder
+                  {% when 'lastorder' %}
+                    Last order
+                  {% when 'edit' %}
+                    Edit
+                  {% endcase %}
+                </span>
+                </p>
+              </div>
+            </header>
+
+            <form
+              class="
+              form
+              card__container
+              grid__container
+              grid
+              grid--nowrap
+              grid--column
+              grid--horizontal-center
+              js-my-fit
+            "
+            >
+              <div class="card__section card__section--no-border card__section--vertical-padding card__section--center-align grid__container">
+                {% assign trouserBuilds = settings.trouser_builds | split: ',' %}
+                {% assign trouserLegs = settings.trouser_leg_sizes | split: ',' %}
+                {% assign trouserWaists = settings.trouser_waist_sizes | split: ',' %}
+                {% assign poloCuts = settings.polos_cuts | split: ',' %}
+                {% assign poloSizes = settings.polos_sizes | split: ',' %}
+                {% assign poloLengths = settings.polos_lengths | split: ',' %}
+
+                <input
+                  name="id"
+                  type="hidden"
+                  value="{{ customer.id }}"
+                />
+
+                <h4 class="card__subtitle">Trousers</h4>
+
+                <div class="card__select grid__item">
+                  <div class="select">
+                    <button class="select__button" type="button">
+                      <p class="select__edit">
+                        Edit
+                      </p>
+                      <h2 class="select__title">
+                        Waist
+                      </h2>
+                      <p class="select__value">
+                        {{ customer.metafields.trouser.waist }}
+                      </p>
+                    </button>
+
+                    <div class="select__options">
+                      <div class="select__container">
+                        <ul class="select__list">
+                          {% for waist in trouserWaists %}
+                            <li class="select__item{% if waist == customer.metafields.trouser.waist %} select__item--selected{% endif %}">
+                              <button class="select__option" type="button">
+                                {{ waist }}
+                              </button>
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                      <button
+                        class="
+                        select__save
+                        button
+                        button--primary
+                        button--large-padding
+                        button--full-width
+                      "
+                        type="button"
+                      >
+                      <span class="button__content">
+                        Save
+                      </span>
+                      </button>
+                    </div>
+
+                    <input
+                      class="select__input js-my-fit__trigger"
+                      name="trouser.waist"
+                      max="{{ waists | last }}"
+                      min="{{ waists | first }}"
+                      type="hidden"
+                      value="{{ customer.metafields.trouser.waist }}"
+                    />
+                  </div>
+                </div>
+
+                <div class="card__select grid__item">
+                  <div class="select">
+                    <button class="select__button" type="button">
+                      <p class="select__edit">
+                        Edit
+                      </p>
+                      <h2 class="select__title">
+                        Build
+                      </h2>
+                      <p class="select__value">
+                        {{ customer.metafields.trouser.build }}
+                      </p>
+                    </button>
+
+                    <div class="select__options">
+                      <div class="select__container">
+                        <ul class="select__list">
+                          {% for build in trouserBuilds %}
+                            <li class="select__item{% if build == customer.metafields.trouser.build %} select__item--selected{% endif %}">
+                              <button class="select__option" type="button">
+                                {{ build }}
+                              </button>
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                      <button
+                        class="
+                        select__save
+                        button
+                        button--primary
+                        button--large-padding
+                        button--full-width
+                      "
+                        type="button"
+                      >
+                      <span class="button__content">
+                        Save
+                      </span>
+                      </button>
+                    </div>
+
+                    <input
+                      class="select__input js-my-fit__trigger"
+                      name="trouser.build"
+                      type="hidden"
+                      value="{{ customer.metafields.trouser.build }}"
+                    />
+                  </div>
+                </div>
+
+                <div class="card__select grid__item">
+                  <div class="select">
+                    <button class="select__button" type="button">
+                      <p class="select__edit">
+                        Edit
+                      </p>
+                      <h2 class="select__title">
+                        Leg
+                      </h2>
+                      <p class="select__value">
+                        {{ customer.metafields.trouser.leg }}
+                      </p>
+                    </button>
+
+                    <div class="select__options">
+                      <div class="select__container">
+                        <ul class="select__list">
+                          {% for leg in trouserLegs %}
+                            <li class="select__item{% if leg == customer.metafields.trouser.leg %} select__item--selected{% endif %}">
+                              <button class="select__option" type="button">
+                                {{ leg }}
+                              </button>
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                      <button
+                        class="
+                        select__save
+                        button
+                        button--primary
+                        button--large-padding
+                        button--full-width
+                      "
+                        type="button"
+                      >
+                      <span class="button__content">
+                        Save
+                      </span>
+                      </button>
+                    </div>
+
+                    <input
+                      class="select__input js-my-fit__trigger"
+                      name="trouser.leg"
+                      max="{{ legs | last }}"
+                      min="{{ legs | first }}"
+                      type="hidden"
+                      value="{{ customer.metafields.trouser.leg }}"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="card__section card__section--no-border card__section--vertical-padding grid__container">
+                <h4 class="card__subtitle">Polos</h4>
+                <div class="card__select grid__item">
+                  <div class="select">
+                    <button class="select__button" type="button">
+                      <p class="select__edit">
+                        Edit
+                      </p>
+                      <h2 class="select__title">
+                        Polo cut
+                      </h2>
+                      <p class="select__value">
+                        {{ customer.metafields.polo.cut | capitalize }}
+                      </p>
+                    </button>
+
+                    <div class="select__options">
+                      <div class="select__container">
+                        <ul class="select__list select__list--square">
+                          {% for cut in poloCuts %}
+                            {% assign metaCutCap = customer.metafields.polo.cut | capitalize %}
+                            <li class="select__item {% if cut == metaCutCap %} select__item--selected{% endif %}">
+                              <button class="select__option" type="button">
+                                {{ cut | capitalize  }}
+                              </button>
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                      <button
+                        class="
+                        select__save
+                        button
+                        button--primary
+                        button--large-padding
+                        button--full-width
+                      "
+                        type="button"
+                      >
+                      <span class="button__content">
+                        Save
+                      </span>
+                      </button>
+                    </div>
+
+                    <input
+                      class="select__input js-my-fit__trigger"
+                      name="polo.cut"
+                      type="hidden"
+                      value="{{ customer.metafields.polo.cut | capitalize }}"
+                    />
+                  </div>
+                </div>
+
+                <div class="card__select grid__item">
+                  <div class="select">
+                    <button class="select__button" type="button">
+                      <p class="select__edit">
+                        Edit
+                      </p>
+                      <h2 class="select__title">
+                        Polo size
+                      </h2>
+                      <p class="select__value">
+                        {{ customer.metafields.polo.size }}
+                      </p>
+                    </button>
+
+                    <div class="select__options">
+                      <div class="select__container">
+                        <ul class="select__list">
+                          {% for size in poloSizes %}
+                            <li class="select__item{% if size == customer.metafields.polo.size %} select__item--selected{% endif %}">
+                              <button class="select__option" type="button">
+                                {{ size }}
+                              </button>
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                      <button
+                        class="
+                        select__save
+                        button
+                        button--primary
+                        button--large-padding
+                        button--full-width
+                      "
+                        type="button"
+                      >
+                      <span class="button__content">
+                        Save
+                      </span>
+                      </button>
+                    </div>
+
+                    <input
+                      class="select__input js-my-fit__trigger"
+                      name="polo.size"
+                      type="hidden"
+                      value="{{ customer.metafields.polo.size }}"
+                    />
+                  </div>
+                </div>
+
+                <div class="card__select grid__item">
+                  <div class="select">
+                    <button class="select__button" type="button">
+                      <p class="select__edit">
+                        Edit
+                      </p>
+                      <h2 class="select__title">
+                        Polo length
+                      </h2>
+                      <p class="select__value">
+                        {{ customer.metafields.polo.length }}
+                      </p>
+                    </button>
+
+                    <div class="select__options">
+                      <div class="select__container">
+                        <ul class="select__list select__list--square">
+                          {% for length in poloLengths %}
+                            {% assign metaLenCap = customer.metafields.polo.length | capitalize %}
+                            <li class="select__item{% if length == metaLenCap %} select__item--selected{% endif %}">
+                              <button class="select__option" type="button">
+                                {{ length  | capitalize }}
+                              </button>
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                      <button
+                        class="
+                        select__save
+                        button
+                        button--primary
+                        button--large-padding
+                        button--full-width
+                      "
+                        type="button"
+                      >
+                      <span class="button__content">
+                        Save
+                      </span>
+                      </button>
+                    </div>
+
+                    <input
+                      class="select__input js-my-fit__trigger"
+                      name="polo.length"
+                      type="hidden"
+                      value="{{ customer.metafields.polo.length }}"
+                    />
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      {% else %}
+        <div
+          class="
+          grid__item
+          grid__item--100
+          grid__item--padding-top
+          grid
+          grid--column
+        "
+        >
+          <div class="card grid__item grid__container grid">
+            <div
+              class="
+              card__container
+              card__container--no-bottom-border-mobile-down
+              grid__container
+            "
+            >
+              <h1
+                class="
+                card__section
+                card__section--row
+                card__section--uppercase
+                card__section--strong
+                card__section--center-mobile-down
+                grid__item
+              "
+              >
+                Don't know your fit?
+              </h1>
+            </div>
+
+            <div
+              class="
+              card__cta
+              card__container
+              card__container--no-bottom-border-mobile-down
+              grid__container
+            "
+            >
+              <div
+                class="
+                card__cta-image
+                card__section
+                card__section--nogrow
+                card__section--vertical-padding
+                card__section--center-mobile-down
+                grid__item
+              "
+              >
+                {% include 'svg.illustration.trousers-6' %}
+              </div>
+
+              <div
+                class="
+                card__section
+                card__section--center-mobile-down
+                card__section--no-border
+                card__section--vertical-padding
+                grid__item
+                grid
+                grid--column
+                grid--horizontal-start-tablet-up
+                grid--horizontal-center-mobile-down
+              "
+              >
+                <div class="grid__container">
+                  <p class="card__cta-text grid__item">
+                    We currently don't have your size on file.
+                    Our Fit Finder can make a size reccomendation
+                    in 60 seconds.
+                  </p>
+
+                  <a
+                    class="
+                    card__cta-button
+                    button
+                    button--large-padding
+                    button--primary
+                    grid__item
+                  "
+                    href="/pages/fit-finder"
+                    data-analytics-click="Click"
+                    data-analytics-props='{"category": "Fit Finder Link", "label": "My Fit"}'
+                  >
+                  <span class="button__content">
+                    Get started
+                  </span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      {% endif %}
+    </div>
+  </section>
+
+  {% if customer.metafields.trouser.waist or (last_order_has_varying_sizes and a != b) %}
+    <section
+      class="
+      grid
+      grid--grey
+      grid--gutter
+      grid--padding-bottom
+      grid--horizontal-center
+      grid--nogrow
+    "
+    >
+      <div class="grid__container">
+        <div class="cta grid__item">
+          <h3 class="cta__text">
+            Discover your perfect size in 60 seconds or less.
+          </h3>
+
+          <a
+            class="cta__button button button--large-padding button--primary"
+            href="/pages/fit-finder"
+            data-analytics-click="Click"
+            data-analytics-props='{"category": "Fit Finder Link", "label": "My Fit"}'
+          >
+          <span class="button__content">
+            {% if customer.metafields.fitfinder.taken %}
+              Retake
+            {% else %}
+              Take
+            {% endif %}
+            the test
+          </span>
+          </a>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+{% else %}
+  <section
+    class="
+    grid
+    grid--grey
+    grid--padding-bottom
+    grid--horizontal-center
+    grid--full-width
+  "
+  >
+    <div class="grid__container">
+      <div
+        class="
+          grid__item
+          grid__item--100
+          grid__item--padding-top
+          grid
+          grid--gutter-desktop-up
+          grid--column
+        "
+      >
+        <div class="card card--horizontal-start grid__item grid__container grid">
+          <div
+            class="
+                card__section
+                card__section--center-mobile-down
+                card__section--no-border
+                card__section--vertical-padding
+                grid__item
+                grid
+                grid--column
+                grid--horizontal-start-tablet-up
+                grid--horizontal-center-mobile-down
+              "
+          >
+            <div class="grid__container">
+              <p class="card__cta-text grid__item">
+                <a
+                  class="link--inline"
+                  href="/account/login"
+                >
+                  Log in
+                </a> to view My Fit.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endif %}
+{% include 'log-out-mobile' %}

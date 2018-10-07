@@ -1,0 +1,80 @@
+/** Buttons **/
+$button-height-regular: 45px;
+$button-height-large: 50px;
+$button-height-huge: 54px;
+
+/** Buttons with icons **/
+$button-icon-regular: 37px;
+
+/** Header **/
+$header-height-regular: 50px;
+$header-height-large: 80px;
+
+/** Animations **/
+$ease-in: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+$ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+$ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
+
+/** Responsive **/
+$max-width: 1250px;
+$breakpoint-tablet: 600px;
+$breakpoint-tablet-large: 769px;
+$breakpoint-desktop: 1000px;
+$breakpoint-desktop-large: 1280px;
+$breakpoint-header: 920px;
+$breakpoint-footer-medium: 840px;
+$breakpoint-footer-large: 1180px;
+
+
+/** Colours **/
+$color-palette-1-primary: #0A1E2D;
+$color-palette-1-secondary: #F9491F;
+$color-palette-1-tertiary: #BFCED6;
+
+// Primary
+$color-palette-1-primary-medium: #475661; 
+$color-palette-1-primary-medium-light: #94A2AC; 
+$color-palette-1-primary-light: #C6CCCB;
+$color-palette-1-primary-lighter: #C7C2CA;
+$color-palette-1-primary-lighter-max: #F7F8F8;
+
+$color-palette-3-primary: #E8E8EA;
+$color-palette-3-secondary: #F3F3F5;
+$color-palette-3-tertiary: #FAFAFA;
+$color-palette-3-quaternary: #AFAFBB; // This is used for the colour fo a disabled button text
+
+$color-palette-4-primary: #DC1E32;
+$color-palette-4-secondary: #3A7A3A;
+
+
+/** Font-sizes **/
+$font-size-1: 100px;
+$font-size-2: 38px;
+$font-size-3: 35px;
+$font-size-4: 32px;
+$font-size-5: 26px;
+$font-size-6: 22px;
+$font-size-7: 20px;
+$font-size-8: 18px;
+$font-size-9: 16px;
+$font-size-10: 15px;
+$font-size-11: 14px;
+$font-size-12: 12px;
+$font-size-13: 11px;
+
+$line-height-1: 120px;
+$line-height-2: 48px;
+$line-height-3: 37px;
+$line-height-4: 34px;
+$line-height-5: 32px;
+$line-height-6: 28px;
+$line-height-7: 26px;
+$line-height-8: 24px;
+$line-height-9: 22px;
+$line-height-10: 19px;
+$line-height-11: 17px;
+$line-height-12: 14px;
+
+/** Letter spacing **/
+$letter-spacing-small: 0.4px;
+$letter-spacing-large: 2px;

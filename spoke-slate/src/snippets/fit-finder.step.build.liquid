@@ -1,0 +1,205 @@
+<section
+  class="
+    fit-finder__item
+    grid__item
+    grid__item--100
+    grid
+    grid--column
+    grid--horizontal-center
+    grid--vertical-space-between
+    js-enable-buttons
+  "
+>
+  <div class="grid__container">
+    <div class="fit-finder__header">
+      <div class="grid grid--gutter">
+        <div class="grid__container">
+          <h3 class="fit-finder__title-italic">
+            How would you describe <span class="title--secondary">your build</span>?
+          </h3>
+        </div>
+      </div>
+
+      <div
+        class="
+          build-carousel
+          fit-finder__radios
+          grid
+          grid--nowrap
+        "
+        data-index="{% if customer.metafields.fitfinder.build %}{% case customer.metafields.fitfinder.build %}{% when 'hulk' %}3{% when 'athletic' %}2{% when 'medium' %}1{% else %}0{% endcase %}{% endif %}"
+        data-items="4"
+        data-touch="true"
+      >
+        <div class="build-carousel__container grid__container">
+          <label
+            class="
+              build-carousel__item
+              radio
+              radio--img
+            "
+          >
+            <input
+              class="radio__input"
+              type="radio"
+              name="build"
+              value="slim"
+              {% if customer.metafields.fitfinder.build == 'slim' %}
+                checked
+              {% endif %}
+              required
+            />
+            
+            
+            <div class="radio radio__box"> 
+              <div class="radio__image-wrapper">
+                {% include 'svg.illustration.step.build-slim' %}
+              </div>
+             <span class="radio radio--span">Slim Jim</span>
+            </div>
+            
+            
+          </label>
+
+          <label
+            class="
+              build-carousel__item
+              radio
+              radio--img
+            "
+          >
+            <input
+              class="radio__input"
+              type="radio"
+              name="build"
+              value="medium"
+              {% if customer.metafields.fitfinder.build == 'medium' %}
+                checked
+              {% endif %}
+              required
+            />
+
+            <div class="radio radio__box"> 
+              <div class="radio__image-wrapper">
+                {% include 'svg.illustration.step.build-medium' %}
+              </div>
+              <span class="radio--span">Average Joe</span>
+            </div>
+
+          </label>
+
+          <label
+            class="
+              build-carousel__item
+              radio
+              radio--img
+            "
+          >
+            <input
+              class="radio__input"
+              type="radio"
+              name="build"
+              value="dadbod"
+              {% if customer.metafields.fitfinder.build == 'dadbod' %}
+                checked
+              {% endif %}
+              required
+            />
+
+            <div class="radio radio__box"> 
+              <div class="radio__image-wrapper">
+                {% include 'svg.illustration.step.build-dadbod' %}
+              </div>
+              <span class="radio--span">Dadbod Dean</span>
+            </div>
+
+          </label>
+
+          <label
+            class="
+              build-carousel__item
+              radio
+              radio--img
+            "
+          >
+            <input
+              class="radio__input"
+              type="radio"
+              name="build"
+              value="athletic"
+              {% if customer.metafields.fitfinder.build == 'athletic' %}
+                checked
+              {% endif %}
+              required
+            />
+
+            <div class="radio radio__box"> 
+              <div class="radio__image-wrapper">
+                {% include 'svg.illustration.step.build-athletic' %}
+              </div>
+              <span class="radio--span">Shredded Pete</span>
+            </div>
+          </label>
+
+          <label
+            class="
+              build-carousel__item
+              radio
+              radio--img
+            "
+          >
+            <input
+              class="radio__input"
+              type="radio"
+              name="build"
+              value="hulk"
+              {% if customer.metafields.fitfinder.build == 'hulk' %}
+                checked
+              {% endif %}
+              required
+            />
+
+            <div class="radio radio__box"> 
+              <div class="radio__image-wrapper">
+                {% include 'svg.illustration.step.build-hulk' %}
+              </div>
+              <span class="radio--span">Hulky Harry</span>
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="fit-finder__buttons grid grid--gutter grid--horizontal-center">
+      <div class="grid__container">
+        <button
+          class="
+            fit-finder__next
+            button
+            button--secondary
+            button--large-padding
+            button--full-width
+          "
+          type="button"
+          disabled
+          data-analytics-click="Fit Finder Step Completed: Build"
+          data-analytics-props='{"category": "Fit Finder", "label": "build", "step": "build"}'
+          data-analytics-dynamic-props='{"answer": "build"}'
+        >
+          <span class="button__content">
+            Next question
+          </span>
+        </button>
+
+        <button
+          class="fit-finder__previous"
+          type="button"
+          data-ignore="true"
+        >
+          {% include 'snippet.svg.icon', type:'icon', class:'arrow-previous' %}
+          Back
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

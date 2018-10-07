@@ -1,0 +1,133 @@
+.compare-shorts {
+  padding-top: 5px;
+
+  @include tablet-up {
+    max-width: 300px;
+  }
+
+  &__nav {
+    display: flex;
+    flex-wrap: nowrap;
+    margin-bottom: 4px;
+    margin-left: -2px;
+    margin-right: -2px;
+    justify-content: center;
+    width: 100%;
+    @include mobile-down {
+      justify-content: space-between;
+      margin: 0 0 4px 0;
+    }
+  }
+
+  &__button {
+    &--main {
+      flex-wrap: nowrap;
+
+      margin-left: 2px;
+      margin-right: 2px;
+      width: 100%;
+
+      @include mobile-down {
+        flex-basis: 112px;
+        margin: 0;
+      }
+
+      @include tablet-up {
+        flex-grow: 1;
+      }
+    }
+  }
+
+  &__list {
+    display: flex;
+    flex-wrap: no-wrap;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  &__item {
+    flex-basis: 100%;
+    flex-grow: 0;
+    flex-shrink: 0;
+    opacity: 0;
+    text-align: center;
+    transition: all 0.3s $ease-in-out;
+
+    img {
+      width: 100%;
+      @include tablet-up {
+        max-width: 300px;
+      }
+    }
+
+  }
+
+  &__subtitle,
+  &__description {
+    @extend %center;
+  }
+
+  &__subtitle {
+    @extend %headline--tertiary;
+    color: $color-palette-1-primary;
+    max-width: 320px;
+    margin-top: 10px;
+
+  }
+
+  &__description {
+    color: $color-palette-1-primary;
+    margin-top: 10px;
+    max-width: 320px;
+  }
+
+  &[data-index="0"] {
+    .compare-shorts__item:nth-child(1) {
+      opacity: 1;
+    }
+  }
+
+  &[data-index="1"] {
+    .compare-shorts__item:nth-child(2) {
+      opacity: 1;
+    }
+
+    .compare-shorts__item {
+      transform: translateX(-100%);
+    }
+  }
+
+  &[data-index="2"] {
+    .compare-shorts__item:nth-child(3) {
+      opacity: 1;
+    }
+
+    .compare-shorts__item {
+      transform: translateX(-200%);
+    }
+  }
+
+  &[data-index="3"] {
+    .compare-shorts__item:nth-child(4) {
+      opacity: 1;
+    }
+
+    .compare-shorts__item {
+      transform: translateX(-300%);
+    }
+  }
+
+  &[data-index="4"] {
+    .compare-shorts__item:nth-child(5) {
+      opacity: 1;
+    }
+
+    .compare-shorts__item {
+      transform: translateX(-400%);
+    }
+  }
+
+  &__pagination {
+    margin-top: 20px;
+  }
+}

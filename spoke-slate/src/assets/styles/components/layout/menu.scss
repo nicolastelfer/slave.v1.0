@@ -1,0 +1,241 @@
+.menu {
+  background-color: transparentize($color-palette-1-primary, 0.19);
+  bottom: 0;
+  left: 0;
+  opacity: 1;
+  position: fixed;
+  right: 0;
+  top: 0;
+  transition: opacity 0.3s $ease-out, background-color 0.3s $ease-out;
+  z-index: 5;
+
+  &:not([data-open]) {
+    background-color: transparent;
+    opacity: 0;
+    z-index: -1;
+
+    .menu__container {
+      transform: translateX(-300px);
+    }
+
+    .menu__close {
+      opacity: 0;
+      transition: opacity 0.1s $ease-in-out 0s;
+    }
+  }
+
+  &[data-closing] {
+    background-color: transparent;
+    opacity: 0;
+    transition: opacity 0.3s $ease-in, background-color 0.3s $ease-in;
+
+    .menu__container {
+      transform: translateX(-300px);
+      transition: transform 0.3s $ease-in;
+    }
+  }
+
+  @include header-large {
+    display: none;
+  }
+
+  &__container {
+    background-color: white;
+    box-sizing: border-box;
+    height: 100%;
+    left: 0;
+    max-width: 300px;
+    overflow: scroll;
+    padding-bottom: 6px;
+    padding-top: 6px;
+    position: absolute;
+    right: 20px;
+    top: 0;
+    transform: translateX(0);
+    transition: transform 0.3s $ease-out;
+  }
+
+  &__header {
+    padding: 5px 15px 15px;
+    width: 100%;
+  }
+
+  &__icon {
+    outline: none;
+    position: relative;
+    width: 51.6px;
+
+    .svg--logo {
+      height: 30px;
+      margin-top: -15px;
+      position: absolute;
+      pointer-events: none;
+      top: 50%;
+      width: 51.6px;
+
+      path {
+        fill: $color-palette-1-primary;
+        transition: fill 0.3s $ease-in-out;
+      }
+    }
+
+    &:hover,
+    &:focus {
+      .svg--icon {
+        path {
+          fill: $color-palette-1-secondary;
+        }
+      }
+    }
+  }
+
+  &__row {
+    overflow: hidden;
+    width: 300px;
+
+    &[data-index="1"] {
+      .menu__column {
+        transform: translateX(-100%);
+      }
+    }
+
+    &[data-index="2"] {
+      .menu__column {
+        transform: translateX(-200%);
+      }
+    }
+  }
+
+  &__column {
+    box-sizing: border-box;
+    flex-shrink: 0;
+    transition: transform 0.3s $ease-in-out;
+  }
+
+  &__link {
+    border-top: 1px solid $color-palette-3-secondary;
+    box-sizing: border-box;
+    cursor: pointer;
+    outline: none;
+    padding-left: 17px;
+    padding-right: 16px;
+    position: relative;
+    text-align: left;
+    width: 100%;
+
+    &:not(.menu__link--multiline) {
+      @include font-family-3;
+      @include font-style(12, 2.2, 63);
+      color: $color-palette-1-primary;
+      height: 60px;
+      text-transform: uppercase;
+
+      &.menu__link--faded {
+        color: $color-palette-1-primary-lighter;
+
+        &:hover,
+        &:focus {
+          color: $color-palette-1-primary-light;
+        }
+      }
+
+      &:hover,
+      &:focus {
+        color: $color-palette-1-secondary;
+      }
+    }
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+
+      .svg--arrow-previous,
+      .svg--arrow-next {
+        path {
+          stroke: $color-palette-1-secondary;
+        }
+      }
+
+      .menu__link-title {
+        color: $color-palette-1-secondary;
+      }
+
+      .menu__link-byline {
+        color: $color-palette-1-secondary;
+      }
+    }
+
+    &--center {
+      text-align: center;
+
+      &.menu__navigate {
+        background-color: $color-palette-1-primary-lighter-max;
+      }
+    }
+
+    &--multiline {
+      padding-bottom: 17px;
+      padding-top: 20px;
+    }
+
+    &-title,
+    &-byline {
+      display: block;
+      transition: color 0.3s $ease-in-out;
+      width: 100%;
+    }
+
+    &-title {
+      @include font-family-3;
+      @include font-style(13, 2.4, 16);
+      color: $color-palette-1-primary;
+    }
+
+    &-byline {
+      @include font-family-4;
+      @include font-style(16, 0, 24);
+      color: $color-palette-1-primary-medium;
+
+      font-style: italic;
+    }
+
+    .svg--arrow-previous,
+    .svg--arrow-next {
+      display: block;
+      height: 13px;
+      margin-top: -7px;
+      position: absolute;
+      top: 50%;
+      width: 8px;
+
+      path {
+        stroke: $color-palette-1-primary;
+        transition: stroke 0.3s $ease-in-out;
+      }
+    }
+
+    .svg--arrow-previous {
+      left: 17px;
+    }
+
+    .svg--arrow-next {
+      right: 16px;
+    }
+  }
+
+  &__close {
+    border: 0;
+    height: 37px;
+    opacity: 1;
+    position: absolute;
+    top: 50%;
+    right: 18px;
+    transform: translateY(-50%);
+    transition: opacity 0.3s $ease-in-out 0.5s;
+    width: 37px;
+
+    svg g {
+      fill: white;
+    }
+  }
+}

@@ -1,0 +1,135 @@
+{% include 'collection-data' %}
+{% assign content = page.content | split: '|' %}
+
+{% capture bg %}landing_page_image_{{ content[ 0 ] }}{% endcapture %}
+{% capture bg_mobile %}landing_page_image_small_{{ content[ 0 ] }}{% endcapture %}
+
+{% assign bg_img = {{ content[ 0 ] }} %}
+
+<div class="landing landing--media">
+
+  {% if page.metafields.bg_colour.hex_value %}
+    <div class="landing__bg" style="background-color: #{{ page.metafields.bg_colour.hex_value }}"></div>
+  {% endif %}
+  {% if page.metafields.bg_pattern.value > 0 %}
+    <div class="landing__bg landing__bg--pattern"></div>
+  {% endif %}
+  <div class="landing__cover grid grid--horizontal-center">
+    <div class="landing__container grid__container">
+      <div class="grid__item landing__wrapper">
+
+        <div class="landing__title">
+          <h1>{{ page_title }}</h1>
+        </div>
+
+        {% if page.metafields.video.video_id %}
+          <div class="landing__video">
+            <iframe
+              allowtransparency="true"
+              frameborder="0"
+              scrolling="no"
+              src="https://fast.wistia.com/embed/iframe/fzrzezdtfi"
+              width="958"
+              height="350"
+              allowfullscreen
+              mozallowfullscreen
+              webkitallowfullscreen
+              oallowfullscreen
+              msallowfullscreen
+            >
+            </iframe>
+          </div>
+        {% endif %}
+        {% if page_description %}
+          <div class="landing__content">
+            {{ content[ 1 ] }}
+          </div>
+        {% endif %}
+        {% if page.metafields.section_primary.copy or page.metafields.section_primary.url %}
+          <div class="landing__content landing__content--extend">
+            {% if page.metafields.section_primary.copy %}
+              <p>{{ page.metafields.section_primary.copy }}</p>
+            {% endif %}
+            {% if page.metafields.section_primary.cta_url %}
+              <a href="{{ page.metafields.section_primary.cta_url  }}" class="button
+
+                button--secondary">{{ page.metafields.section_primary.cta_title }}</a>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        {% assign collection_title = page.metafields.collection.collection_name | handleize %}
+
+        {% if page.metafields.collection.collection_name %}
+          <div class="landing__products">
+            {% assign collection = collections[collection_title] %}
+            {% assign show_type = true %}
+
+            <div class="collection__products product-list grid__item grid">
+              <ul class="product-list__container grid__container">
+                {% for product in collection.products limit:5 %}
+
+                  <li
+                    class="
+              product-list__item
+              grid__item
+              grid__item--nogrow
+              grid
+              grid--horizontal-center
+              js-collection__item
+            "
+                  >
+                    <div class="grid__container">
+
+                      {% include 'product' %}
+                    </div>
+                  </li>
+
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        {% endif %}
+
+        {% if page.metafields.section_secondary.copy or page.metafields.section_secondary.url %}
+          <div class="landing__content landing__content--extend">
+            {% if page.metafields.section_secondary.copy %}
+              <p>{{ page.metafields.section_secondary.copy }}</p>
+            {% endif %}
+            {% if page.metafields.section_secondary.cta_url %}
+              <a href="{{ page.metafields.section_secondary.cta_url }}" class="button button--border button--shadow button--primary">
+                {{ page.metafields.section_secondary.cta_title }}
+              </a>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        {% assign as_seen_in_1 = settings.home_page_as_seen_in_1 %}
+        {% assign as_seen_in_2 = settings.home_page_as_seen_in_2 %}
+        {% assign as_seen_in_3 = settings.home_page_as_seen_in_3 %}
+
+        <section class="as-seen-in">
+          <div class="as-seen-in__container">
+            <h2 class="as-seen-in__title">
+              As seen in
+            </h2>
+
+            <ul class="as-seen-in__list">
+              <li class="as-seen-in__item">
+                  {% include 'snippet.svg.logo', type:'logo', class: as_seen_in_1 %}
+              </li>
+              <li class="as-seen-in__item">
+                  {% include 'snippet.svg.logo', type:'logo', class: as_seen_in_2 %}
+              </li>
+              <li class="as-seen-in__item">
+                  {% include 'snippet.svg.logo', type:'logo', class: as_seen_in_3 %}
+              </li>
+            </ul>
+          </div>
+        </section>
+
+      </div>
+
+    </div>
+  </div>
+</div>

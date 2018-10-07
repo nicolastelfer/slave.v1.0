@@ -1,128 +1,494 @@
-{% if cart.item_count > 0 %}
-  <h1>{{ 'cart.general.title' | t }}</h1>
+{% comment %}
 
-  <form action="/cart" method="post" novalidate>
-    <table class="responsive-table">
-      <thead class="small--hide">
-        <tr>
-          <th colspan="2">{{ 'cart.label.product' | t }}</th>
-          <th>{{ 'cart.label.price' | t }}</th>
-          <th>{{ 'cart.label.quantity' | t }}</th>
-          <th>{{ 'cart.label.total' | t }}</th>
-        </tr>
-      </thead>
-      <tbody>
+# Cart Component.
 
-        {% for item in cart.items %}
+# Used by the "/cart" page to disolay list of products to purchase
 
-        {% comment %}
+## Config:
 
-        Cart Item Template
-        =====================
-        The data-label attributes on <td> elements are mobile-friendly
-        helpers used for responsive-table labels
-        {% endcomment %}
+- item_sizes {Array}
+- item_sizes_polos {Array}
+- cart.items {Array} Array cart items
+- varying_item_sizes {Number} If number of product is greater than 1 then apply new customer fit from product in cart
 
-          <tr class="responsive-table-row">
+# @Todo:
+- Unify item_sizes and item_sizes_polos
+- Refactor code
 
-            <td data-label="{{ 'customer.order.product' | t }}">
+{% endcomment %}
 
-              {% if item.image != blank %}
-                <a href="{{ item.url | within: collections.all }}">
-                  {{ item | img_url: '240x240' | img_tag: item.title }}
-                </a>
-              {% endif %}
+{% assign item_sizes = '' %}
+{% assign item_sizes_polos = '' %}
+{% assign sale_item = false %}
 
-            </td>
-            <td>
-              <a href="{{ item.url }}">{{ item.product.title }}</a>
+<div class="basket">
+  <div class="basket__title-container grid grid--gutter grid--grey">
+    <div class="grid__container">
+      <h3 class="basket__title grid__item grid__item--padding-top">
+        Your basket
+      </h3>
+    </div>
+  </div>
 
-              {% unless item.product.has_only_default_variant %}
-                <p>{{ item.variant.title }}</p>
-              {% endunless %}
+  {% if cart.item_count > 0 %}
 
-              <p>{{ item.vendor }}</p>
+    <div class="js-cart">
+      <form
+        action="/cart"
+        class="form js-checkout"
+        method="post"
+      >
 
-              {%- assign property_size = item.properties | size -%}
+        <input type="hidden" name="discount" value="" class="js-discount-code" />
 
-              {% if property_size > 0 %}
-                {% for p in item.properties %}
-                  {% unless p.last == blank %}
-                  {{ p.first }}:
+        <div class="basket__headers grid grid--grey grid--gutter">
+          <div class="grid__container">
+            <div
+              class="
+                grid__item
+                grid__item--50-desktop-up
+                grid__item--padding-top-small
+              "
+            >
+              <h2 class="basket__header">
+                Item details
+              </h2>
+            </div>
+            <div
+              class="
+                grid__item
+                grid__item--20-desktop-up
+                grid__item--padding-top-small
+              "
+            >
+            {% comment %} @todo to be removed without changing the layout {% endcomment %}
+              <h2 class="basket__header"> 
+              
+              </h2>
+            </div>
+            <div
+              class="
+                grid__item
+                grid__item--20-desktop-up
+                grid__item--padding-top-small
+              "
+            >
+              <h2 class="basket__header">
+                Quantity
+              </h2>
+            </div>
+            <div
+              class="
+                grid__item
+                grid__item--10-desktop-up
+                grid__item--padding-top-small
+              "
+            >
+              <h2 class="basket__header">
+                Price
+              </h2>
+            </div>
+          </div>
+        </div>
 
-                  {% if p.last contains '/uploads/' %}
-                    <a href="{{ p.last }}">{{ p.last | split: '/' | last }}</a>
-                  {% else %}
-                    {{ p.last }}
+        <div class="basket__items">
+          {% for item in cart.items %}
+            {% if item.properties.Build | size or item.properties.Waist | size %}
+              {% capture item_sizes %}{% unless item_sizes == '' %}{{ item_sizes }},{% endunless %}{{ item.properties.Build }}|{{ item.properties.Leg }}|{{ item.properties.Waist }}|{{ item.properties.Polo_cuts }}{% endcapture %}
+            {% endif %}
+
+            {% comment %}Shorts Specific{% endcomment %}
+            {% if item.properties.Build | size or item.properties.Waist | size %}
+              {% capture item_sizes_shorts %}{% unless item_sizes == '' %}{{ item_sizes }},{% endunless %}{{ item.properties.Build }}|{{ item.properties.ShortsLeg }}|{{ item.properties.Waist }}{% endcapture %}
+            {% endif %}
+
+            {% comment %}Polos Specific{% endcomment %}
+            {% if item.properties.Cut | size or item.properties.Size | size %}
+              {% capture item_sizes_polos %}{% unless item_sizes_polos == '' %}{{ item_sizes_polos }},{% endunless %}{{ item.properties.Cut }}|{{ item.properties.Size }}|{{ item.properties.Length }}{% endcapture %}
+            {% endif %}
+
+            {% assign title = item.product.title | split: '//' %}
+            {% capture color_name %}{{ title[ 0 ] | strip }}{% endcapture %}
+            <div class="basket__item grid grid--gutter grid--vertical-center-desktop-up">
+              <div class="grid__container">
+                <div class="grid__item grid__item--40 grid__item--50-tablet-up">
+                  <div class="product-overview">
+                    <div class="product-overview__image-container">
+                      <img
+                        class="product-overview__image"
+                        src="{{ item.product | img_url: '75x' }}"
+                        srcset="
+                          {{ item.product | img_url: '75x' }} 1x,
+                          {{ item.product | img_url: '150x' }} 2x
+                        "
+                      />
+                    </div>
+
+                    <div class="product-overview__content--cart">
+                      <div class="">
+                        <div class="">
+                          <h3 class="product-overview__title">
+                            {% if item.product.handle != 'gift-card' %}
+                              {{ color_name }}
+                            {% endif %}
+                          </h3>
+
+                          {% if item.product.handle != 'gift-card' %}
+                            {% for tag in item.product.tags %}
+                              {% if tag contains 'pre-order' %}
+                                <p class="product-overview__pre-order">
+                                  Pre-order: Ships
+                                  {{ tag | remove: 'pre-order:' | strip }}
+                                </p>
+                                {% break %}
+                              {% endif %}
+
+                              {% if tag contains 'custom made' %}
+                                <p class="product-overview__pre-order">
+                                  Custom Made:
+                                  {{ tag | remove: 'custom made:' | strip }}
+                                </p>
+                                {% break %}
+                              {% endif %}
+                            {% endfor %}
+                          {% endif %}
+                        </div>
+                      </div>
+
+                      {% if item.product.handle != 'gift-card' %}
+                        <p class="product-overview__line">
+                          {{ item.product.type }}
+                        </p>
+
+                        <p class="product-overview__line">
+                          {% if item.properties.Waist %}
+                            Waist: {{ item.properties.Waist }} <span class="letter-space">&nbsp;</span> 
+                          {% endif %}
+                          {% if item.properties.Leg %}
+                            Leg: {{ item.properties.Leg }} <span class="letter-space">&nbsp;</span> 
+                          {% endif %}
+                          {% if item.properties.ShortsLeg %}
+                            Leg: {{ item.properties.ShortsLeg }} <span class="letter-space">&nbsp;</span>  
+                          {% endif %}
+                          {% if item.properties.Build %}
+                            Build: {{ item.properties.Build }}
+                          {% endif %}
+                          {% if item.properties.Size %}
+                            Size: {{ item.properties.Size }} <span class="letter-space">&nbsp;</span> 
+                          {% endif %}
+                          {% if item.properties.Cut %}
+                            Cut: {{ item.properties.Cut }} <span class="letter-space">&nbsp;</span>  
+                          {% endif %}
+                          {% if item.properties.Length %}
+                            Length: {{ item.properties.Length }}
+                          {% endif %}
+                        </p>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="
+                    grid__item
+                    grid__item--20-desktop-up
+                    grid
+                    grid--column
+                    grid--horizontal-start
+                    grid--horizontal-end-tablet-down
+                  "
+                >
+                  <div class="grid__container">
+                    <p class="basket__price basket__price--tablet-down">
+                      {{ item.price | money }}
+                    </p>
+
+                    <a
+                      class="
+                        basket__remove
+                        link
+                        link--block
+                        link--light-grey
+                      "
+                      href="/cart/change?line={{ forloop.index }}&amp;quantity=0"
+                    >
+                     Remove
+                    </a>
+                  </div>
+                </div>
+
+                <div
+                  class="
+                    grid__item
+                    grid__item--100-tablet-down
+                    grid__item--20-desktop-up
+                    grid
+                    grid--vertical-center
+                    js-submit
+                  "
+                >
+                  <div class="basket__quantity grid__container">
+                    <p class="basket__quantity-label">
+                      Quantity
+                    </p>
+
+                    <input
+                      class="basket__quantity-input form__input js-submit__input"
+                      id="quantity-{{ item.product.id }}"
+                      {% if item.variant.inventory_policy != 'continue' %}
+                        max="{{ item.variant.inventory_quantity }}"
+                      {% endif %}
+                      min="0"
+                      name="updates[]"
+                      type="number"
+                      value="{{ item.quantity }}"
+                    />
+
+                    <button
+                      class="basket__quantity-button js-submit__button"
+                      name="update"
+                      type="submit"
+                      value="Update"
+                    >
+                      Update
+                    </button>
+                  </div>
+                </div>
+
+                <p
+                  class="
+                    grid__item
+                    grid__item--10-desktop-up
+                    basket__price
+                    basket__price--desktop-up
+                  "
+                >
+                  {{ item.price | money }}
+                </p>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <div
+          class="
+            grid__item
+            grid
+            grid--gutter
+            grid--horizontal-center
+            grid--horizontal-space-between-desktop-up
+            grid--nowrap-desktop-up
+            grid--padding-bottom
+            grid--grey-desktop-up
+          "
+        >
+          <div class="grid__container">
+            <div class="basket__note grid__item grid__item--padding-top">
+              <div class="basket__note-content">
+                <h5 class="basket__note-title">
+                  Special instructions
+                </h5>
+
+                <textarea
+                  class="basket__note-textarea form__textarea"
+                  name="note"
+                  placeholder="Write a note here"
+                ></textarea>
+              </div>
+            </div>
+
+            <div
+              class="
+                basket__summary
+                grid__item
+                grid
+                grid--column
+              "
+            >
+              <div class="grid__container">
+                <h5
+                  class="
+                    basket__total
+                    grid__item
+                    grid__item--padding-top
+                  "
+                >
+                  Total
+                  <span>
+                    {{ cart.total_price | money }}
+                  </span>
+                </h5>
+
+                <p class="basket__delivery grid__item grid__item--100">
+                  Free delivery
+                </p>
+
+                {% for item in cart.items %}
+                  {% for tag in item.product.tags %}
+                    {% if tag contains 'hidden sale item' %}
+                      {% assign sale_item = true %}
+                    {% endif %}
+                  {% endfor %}
+                {% endfor %}
+                {% if sale_item == true %}
+                  <div
+                    data-analytics-load="Cart Sale Item Viewed"
+                    data-analytics-props='{"category": "Cart", "label": "Sale item"}'
+                  ></div>
+                  <a
+                    href="{{ settings.sales_exchange_url }}"
+                    class="basket__sale-message grid__item grid__item--100"
+                    target="_blank"
+                  >
+                    <span
+                      data-analytics-click="Click"
+                      data-analytics-props='{"category": "Sale Message Link", "label": "Cart"}'
+                    >
+                      {{ settings.sales_exchange_message }}
+                    </span>
+                  </a>
+                {% endif %}
+
+                <div class="grid__item grid__item--100 {% if sale_item == false %}grid__item--padding-top{% endif %}">
+                  {% assign item_sizes = item_sizes | split: ',' | uniq %}
+                  {% assign item_sizes_polos = item_sizes_polos | split: ',' | uniq %}
+
+                  {% assign varying_item_sizes = item_sizes | size %}
+                  {% assign varying_item_sizes_polos = item_sizes_polos | size %}
+
+                  {% if varying_item_sizes == 1 %}
+                    {% assign item_sizes = item_sizes | join: '' | split: '|' %}
+
+                    {% if item_sizes[0] != blank %}
+                      <input
+                        name="build"
+                        type="hidden"
+                        value="{{ item_sizes[0] }}"
+                      />
+                    {% endif %}
+                    {% if item_sizes[1] != blank %}
+                      <input
+                        name="leg"
+                        type="hidden"
+                        value="{{ item_sizes[1] }}"
+                      />
+                    {% endif %}
+                    {% if item_sizes[2] != blank %}
+                      <input
+                        name="waist"
+                        type="hidden"
+                        value="{{ item_sizes[2] }}"
+                      />
+                    {% endif %}
                   {% endif %}
 
-                  {% endunless %}
-                {% endfor %}
-              {% endif %}
 
-              <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0">
-                <small>{{ 'cart.general.remove' | t }}</small>
-              </a>
-            </td>
-            <td data-label="{{ 'cart.label.price' | t }}">
-              {% if item.original_line_price != item.line_price %}
-                <span class="visually-hidden">{{ 'cart.label.discounted_price' | t }}</span>
-                {{ item.price | money }}
-                <span class="visually-hidden">{{ 'cart.label.original_price' | t }}</span>
-                <s>{{ item.original_price | money }}</s>
-              {% else %}
-                {{ item.price | money }}
-              {% endif %}
-            </td>
-            <td data-label="{{ 'cart.label.quantity' | t }}">
-              <input type="number"
-                     name="updates[]"
-                     id="updates_{{ item.key }}"
-                     value="{{ item.quantity }}"
-                     min="0"
-                     aria-label="{{ 'cart.general.item_quantity' | t }}">
-            </td>
-            <td data-label="{{ 'cart.label.total' | t }}">
-              {{ item.line_price | money }}
-            </td>
-          </tr>
+                  {% if varying_item_sizes_polos == 1 %}
+                    {% assign item_sizes_polos = item_sizes_polos | join: '' | split: '|' %}
+                    {% if item_sizes_polos[0] != blank %}
+                      <input
+                        name="cut"
+                        type="hidden"
+                        value="{{ item_sizes_polos[0] }}"
+                      />
+                    {% endif %}
+                    {% if item_sizes_polos[1] != blank %}
+                      <input
+                        name="size"
+                        type="hidden"
+                        value="{{ item_sizes_polos[1] }}"
+                      />
+                    {% endif %}
+                    {% if item_sizes_polos[2] != blank %}
+                      <input
+                        name="length"
+                        type="hidden"
+                        value="{{ item_sizes_polos[2] }}"
+                      />
+                    {% endif %}
+                  {% endif %}
 
-        {% endfor %}
-      </tbody>
-    </table>
+                  <button
+                    class="
+                      button
+                      button--large-padding
+                      button--primary
+                      button--full-width
+                    "
+                    name="checkout"
+                    type="submit"
+                    value="Checkout"
+                  >
+                    <span class="button__content">
+                      Check out
+                    </span>
+                  </button>
+                </div>
 
-    {% if settings.cart_notes_enable %}
-      <label for="CartSpecialInstructions">{{ 'cart.general.note' | t }}</label>
-      <textarea name="note" id="CartSpecialInstructions">{{ cart.note }}</textarea>
-    {% endif %}
+                <p class="basket__referral grid__item grid__item--100">
+                  <button
+                    class="js-open-lightbox link link--block"
+                    data-lightbox="mention-me"
+                    type="button"
+                  >
+                    Been referred by a friend?
+                  </button>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
 
-    <p>{{ 'cart.general.subtotal' | t }}</p>
-    <p>{{ cart.total_price | money }}</p>
-    {% if cart.total_discounts > 0 %}
-      <p>{{ 'cart.general.savings' | t }} {{ cart.total_discounts | money }}</p>
-    {% endif %}
-    <p>{{ 'cart.general.shipping_at_checkout' | t }}</p>
-    <input type="submit" name="update" value="{{ 'cart.general.update' | t }}">
-    <input type="submit" name="checkout" class="button" value="{{ 'cart.general.checkout' | t }}">
-  </form>
-{% else %}
-  <h1>{{ 'cart.general.title' | t }}</h1>
+  {% else %}
+    <section class="grid grid--column grid--full-width grid--grey">
+      <div class="grid__container">
+        <section
+          class="
+            grid
+            grid--full-width
+            grid--column
+            grid--padding-bottom
+            grid--horizontal-center
+          "
+        >
+          <div class="grid__container">
+            <section
+              class="
+                grid__item
+                grid__item--100
+                grid__item--padding-top-small
+                grid
+                grid--gutter-desktop-up
+                grid--padding-bottom-small
+              "
+            >
+              <div class="card grid__container">
+                <header class="card__container">
+                  <p
+                    class="
+                      card__section--uppercase
+                      card__section--center
+                      empty-cart-message
+                    "
+                  >
+                    You currently have nothing in your basket
+                  </p>
+                </header>
+              </div>
+            </section>
 
-  {% comment %}
-  Cart empty state
-  {% endcomment %}
-  <div class="supports-cookies">
-    <p>{{ 'cart.general.empty' | t }}</p>
-    <p>{{ 'cart.general.continue_browsing_html' | t }}</p>
-  </div>
-
-  {% comment %}
-  Cart no cookies state
-  ---------------------
-  Browser cookies are required to use the cart. If cookies aren't enabled in the
-  browser a message is displayed prompting the user to enable them.
-  {% endcomment %}
-  <div class="supports-no-cookies">
-    <p>{{ 'cart.general.cookies_required' | t }}</p>
-  </div>
-{% endif %}
+            <a
+              class="button button--primary button--large-padding"
+              href="/collections/trousers">
+              <span class="button__content">
+                Get shopping
+              </span>
+            </a>
+          </div>
+        </section>
+      </div>
+    </section>
+  {% endif %}
+</div>

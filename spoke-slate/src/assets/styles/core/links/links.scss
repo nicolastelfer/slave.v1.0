@@ -1,0 +1,101 @@
+a {
+  color: $color-palette-1-primary-light;
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+}
+
+@mixin link($s-m, $l-h-m, $l-s) {
+  @include font-family-3;
+  @include font-style($s-m, $l-h-m, $l-s);
+  text-transform: uppercase;
+}
+
+%link-inline {
+  @include font-family-4;
+  text-transform: unset;
+}
+
+.link {
+  @include link(13, 2.2, 16);
+  display: inline-block;
+
+  &:hover,
+  &:focus {
+    color: $color-palette-1-primary;
+    text-decoration: none;
+
+    &::after {
+      background: $color-palette-1-primary;
+    }
+  }
+
+  &--block {
+    color: $color-palette-1-primary;
+    display: inline-block;
+    text-decoration: none;
+    text-transform: uppercase;
+
+    &::after {
+      content: '';
+      display: block;
+      width: 99%;
+      height: 1px;
+      background: $color-palette-1-primary;
+      transition: width .3s;
+    }
+
+    &:hover, &:focus {
+      &::after {
+        width: 99%;
+      }
+    }
+
+    &-secondary {
+      @extend .link--block;
+      color: $color-palette-1-secondary;
+
+      &::after {
+        background: $color-palette-1-secondary;
+      }
+
+      &:hover, &:focus {
+        color:$color-palette-1-secondary;
+
+        &::after {
+          background: $color-palette-1-secondary;
+        }
+      }
+    }
+  }
+
+  &--light-grey {
+    color: $color-palette-1-primary-medium-light;
+
+    &::after {
+      background: $color-palette-1-primary-medium-light;
+    }
+
+    &:hover, &:focus {
+      color: $color-palette-1-primary-medium-light;
+      &::after {
+        background: $color-palette-1-primary-medium-light;
+      }
+    }
+  }
+
+}
+
+.link--inline {
+  @extend %link-inline;
+  color: $color-palette-1-secondary;
+}
+
+.link-copy {
+  @extend %copy;
+  color: $color-palette-1-secondary;
+  text-decoration: underline;
+}

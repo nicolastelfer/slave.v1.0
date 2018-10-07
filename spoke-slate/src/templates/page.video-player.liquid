@@ -1,0 +1,16 @@
+{% assign content = page.content | split: '|' %}
+
+{% capture bg %}landing_page_image_{{ content[ 0 ] }}{% endcapture %}
+{% capture bg_mobile %}landing_page_image_small_{{ content[ 0 ] }}{% endcapture %}
+
+<section class="hero-media video-player ">
+
+  <video class="js-video-player" poster="https://cdn.shopify.com/s/files/1/1490/8966/files/Polo_Collection_SMALL_v1.jpg?3459399989393499025" autoplay crossorigin>
+    <source src="https://cdn.shopify.com/s/files/1/1490/8966/files/spoke-polo-fit-animation_2.mp4?13072599877894697759.mp4" type="video/mp4">
+    <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.webm" type="video/webm">
+
+    <!-- Captions are optional -->
+    <!--<track kind="captions" label="English captions" src="/path/to/captions.vtt" srclang="en" default>-->
+  </video>
+
+</section>

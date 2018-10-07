@@ -1,0 +1,32 @@
+/**
+ * Body copy
+ * Mobile to Desktop
+ */
+
+@mixin copy($s-m, $l-h-m, $l-s) {
+  @include font-family-4;
+  @include font-style($s-m, $l-s, $l-h-m);
+}
+
+// Placeholders do not print in the CSS unless is specifically called
+// when using @extend %copy; in the SCSS.
+%copy {
+  @include copy(16, 24, null);
+  color: $color-palette-1-primary-medium;
+
+  &--small {
+    @include copy(13, 18, null);
+  }
+
+  &--regular {
+    @include copy(14, 18, null);
+  }
+
+  &--large {
+    @include copy(18, 28, null);
+
+    &-mobile-down {
+      @include copy(18, 28, null);
+    }
+  }
+}

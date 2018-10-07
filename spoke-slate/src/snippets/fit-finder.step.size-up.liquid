@@ -1,0 +1,155 @@
+<section
+  class="
+    fit-finder__item
+    grid__item
+    grid__item--100
+    grid
+    grid--gutter
+    grid--column
+    grid--horizontal-center
+    grid--vertical-space-between
+    js-enable-buttons
+  "
+>
+  <div class="grid__container">
+    <div class="fit-finder__header">
+      <h3 class="fit-finder__title-italic">
+        Depending on the brand, <span class="copy-divider">do you ever take a <span class="title--secondary">size up</span>?</span>
+      </h3>
+
+      <!--<p class="fit-finder__byline">
+        Depending on the brand ...
+      </p>-->
+
+      <div class="fit-finder__radios fit-finder__radios--narrow grid">
+        <div class="grid__container">
+          <label
+            class="
+              fit-finder__radio
+              radio
+              radio--regular
+              grid__item
+              grid__item--100
+            "
+          >
+            <input
+              class="radio__input"
+              type="radio"
+              name="size_up"
+              value="never"
+              {% if customer.metafields.fitfinder.size_up == 'never' %}
+                checked
+              {% endif %}
+              required
+            />
+            <span class="radio__box">
+              Never
+            </span>
+          </label>
+
+          <label
+            class="
+              fit-finder__radio
+              radio
+              radio--regular
+              grid__item
+              grid__item--100
+            "
+          >
+            <input
+              class="radio__input"
+              type="radio"
+              name="size_up"
+              value="rarely"
+              {% if customer.metafields.fitfinder.size_up == 'rarely' %}
+                checked
+              {% endif %}
+              required
+            />
+            <span class="radio__box">
+              Rarely
+            </span>
+          </label>
+
+          <label
+            class="
+              fit-finder__radio
+              radio
+              radio--regular
+              grid__item
+              grid__item--100
+            "
+          >
+            <input
+              class="radio__input"
+              type="radio"
+              name="size_up"
+              value="sometimes"
+              {% if customer.metafields.fitfinder.size_up == 'sometimes' %}
+                checked
+              {% endif %}
+              required
+            />
+            <span class="radio__box">
+              Sometimes
+            </span>
+          </label>
+
+          <label
+            class="
+              fit-finder__radio
+              radio
+              radio--regular
+              grid__item
+              grid__item--100
+            "
+          >
+            <input
+              class="radio__input"
+              type="radio"
+              name="size_up"
+              value="often"
+              {% if customer.metafields.fitfinder.size_up == 'often' %}
+                checked
+              {% endif %}
+              required
+            />
+            <span class="radio__box">
+              Often
+            </span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="fit-finder__buttons">
+      <button
+        class="
+          fit-finder__next
+          button
+          button--secondary
+          button--large-padding
+          button--full-width
+        "
+        type="button"
+        disabled
+        data-analytics-click="Fit Finder Step Completed: Size Up"
+        data-analytics-props='{"category": "Fit Finder", "label": "size up", "step": "size up"}'
+        data-analytics-dynamic-props='{"answer": "size_up"}'
+      >
+        <span class="button__content">
+          Next question
+        </span>
+      </button>
+
+      <button
+        class="fit-finder__previous"
+        type="button"
+        data-ignore="true"
+      >
+        {% include 'snippet.svg.icon', type:'icon', class:'arrow-previous' %}
+        Back
+      </button>
+    </div>
+  </div>
+</section>

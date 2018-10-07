@@ -1,0 +1,125 @@
+{% assign defaultHeight = 175 %}
+{% if customer %}
+  {% if customer.metafields.fitfinder.height %}
+    {% assign defaultHeight = customer.metafields.fitfinder.height %}
+  {% endif %}
+{% endif %}
+
+<section
+  class="
+    fit-finder__item
+    grid__item
+    grid__item--100
+    grid
+    grid--gutter
+    grid--column
+    grid--horizontal-center
+    grid--vertical-space-between
+    js-enable-buttons
+  "
+>
+  <div class="grid__container">
+    <div class="fit-finder__header">
+      <h3 class="fit-finder__title-italic">
+        How <span class="title--secondary">tall</span> are you?
+      </h3>
+
+      <!--<p class="fit-finder__byline">
+        Move the toggle to set your height.
+      /p>-->
+
+      <div
+        class="swizzer"
+        data-swizzer="height"
+        data-default="{{ defaultHeight }}"
+      >
+        <div class="swizzer__touch">
+          <div class="swizzer__touch-wrapper fs-ignore-rage-clicks">
+            <div class="swizzer__ruler-group fs-ignore-rage-clicks">
+              <div class="swizzer__ruler fs-ignore-rage-clicks"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="swizzer__control">
+          <button
+            class="
+              fs-ignore-rage-clicks
+              swizzer__arrow
+              swizzer__arrow--up
+              swizzer__next
+              button
+              button--tiny
+              button--border
+              button--curved
+              button--icon
+              button--icon-only
+            "
+            type="button"
+          >
+            <span class="button__icon fs-ignore-rage-click">
+              {% include 'snippet.svg.icon', type:'icon', class:'arrow-up' %}
+            </span>
+            <span class="button__content"></span>
+          </button>
+
+          <div class="swizzer__value">
+            <h3 class="swizzer__title"></h3>
+            <p class="swizzer__byline"></p>
+          </div>
+
+          <button
+            class="
+              fs-ignore-rage-clicks
+              swizzer__arrow
+              swizzer__arrow--down
+              swizzer__previous
+              button
+              button--tiny
+              button--border
+              button--curved
+              button--icon
+              button--icon-only
+            "
+            type="button"
+          >
+            <span class="button__icon fs-ignore-rage-click">
+              {% include 'snippet.svg.icon', type:'icon', class:'arrow-down' %}
+            </span>
+            <span class="button__content"></span>
+          </button>
+        </div>
+
+        <input
+          class="swizzer__input"
+          name="height"
+          type="hidden"
+          min="150"
+          max="216"
+          required
+        />
+      </div>
+    </div>
+
+    <div class="fit-finder__buttons fit-finder__buttons--no-back">
+      <button
+        class="
+          fit-finder__next
+          button
+          button--secondary
+          button--large-padding
+          button--full-width
+        "
+        type="button"
+        disabled
+        data-analytics-click="Fit Finder Step Completed: Height"
+        data-analytics-props='{"category": "Fit Finder", "label": "height", "step": "height"}'
+        data-analytics-dynamic-props='{"answer": "height"}'
+      >
+        <span class="button__content">
+          Next question
+        </span>
+      </button>
+    </div>
+  </div>
+</section>

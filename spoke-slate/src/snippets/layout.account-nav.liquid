@@ -1,0 +1,84 @@
+<div class="nav nav--primary">
+  <nav class="nav__container">
+    <a
+      class="
+        nav__link
+        {% if active_account_nav == 'account' %}
+          nav__link--active
+        {% endif %}
+      "
+      href="/account"
+      data-analytics-click="Click"
+      data-analytics-props='{"category": "Account Nav", "label": "My Fit"}'
+    >
+      Your fit
+    </a>
+    <a
+      class="
+        nav__link
+        {% if active_account_nav == 'order-history' %}
+          nav__link--active
+        {% endif %}
+      "
+      href="/pages/my-account-order-history"
+      data-analytics-click="Click"
+      data-analytics-props='{"category": "Account Nav", "label": "Order History"}'
+    >
+      Order History
+    </a>
+    <a
+      class="
+        nav__link
+        {% if active_account_nav == 'addresses' %}
+          nav__link--active
+        {% endif %}
+      "
+      href="/account/addresses"
+      data-analytics-click="Click"
+      data-analytics-props='{"category": "Account Nav", "label": "Addresses"}'
+    >
+      Addresses
+    </a>
+
+    {% if customer and settings.show_referrals_dashboard %}
+      <a
+          class="
+        nav__link
+        {% if active_account_nav == 'referrals' %}
+          nav__link--active
+        {% endif %}
+      "
+          href="/pages/my-referrals"
+          data-analytics-click="Click"
+          data-analytics-props='{"category": "Account Nav", "label": "Referrals"}'
+      >
+        Referrals
+      </a>
+    {% endif %}
+
+    {% if customer %}
+      <a
+        class="
+        nav__link
+        {% if active_account_nav == 'my-settings' %}
+          nav__link--active
+        {% endif %}
+      "
+        href="/pages/settings"
+        data-analytics-click="Click"
+        data-analytics-props='{"category": "Account Nav", "label": "Settings"}'
+      >
+        Settings
+      </a>
+    {% endif %}
+
+    {% if customer %}
+      <a
+        class="nav__link nav__link--right nav__link--tablet-up"
+        href="/account/logout"
+      >
+        Log out
+      </a>
+    {% endif %}
+  </nav>
+</div>

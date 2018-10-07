@@ -1,0 +1,25 @@
+{% assign trousers = settings.trouser_collections | split: ',' %}
+
+<div class="nav nav--primary">
+  <nav class="nav__container">
+    {% for link in linklists.shop.links %}
+      <a
+        class="
+          nav__link
+          {% if link.url == collection.url or (link.url == collections.trousers.url and trousers contains collection.title) %}
+            nav__link--active
+          {% endif %}
+        "
+        href="{{ link.url }}"
+        data-analytics-click="Click"
+        {% if link.url contains 'pages/fit-finder' %}
+          data-analytics-props='{"category": "Fit Finder Link", "label": "Primary Nav"}'
+        {% else %}
+          data-analytics-props='{"category": "Primary Nav", "label": "{{ link.title }}"}'
+        {% endif %}
+      >
+        {{ link.title }}
+      </a>
+    {% endfor %}
+  </nav>
+</div>

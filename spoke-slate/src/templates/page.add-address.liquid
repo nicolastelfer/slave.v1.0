@@ -1,0 +1,155 @@
+{% assign active_account_nav = 'add-address' %}
+
+{% include 'layout.account-nav' %}
+{% if customer %}
+<section class="grid grid--grey grid--gutter grid--padding-bottom">
+  <div class="grid__container">
+    <div class="grid__item grid__item--100 grid__item--padding-top">
+      <div class="card grid grid--full-height grid--horizontal-center">
+        <div class="card__container grid__container">
+          {% form 'customer_address',
+            customer.new_address,
+            class: 'form card__section card__section--form-full card__section--vertical-padding-large card__section--center card__section--column grid__item'
+          %}
+            <h3 class="form__title">
+              Add new address
+            </h3>
+
+            <input
+              class="form__input"
+              name="address[first_name]"
+              placeholder="First name"
+              type="text"
+            />
+
+            <input
+              class="form__input"
+              name="address[last_name]"
+              placeholder="Last name"
+              type="text"
+            />
+
+            <input
+              class="form__input"
+              name="address[company]"
+              placeholder="Company"
+              type="text"
+            />
+
+            <input
+              class="form__input"
+              name="address[address1]"
+              placeholder="Address 1"
+              type="text"
+            />
+
+            <input
+              class="form__input"
+              name="address[address2]"
+              placeholder="Address 2"
+              type="text"
+            />
+
+            <input
+              class="form__input"
+              name="address[city]"
+              placeholder="City"
+              type="text"
+            />
+
+            <input
+              class="form__input"
+              name="address[province]"
+              placeholder="Region"
+              type="text"
+            />
+
+            <input
+              class="form__input"
+              name="address[zip]"
+              placeholder="Post code"
+              type="text"
+            />
+
+            <select
+              class="form__input form__input--select"
+              name="address[country]"
+            >
+              {{ country_option_tags }}
+            </select>
+
+            <input
+              class="form__input"
+              name="address[phone]"
+              placeholder="Phone"
+              type="text"
+            />
+
+            <button
+              class="form__button button button--primary button--full-width"
+              type="submit"
+            >
+              <span class="button__content">
+                Add address
+              </span>
+            </button>
+          {% endform %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% else %}
+    <section
+            class="
+    grid
+    grid--grey
+    grid--padding-bottom
+    grid--horizontal-center
+    grid--full-width
+  "
+    >
+        <div class="grid__container">
+            <div
+                    class="
+          grid__item
+          grid__item--100
+          grid__item--padding-top
+          grid
+          grid--gutter-desktop-up
+          grid--column
+        "
+            >
+                <div class="card card--horizontal-start grid__item grid__container grid">
+                    <div
+                            class="
+                card__section
+                card__section--center-mobile-down
+                card__section--no-border
+                card__section--vertical-padding
+                grid__item
+                grid
+                grid--column
+                grid--horizontal-start-tablet-up
+                grid--horizontal-center-mobile-down
+              "
+                    >
+                        <div class="grid__container">
+                            <p class="card__cta-text grid__item">
+                                <a
+                                        class="link link--inline"
+                                        href="/account/login"
+                                >
+                                    Log in
+                                </a> to add an address.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endif %}
+
+{% include 'log-out-mobile' %}

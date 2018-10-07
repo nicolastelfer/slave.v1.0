@@ -1,0 +1,129 @@
+{% assign active_account_nav = 'order-history' %}
+
+{% include 'layout.account-nav' %}
+
+<section
+  class="
+    grid
+    grid--column
+    grid--gutter
+    grid--grey
+    grid--padding-bottom
+    grid--horizontal-center
+    grid--grow
+  "
+>
+  <div class="grid__container">
+    {% if customer.orders.size > 0 %}
+      {% for order in customer.orders %}
+        {% include 'order-status-data' %}
+
+        <section class="grid__item grid__item--100 grid__item--padding-top">
+          <div class="order order--overview card grid">
+            <header class="card__container grid__container">
+              <a
+                class="
+                  order__id
+                  card__section
+                  card__section--uppercase
+                  card__section--row
+                  card__section--bg
+                  grid__item
+                "
+                href="{{ order.customer_url }}"
+              >
+                <span class="order__id-title">Order</span>
+                <span class="order__id-code">{{ order.id }}</span>
+              </a>
+              <p
+                class="
+                  order__status
+                  card__section
+                  card__section--uppercase
+                  card__section--break-mobile-down
+                  card__section--row
+                  grid__item
+                "
+              >
+                <span class="order__status-text">{{ status }}</span>
+                <span
+                  class="
+                    order__status-bar
+                    order__status-bar--{{ status | handleize }}
+                  "
+                ></span>
+              </p>
+              {% if settings.show_returns_link %}
+              <a
+                  class="
+                  card__section
+                  card__section--uppercase
+                  card__section--row
+                  grid__item
+                "
+                  href="https://spoke.returns.international/ReturnPortal/Details?OrderNumber={{ order.name | remove: "#" }}&DeliveryPostcode={{ order.shipping_address.zip }}"
+                  data-analytics-click="Click"
+                  data-analytics-props='{"category": "Account", "label": "Arrange A Return"}'
+                  target="_blank"
+              >
+                <span>Arrange A Return</span>
+              </a>
+              {% endif %}
+              <a
+                class="
+                  order__more
+                  card__section
+                  card__section--no-border
+                  card__section--uppercase
+                  card__section--row
+                  card__section--center
+                  grid__item
+                "
+                href="{{ order.customer_url }}"
+              >
+                <span class="order__more-text">More info</span>
+                {% include 'snippet.svg.icon', type:'icon', class:'go-arrow' %}
+              </a>
+            </header>
+          </div>
+        </section>
+      {% endfor %}
+    {% else %}
+      <section
+        class="
+          grid__item
+          grid__item--100
+          grid__item--padding-top
+          grid
+          grid--full-width
+          grid--padding-bottom-small
+        "
+      >
+        <div class="card grid__container">
+          <header class="card__container">
+            <p
+              class="
+                card__section
+                card__section--uppercase
+                card__section--row-small
+                card__section--center
+                card__text--center
+              "
+            >
+              You currently have no orders
+            </p>
+          </header>
+        </div>
+      </section>
+
+      <a
+          class="button button--primary button--large-padding"
+          href="/collections/trousers">
+          <span class="button__content">
+            Get shopping
+          </span>
+      </a>
+    {% endif %}
+  </div>
+</section>
+

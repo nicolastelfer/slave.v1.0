@@ -1,0 +1,205 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ol,
+p,
+ul {
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: normal;
+}
+
+@mixin font-family-1 {
+  font-family: 'placard', sans-serif;
+}
+
+@mixin font-family-2 {
+  font-family: 'theinhardt-light', sans-serif;
+  font-weight: 300;
+}
+
+@mixin font-family-3 {
+  font-family: 'theinhardt-regular', sans-serif;
+  font-weight: 400;
+}
+
+@mixin font-family-3-m {
+  font-family: 'theinhardt-medium', sans-serif;
+  font-weight: 500;
+}
+
+@mixin font-family-4 {
+  font-family: 'Sentinel SSm A', 'Sentinel SSm B', serif;
+  font-weight: 300;
+}
+
+@mixin font-style($size, $letter-spacing: 0.2px, $line-height: $size * 1.5) {
+  @if $size != null {
+    font-size: $size + px;
+  }
+  @if $letter-spacing != null {
+    letter-spacing: $letter-spacing + px;
+  }
+  @if $line-height != null {
+    line-height: $line-height + px;
+  }
+}
+
+@import "type-headline";
+@import "type-byline";
+@import "type-copy";
+
+//@todo move this label title to a new scss file
+%label-title {
+  @include font-family-3;
+  @include font-style(13, 2.2, 16);
+  text-transform: uppercase;
+
+  &--smallest {
+    @extend %label-title;
+    @include font-style(11, 2.2, 16);
+  }
+
+  &--small {
+    @extend %label-title;
+    @include font-style(12, 2.2, 16);
+  }
+
+  &--medium {
+    @extend %label-title;
+    @include font-style(16, 2.2, 22);
+  }
+
+  &--large {
+    @extend %label-title;
+    @include font-style(18, 2.2, 26);
+  }
+}
+
+// @todo font-style in testimonials in homepage uses a font size between h2 and h3, need to decide if we need this inbetween font-size
+
+
+// H2
+@mixin font-5 {
+  @include font-family-4;
+  font-size: $font-size-8;
+  line-height: $line-height-7;
+
+  @include tablet-up {
+    font-size: $font-size-6;
+    line-height: $line-height-4;
+  }
+}
+
+// H2 that does not shrink
+@mixin font-7 {
+  @include font-family-3;
+  font-size: $font-size-6;
+  line-height: $line-height-4;
+}
+
+// H3
+@mixin font-8 {
+  @include font-family-1;
+  font-size: $font-size-9;
+  line-height: $line-height-10;
+  text-transform: uppercase;
+
+  @include tablet-up {
+    font-size: $font-size-7;
+    line-height: $line-height-3;
+  }
+}
+
+// Body that shrinks to smaller body
+@mixin font-16 {
+  @include font-family-4;
+  font-size: $font-size-10;
+  line-height: $line-height-9;
+
+  @include tablet-up {
+    font-size: $font-size-8;
+    line-height: $line-height-8;
+  }
+}
+
+// Smaller body //@todo font-style: this is now used for TheinHArdt text upercase accross site
+@mixin font-17 { //todo we use '@include font-family-3;' already. to choose which way to implement this
+  @include font-family-3;
+}
+
+// Smaller body that does not shrink
+@mixin font-18 { // @todo font-style should be renamed 16 as is the font size used
+  @include font-family-4;
+  font-size: $font-size-9;
+  line-height: $line-height-8;
+}
+
+// Smallest body
+@mixin font-19 { // @todo only used in the collection product items as a smaller version of the byline
+  @include font-family-4;
+  font-size: $font-size-12;
+  line-height: $line-height-12;
+
+  @include tablet-up {
+    font-size: $font-size-11;
+    line-height: $line-height-6;
+  }
+}
+
+@mixin font-24 {
+  @include font-family-4;
+  font-size: $font-size-10;
+  line-height: $line-height-8;
+}
+
+// @todo REMOVE ALL OF THESE %font PLACEHOLDERS
+
+
+%font-5 {
+  @include font-5;
+}
+
+
+%font-7 {
+  @include font-7;
+}
+
+%font-8 {
+  @include font-8;
+}
+
+
+%font-16 {
+  @include font-16;
+}
+
+%font-17 {
+  @include font-17;
+  @include font-style(13, 2.4, 16);
+}
+
+%font-18 {
+  @include font-18;
+  @include font-style(16, unset, 24);
+}
+
+%font-19 {
+  @include font-19;
+}
+
+%font-24 {
+  @include font-24;
+}

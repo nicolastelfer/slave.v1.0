@@ -1,0 +1,77 @@
+{% assign content = page.content | split: '|' %}
+{% capture bg %}landing_page_image_{{ content[ 0 ] }}{% endcapture %}
+{% capture bg_mobile %}landing_page_image_small_{{ content[ 0 ] }}{% endcapture %}
+
+<div class="landing landing--responsive landing--full-screen js-bg-img js-lands-with-discount js-contentful" data-entry-id="1LKU0UnGGgqoKmAEk4syWk">
+
+  <picture class="landing__image landing--full-screen__image js-bg-img__src">
+    <source
+      media="(max-width: 599px)"
+      srcset='
+        {{ settings[bg_mobile] | img_url: "300x" }} 300w,
+        {{ settings[bg_mobile] | img_url: "600x" }} 600w,
+        {{ settings[bg_mobile] | img_url: "1200x" }} 1200w
+       '
+    >
+    <source
+      media="(min-width: 600px)"
+      srcset='
+        {{ settings[bg] | img_url: "600x" }} 600w,
+        {{ settings[bg] | img_url: "750x" }} 750w,
+        {{ settings[bg] | img_url: "1000x" }} 1000w,
+        {{ settings[bg] | img_url: "1440x" }} 1440w,
+        {{ settings[bg] | img_url: "master" }} 2880w
+      '
+    >
+    <img src="{{ settings[bg] | img_url: '1200x' }}"/>
+  </picture> 
+
+  <div class="landing--full-screen__cover grid grid--horizontal-end discount-content">
+    <div class="landing--full-screen__container grid__container">
+      <div class="landing__content--background-color landing__content--padding landing__content--align-center-mobile landing--full-screen__content landing__content--full-width grid__item">
+
+        <div class="offer">
+
+          <h1 class="offer__title">£25 OFF</h1>
+
+          <p class="offer__instructions">Your first pair of flawlessly fitting chinos. Enter the following code at checkout:</p>
+
+          <p class="offer__discount-code">COURIER25</p>
+
+          <br/>
+         
+          <a href=""
+            class="
+              button
+              button--primary
+              button--large-padding
+            ">
+            <span class="button__content">
+              Find your fit
+            </span>
+          </a>
+   
+        </div> 
+
+         <div class="voucher">
+          <img src="https://cdn.shopify.com/s/files/1/0076/2131/2569/files/Sponsor_Logos_2x_65697b43-1c20-49ca-ab94-9e370cb689a2.png?3613668750803724851" alt="logos" />
+          <p class="voucher__description">
+            Expires xx xx xx. This voucher is for UK residents agend 18+ only. The voucher may only be used against a first purchase of £75 or more and may not be combined with any other offer. Free delivery and returns on all items. Full refund if item returned within 100 days of delivery.
+          </p>
+        </div> 
+
+      </div>
+    </div>
+  </div> 
+</div> 
+
+
+
+ 
+
+
+  
+
+
+
+

@@ -1,0 +1,74 @@
+<div class="refer-a-friend grid grid--gutter">
+  <div class="grid__container">
+    <div class="refer-a-friend__content grid__item grid__item--nogrow">
+      {% form 'contact', class: 'form refer-a-friend__form' %}
+        {% if form.posted_successfully? %}
+          <span
+            class="flash-msg"
+            data-msg="Great! We'll email you with your voucher."
+            data-type="secondary"
+          >
+          </span>
+        {% endif %}
+
+        <h1 class="refer-a-friend__title">
+          Get a £15 voucher for each friend you refer to Spoke
+        </h1>
+
+        <p class="refer-a-friend__byline">
+          ...and we’ll give them each a £15 voucher too.
+        </p>
+
+        <input
+          class="form__input form__input--large"
+          name="contact[request]"
+          type="hidden"
+          value="Refer a friend"
+        />
+
+        <input
+          class="form__input form__input--large"
+          name="contact[last_name]"
+          placeholder="First name"
+          type="text"
+        />
+
+        <input
+          class="form__input form__input--large"
+          name="contact[first_name]"
+          placeholder="Last name"
+          type="text"
+        />
+
+        <input
+          class="form__input form__input--large"
+          name="contact[email]"
+          placeholder="Email"
+          type="email"
+        />
+
+        <button
+          class="
+            form__button
+            button
+            button--secondary
+            button--large-padding
+            button--full-width
+          "
+          type="submit"
+        >
+          <span class="button__content">
+            Get £15 off any trouser
+          </span>
+        </button>
+
+        <p class="refer-a-friend__terms">
+          By accepting this offer you agree to our
+          <a href="/pages/terms">
+            Terms &amp; conditions
+          </a>
+        </p>
+      {% endform %}
+    </div>
+  </div>
+</div>

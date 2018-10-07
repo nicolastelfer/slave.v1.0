@@ -1,0 +1,126 @@
+.collection-overview {
+  align-content: flex-start;
+  position: relative;
+  width: 100%;
+
+  @include mobile-down {
+    background-color: white;
+  }
+
+  &__image-link {
+    display: block;
+    outline: 1px solid transparent;
+
+    &:hover,
+    &:focus {
+      outline: 1px solid $color-palette-1-secondary;
+    }
+  }
+
+  &__image-container {
+    align-self: flex-start;
+    width: 100%;
+  }
+
+  &__image {
+    display: block;
+    height: auto;
+    width: 100%;
+  }
+
+  &__title,
+  &__byline,
+  &__description,
+  &__link {
+    @media (max-width: 699px) {
+      text-align: center;
+    }
+  }
+
+  &__container {
+    padding-bottom: 95px;
+    padding-top: 60px;
+
+    @media (min-width: 700px) {
+      background-color: transparent;
+      padding-bottom: 120px;
+      padding-top: 75px;
+    }
+  }
+
+  &__details {
+    box-sizing: border-box;
+    align-self: flex-start;
+
+    @include mobile-down {
+      @include padding(20px, auto, 70px, auto);
+      text-align: center;
+    }
+
+    a {
+      text-decoration: none;
+      
+    }
+  }
+
+  &__title {
+    color: $color-palette-1-primary;
+    hyphens: auto;
+    word-break: break-word;
+
+    @media (min-width: 700px) {
+      margin-top: 20px;
+    }
+  }
+
+  &__byline {
+    @extend %byline;
+    color: $color-palette-1-primary;
+
+    @include mobile-down {
+      @include margin(10px, auto, 40px, auto);
+      max-width: 85%;
+    }
+  }
+
+  &__description {
+    @extend %font-18; // @todo in the desings is a bit smaller line-height but need to review
+    @include margin(20px, auto, 20px, auto);
+    color: $color-palette-1-primary-medium;
+
+    @include mobile-down {
+      margin-bottom: 0;
+      max-width: 70%;
+    }
+
+    @include tablet-up {
+      @include margin(20px, auto, null, auto);
+      max-width: 100%;
+    }
+  }
+
+
+  &__link {
+    bottom: 30px;
+    display: block;
+    position: absolute;
+
+    @include mobile-down {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    @include tablet-up {
+      bottom: -19px;
+    }
+
+    &:hover,
+    &:focus {
+      .svg--go-arrow {
+        path {
+          fill: $color-palette-1-primary;
+        }
+      }
+    }
+  }
+}

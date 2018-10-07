@@ -1,0 +1,93 @@
+<form
+  action="/apps/email-only-register"
+  class="
+    fit-finder
+    form
+    grid
+    grid--nowrap
+    grid--column
+    grid--noshrink
+    grid--grey-light
+    grid--full-width
+    js-fit-finder
+  "
+  method="post"
+  data-index="0"
+  data-items="{% if customer %}11{% else %}12{% endif %}"
+>
+  <div class="grid__container">
+    <input
+      name="taken"
+      type="hidden"
+      value="true"
+    />
+
+    {% if customer %}
+      <input
+        name="id"
+        type="hidden"
+        value="{{ customer.id }}"
+      />
+
+      <input
+        name="email"
+        type="hidden"
+        value="{{ customer.email }}"
+      />
+    {% endif %}
+
+    <input
+      name="permanentDomain"
+      type="hidden"
+      value="{{ shop.permanent_domain }}"
+    />
+
+    <div class="grid grid--gutter grid--horizontal-start grid--nogrow">
+      <div class="grid__container">
+        <ul class="fit-finder__pagination pagination pagination--primary">
+          {% capture items %}{% if customer %}11{% else %}12{% endif %}{% endcapture %}
+
+          <li class="fit-finder__pagination-count">
+            <button
+              class="fit-finder__pagination-back"
+              type="button"
+            >
+              {% include 'snippet.svg.icon', type:'icon', class:'arrow-previous' %}
+            </button>
+          </li>
+
+          {% for i in (2..items) %}
+            <li class="fit-finder__pagination-item pagination__item">
+              <button
+                class="pagination__button fit-finder__button"
+                data-index="{{ forloop.index }}"
+                type="button"
+              >
+                Slide {{ i }}
+              </button>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <div class="grid grid--full-width grid--nowrap grid--noshrink">
+      <div class="fit-finder__container grid__container js-bind">
+        {% include 'fit-finder.step.begin' %}
+        {% include 'fit-finder.step.height' %}
+        {% include 'fit-finder.step.weight' %}
+        {% include 'fit-finder.step.age' %}
+        {% include 'fit-finder.step.waist' %}
+        {% include 'fit-finder.step.size-up' %}
+        {% include 'fit-finder.step.slim-fit' %}
+        {% include 'fit-finder.step.build' %}
+        {% include 'fit-finder.step.wrist-watch' %}
+        {% include 'fit-finder.step.tshirt-size' %}
+        {% include 'fit-finder.step.jacket-size' %}
+
+        {% unless customer %}
+          {% include 'fit-finder.step.register' %}
+        {% endunless %}
+      </div>
+    </div>
+  </div>
+</form>

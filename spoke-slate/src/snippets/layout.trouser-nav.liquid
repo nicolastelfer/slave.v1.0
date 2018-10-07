@@ -1,0 +1,38 @@
+<div class="nav">
+  <nav class="nav__container">
+    <a
+      class="
+        nav__link
+        {% if collections.trousers.url == collection.url %}
+          nav__link--active
+        {% endif %}
+      "
+      href="{{ collections.trousers.url }}"
+      data-analytics-click="Click"
+      data-analytics-props='{"category": "Secondary Nav", "label": "All"}'
+    >
+      All
+    </a>
+
+    {% for type in trousers %}
+      {% assign slug = type | handleize %}
+      {% assign c = collections[ slug ] %}
+
+      {% if c.products.size != 0 %}
+        <a
+          class="
+            nav__link
+            {% if c.url == collection.url %}
+              nav__link--active
+            {% endif %}
+          "
+          href="{{ c.url }}"
+          data-analytics-click="Click"
+          data-analytics-props='{"category": "Secondary Nav", "label": "{{ c.title }}"}'
+        >
+          {{ c.title }}
+        </a>
+      {% endif %}
+    {% endfor %}
+  </nav>
+</div>

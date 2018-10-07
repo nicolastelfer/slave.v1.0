@@ -1,0 +1,133 @@
+<section
+  class="
+    fit-finder__item
+    grid__item
+    grid__item--100
+    grid
+    grid--gutter
+    grid--column
+    grid--horizontal-center
+    grid--vertical-space-between
+    js-enable-buttons
+  "
+>
+  <div class="grid__container">
+    <div class="fit-finder__header">
+      <h3 class="fit-finder__title-italic">
+        How do you feel about <span class="title--secondary">slim fit</span> trousers?
+      </h3>
+
+      <!--<p class="fit-finder__byline">
+        Pick the statement that applies best.
+      </p>-->
+
+      <div class="fit-finder__radios fit-finder__radios--narrow grid">
+        <div class="grid__container">
+          <label
+            class="
+              fit-finder__radio
+              radio
+              radio--regular
+              grid__item
+              grid__item--100
+            "
+          >
+            <input
+              class="radio__input"
+              type="radio"
+              name="slim_fit"
+              value="often"
+              {% if customer.metafields.fitfinder.slim_fit == 'often' %}
+                checked
+              {% endif %}
+              required
+            />
+            <span class="radio__box">
+              I often wear slim fit trousers
+            </span>
+          </label>
+
+          <label
+            class="
+              fit-finder__radio
+              radio
+              radio--regular
+              grid__item
+              grid__item--100
+            "
+          >
+            <input
+              class="radio__input"
+              type="radio"
+              name="slim_fit"
+              value="rarely"
+              {% if customer.metafields.fitfinder.slim_fit == 'rarely' %}
+                checked
+              {% endif %}
+              required
+            />
+            <span class="radio__box">
+              I rarely wear slim fit -
+              usually too tight around the thigh
+            </span>
+          </label>
+
+          <label
+            class="
+              fit-finder__radio
+              radio
+              radio--regular
+              grid__item
+              grid__item--100
+            "
+          >
+            <input
+              class="radio__input"
+              type="radio"
+              name="slim_fit"
+              value="never"
+              {% if customer.metafields.fitfinder.slim_fit == 'never' %}
+                checked
+              {% endif %}
+              required
+            />
+            <span class="radio__box">
+              I often struggle to fit my thighs in, even
+              with a regular fit
+            </span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="fit-finder__buttons">
+      <button
+        class="
+          fit-finder__next
+          button
+          button--secondary
+          button--large-padding
+          button--full-width
+        "
+        type="button"
+        disabled
+        data-analytics-click="Fit Finder Step Completed: Slim Fit"
+        data-analytics-props='{"category": "Fit Finder", "label": "slim fit", "step": "slim fit"}'
+        data-analytics-dynamic-props='{"answer": "slim_fit"}'
+      >
+        <span class="button__content">
+          Next question
+        </span>
+      </button>
+
+      <button
+        class="fit-finder__previous"
+        type="button"
+        data-ignore="true"
+      >
+        {% include 'snippet.svg.icon', type:'icon', class:'arrow-previous' %}
+        Back
+      </button>
+    </div>
+  </div>
+</section>

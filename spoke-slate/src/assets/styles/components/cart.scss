@@ -1,0 +1,151 @@
+.cart {
+  background: white;
+  border: 1px solid $color-palette-3-primary;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  box-sizing: border-box;
+  max-width: 384px;
+  overflow-y: scroll;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  z-index: 3;
+  transform: translateY($header-height-regular);
+  transition: transform 0.5s $ease-out;
+
+  &:not([data-open]), html._3sHpMHWH_Qud8R-tRZe7LD * { // Dynamic checkout removes transformation, force to transform element
+    transform: translateY(-140%) !important;
+    transition: transform 0.4s $ease-in !important;
+  }
+
+  @include header-small {
+    transform: translateY($header-height-regular);
+  }
+
+  @include header-large {
+    right: 40px;
+    transform: translateY($header-height-large);
+  }
+
+  &__wrapper {
+    padding: 20px;
+
+    &:last-child {
+      padding-top: 0;
+    }
+  }
+
+  &__title,
+  &__item-price,
+  &__total-title,
+  &__total-price,
+  &__delivery {
+    @extend %label-title;
+  }
+
+  &__title {
+    color: $color-palette-1-primary-lighter;
+  }
+
+  &__list {
+    @extend %list-no-style;
+  }
+
+  &__item {
+    margin-top: 14px;
+  }
+
+  &__item-remove {
+    margin-top: 20px;
+  }
+
+  &__item-price,
+  &__total-title,
+  &__total-price,
+  &__delivery {
+    color: $color-palette-1-primary;
+  }
+
+  &__total {
+    border-bottom:1px solid $color-palette-1-primary;
+    border-top:1px solid $color-palette-1-primary;
+    margin-bottom: 40px;
+    padding: 30px 0;
+  }
+
+  &__guarantee {
+    @extend %byline--small;
+    color: $color-palette-1-primary;
+    font-style: italic;
+  }
+
+  &__button {
+    margin-top: 20px;
+  }
+
+  &__keep-shopping {
+    display: block;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
+    outline: none;
+
+    @include tablet-up {
+      margin-bottom: 20px;
+      margin-top: 20px;
+    }
+  }
+
+  &__close {
+    @include tablet-up {
+      display:none;
+    }
+    display: block;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
+  }
+}
+
+.cart-empty {
+  &__item {
+    margin-top: 10px;
+  }
+
+  &__box, &__line {
+    background-color: rgba($color-palette-1-primary-lighter, .5);
+    display: block;
+  }
+
+  &__box {
+    height: 120px;
+    margin-right: 10px;
+    max-width: 75px;
+    width: 95%;
+  }
+  &__line {
+    margin-bottom: 5px;
+    height: 12px;
+    width: 90%;
+
+    &--link {
+      margin-top: 35px;
+      width: 40%;
+    }
+
+    &--price {
+      float: right;
+      width: 60%;
+    }
+
+    &--short {
+      width: 50%;
+    }
+
+    &--long {
+      margin-top: 15px;
+    }
+  }
+}

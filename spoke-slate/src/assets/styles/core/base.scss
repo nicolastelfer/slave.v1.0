@@ -1,0 +1,28 @@
+body {
+  @extend %copy;
+  background-color: white;
+  color: $color-palette-1-primary;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+div {
+  // outline: 1px solid green;
+}
+
+a {
+  color: $color-palette-1-primary;
+}
+
+strong, b {
+  @include font-family-3-m;
+}
+
+em {
+  font-style: italic;
+}
+
+small {
+  font-size: 90%;
+}
+

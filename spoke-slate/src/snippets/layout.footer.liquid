@@ -1,0 +1,213 @@
+<footer
+  class="
+    footer
+    grid
+    grid--gutter
+    grid--column
+    grid--nogrow
+    grid--vertical-space-between
+  "
+>
+  <div class="footer__container grid__container">
+
+    <div class="grid__item grid">
+      <div class="grid__container">
+        <div
+          class="
+            footer__small--100
+            grid__item
+            grid__item--40
+            grid
+            grid--nowrap
+            grid--horizontal-start
+          "
+        >
+          <div class="grid__container">
+
+            <div class="grid__item grid grid--column grid--nogrow">
+              <div class="grid__container">
+                <h5 class="grid__item footer__title  footer__title--main">
+                  The newsletter
+                </h5>
+
+                <form
+                  class="
+                    footer__form
+                    form
+                    js-add-to-list
+                  "
+                  data-list-id="erDYjW"
+                  data-confirm-opt-in="false"
+                  data-success-msg="/pages/newsletter-confirmation-page"
+                  data-error-msg="Sorry. We couldn't subscribe you to our newsletter"
+                  novalidate
+                >
+                  <div class="
+                    grid__item
+                    grid
+                    grid--nowrap
+                  ">
+                    <div class="footer__small--center grid__container">
+                      <input
+                        class="footer__input form__input form__input--with-button-right form__input--with-button-right-mobile-down"
+                        name="email"
+                        placeholder="Email address"
+                        type="email"
+                      />
+                      <button
+                        class="button button--dark-grey"
+                        type="submit"
+                        data-analytics-click="Newsletter Sign Up"
+                        data-analytics-props='{"category": "Newsletter", "label": "footer", "source": "footer"}'
+                      >
+                      <span class="button__content">
+                        Submit
+                      </span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="grid">
+                    <div class="grid__container">
+                      {% include 'gdpr-fields_basic', id:'2', mail:'false', style:'light' %}
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="
+            footer__small--100
+            grid__item
+            grid__item--60
+            grid
+            grid--nowrap
+            grid--nogrow
+          "
+        >
+          <div class="footer__small--wrap grid__container grid__item--horizontal-end">
+            {% for link in linklists.footer.links %}
+              {% capture link_slug %}footer-{{ link.title | handle }}{% endcapture %}
+              {% if linklists[link_slug] and linklists[link_slug].links.size > 0 %}
+                <div class="footer__nav grid__item">
+                  <h5 class="footer__title">
+                    <a
+                      href="{{ link.url }}"
+                      {% if link.url contains 'http' %}
+                        target="_blank"
+                        rel="noopener"
+                      {% endif %}
+                    >
+                      {{ link.title }}
+                    </a>
+                  </h5>
+
+                  <ul class="footer__list">
+                    {% for child_link in linklists[link_slug].links %}
+                      <li class="footer__item">
+                        <a
+                          class="footer__link"
+                          href="{{ child_link.url }}"
+                          {% if child_link.url contains 'http' %}
+                            target="_blank"
+                            rel="noopener"
+                          {% endif %}
+                        >
+                          {{ child_link.title }}
+                        </a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer__base grid__item grid grid--nowrap grid--vertical-end">
+      <div class="footer__small--wrap grid__container">
+
+        <div class="footer__social-copyright grid__item grid__item--50 grid--column">
+          <div class="grid__container">
+            <div
+              class="
+                footer__social
+                grid__item
+                grid--100
+                grid--vertical-center
+                grid--horizontal-center-mobile-down
+              "
+              >
+              <ul class="grid__item social social--light grid__container">
+                <li class="social__item">
+                  <a class="social__link" href="{{ settings.social_twitter }}">
+                    {% include 'snippet.svg.icon.social', type:'icon', class:'twitter' %}
+                  </a>
+                </li>
+                <li class="social__item">
+                  <a class="social__link" href="{{ settings.social_instagram }}">
+                    {% include 'snippet.svg.icon.social', type:'icon', class:'instagram' %}
+                  </a>
+                </li>
+                <li class="social__item">
+                  <a class="social__link" href="{{ settings.social_facebook }}">
+                    {% include 'snippet.svg.icon.social', type:'icon', class:'facebook' %}
+                  </a>
+                </li>
+                <li class="social__item">
+                  <a class="social__link" href="{{ settings.social_pinterest }}">
+                    {% include 'snippet.svg.icon.social', type:'icon', class:'pinterest' %}
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="include footer__smallprint--first">
+              <span class="footer__smallprint--copyright">&copy; {{ 'now' | date: "%Y" }} Spoke London &nbsp;</span>
+              <a href="/pages/privacy">Privacy</a>
+              &nbsp;/&nbsp;
+              <a href="/pages/terms">Terms</a>
+            </div>
+          </div>
+        </div>
+        <div class="footer__secondary-nav footer__small--100 footer__smallprint--first grid__item grid__item--75-desktop-up">
+           <p class="footer__smallprint">
+            <a href="tel:{{ shop.phone }}">{{ shop.phone }}</a>
+          </p>
+          <p class="footer__smallprint">
+            <a href="mailto:{{ shop.email }}">{{ shop.email }}</a>
+          </p>
+
+          <p class="footer__smallprint">
+            <a href="mailto:press@spoke-london.com">press@spoke-london.com</a>
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <a
+    class="
+      footer__up
+      button
+      button--shadow
+      button--border
+      button--secondary
+      button--icon
+      button--icon-only
+      button--curved-small
+      js-tinyscroll
+    "
+    href="#page-top"
+  >
+    <span class="button__icon">
+      {% include 'snippet.svg.icon', type:'icon', class:'arrow-up' %}
+    </span>
+    <span class="button__content"></span>
+  </a>
+</footer>

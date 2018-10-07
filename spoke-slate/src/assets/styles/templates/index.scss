@@ -1,0 +1,13 @@
+@import "../theme";
+
+@import "../components/carousel/build-carousel";
+@import "../components/carousel/carousel";
+@import "../components/as-seen-in";
+@import "../components/fine-tune";
+@import "../components/our-formula";
+@import "../components/testimonials";
+@import "../templates/collection/collection-overview-list";
+
+body {
+  background: red;
+}

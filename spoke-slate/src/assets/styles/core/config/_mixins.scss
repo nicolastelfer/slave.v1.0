@@ -1,0 +1,50 @@
+
+
+/**
+ * Spacing Helper
+ */
+
+// Margins @todo Make this more responsive IF we have a common pattern for spacings in the future
+// Use null if you dont want to parse value
+// @include margin(10px, null, null, 15px);
+@mixin margin($top, $right, $bottom, $left) {
+  @if ($bottom != null) { margin-bottom: $bottom; }
+  @if ($left != null) { margin-left: $left; }
+  @if ($right != null) { margin-right: $right; }
+  @if ($top != null) { margin-top: $top; }
+}
+
+// Paddings
+@mixin padding($top, $right, $bottom, $left) {
+  padding-bottom: $bottom;
+  padding-left: $left;
+  padding-right: $right;
+  padding-top: $top;
+}
+
+
+/**
+  * BreakPoints
+ */
+// @todo work in in progress: DO NOT USE
+$breakpoints: (
+  "phone":        400px, // Tiny Phones
+  "phone-wide":   480px, // Tiny Phones (landscape mode)
+  "phablet":      560px, // Small tablets or large phones (landscape mode)
+  "tablet-small": 640px, // Large phones
+  "tablet":       768px, // Small tablets (portrait mode)
+  "tablet-wide":  1024px, // Tablets or small desktops
+  "desktop":      1248px, // Large tablets or desktops
+  "desktop-wide": 1440px // Large desktops
+);
+@mixin mq($width, $type: min) {
+  @if map_has_key($breakpoints, $width) {
+    $width: map_get($breakpoints, $width);
+    @if $type == max {
+      $width: $width - 1px;
+    }
+    @media only screen and (#{$type}-width: $width) {
+      @content;
+    }
+  }
+}
